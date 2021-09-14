@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_sg_screen_field">
+    <sys_sg_screen_field action="INSERT_OR_UPDATE">
+        <data_item_field_name>path</data_item_field_name>
+        <field_name/>
+        <hidden>false</hidden>
+        <order>80</order>
+        <record_id_field/>
+        <screen display_value="Details">d0f24e422fa630105113fe1df699b64a</screen>
+        <screen_data_item_table>x_297025_uptycs_co_compliance</screen_data_item_table>
+        <sys_class_name>sys_sg_screen_field</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-09-13 20:48:50</sys_created_on>
+        <sys_id>d4f24e422fa630105113fe1df699b685</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>path</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_sg_screen_field_d4f24e422fa630105113fe1df699b685</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-09-13 20:48:50</sys_updated_on>
+        <type>auto</type>
+        <value_only>false</value_only>
+    </sys_sg_screen_field>
+</record_update>

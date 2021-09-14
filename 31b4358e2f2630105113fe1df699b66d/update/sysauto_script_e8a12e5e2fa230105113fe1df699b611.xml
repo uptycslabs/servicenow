@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <business_calendar/>
+        <condition/>
+        <conditional>false</conditional>
+        <entered_time/>
+        <name>Pull compliance data example</name>
+        <offset/>
+        <offset_type>0</offset_type>
+        <run_as display_value="System Administrator">6816f79cc0a8016401c5a33be04be441</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2021-09-14 17:41:25</run_start>
+        <run_time>1970-01-01 08:00:00</run_time>
+        <run_type>on_demand</run_type>
+        <script><![CDATA[try {
+  var url = 'staging.uptycs.io'; //'example.uptycs.io';
+  var customerId = 'dc1e026b-98fa-47ce-ae8f-a315cdae3f5f'; //'<put your customer ID here>';  //Please contact Uptycs support if you don't know what this is.
+  var auth = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1UlY2QjdQWU1BVVhGWU01R0RPTUJYTkhNN0ZIWEJKNiJ9.3NTk-zk95GwsM4tzVuD_kb0mW-p6RvEHJEqaY48ZObg'; //'<put your Uptycs API token here>';  //Please contact Uptycs support if you don't know what this is.
+
+  var standard = 'cis_independent_linux';
+  var comp = new UptycsCompliance();
+  comp.initialize(standard, customerId, url, auth);
+  var missedSections = comp.getSections("section LIKE '1.%%'");
+  while (missedSections.length > 0) {
+      comp.runCompliance(missedSections);
+      missedSections = comp.getMissedSections();
+  }
+	
+  gs.warn('End compliance import');
+	
+} catch(ex) {
+  gs.warn("Scheduled Script Execution: 'Pull Uptycs Compliance' failed with error message: ");// + ex.message);
+}]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-09-14 17:41:54</sys_created_on>
+        <sys_id>e8a12e5e2fa230105113fe1df699b611</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Pull compliance data example</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sysauto_script_e8a12e5e2fa230105113fe1df699b611</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-09-14 18:24:48</sys_updated_on>
+        <time_zone/>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

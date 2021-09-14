@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-09-13 20:47:29</sys_created_on>
+        <sys_id>68a24a422fa630105113fe1df699b62e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_297025_uptycs_co_compliance.admin</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_security_acl display_value="x_297025_uptycs_co_compliance">e8a24a422fa630105113fe1df699b62b</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_68a24a422fa630105113fe1df699b62e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-09-13 20:47:29</sys_updated_on>
+        <sys_user_role display_value="admin" name="admin">2831a114c611228501d4ea6c309d626d</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+</record_update>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_297025_uptycs_co.UptycsCompliance</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>UptycsCompliance</name>
+        <script><![CDATA[var UptycsCompliance = Class.create();
+UptycsCompliance.prototype = {
+    initialize: function(uptStandard, uptCustomerId, uptUrl, uptToken) {
+		this.standard = uptStandard;
+        this.customerId = uptCustomerId;
+		this.url = uptUrl;
+		this.auth = uptToken;
+		this.missedSections = [];
+	},
+
+    wait: function(ms) {
+        var start = Date.now(),
+            current = start;
+        while (current - start < ms) {
+            current = Date.now();
+        }
+    },
+
+    createPostMessage: function(postData) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query', 'POST Query');
+
+        message.setStringParameterNoEscape('header_auth', this.auth);
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        now = new Date();
+        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+        message.setRequestBody(postData);
+
+        return message;
+    },
+
+    createPostJobMessage: function(postData) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'POST Query Job');
+
+        message.setStringParameterNoEscape('header_auth', this.auth);
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        now = new Date();
+        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+        message.setRequestBody(postData);
+
+        return message;
+    },
+
+    createJobInfoMessage: function(queryJobId) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Job Info');
+
+        message.setStringParameterNoEscape('header_auth', this.auth);
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('job_id', queryJobId);
+        now = new Date();
+        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+
+        return message;
+    },
+
+    createJobResultsMessage: function(queryJobId, offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Jobs Results'); //('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Job Results');
+
+        message.setStringParameterNoEscape('header_auth', this.auth);
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('job_id', queryJobId);
+        message.setStringParameterNoEscape('offset', offset);
+        now = new Date();
+        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+
+        return message;
+    },
+
+    createSectionQuery: function(section) {
+        return '"WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results) SELECT * FROM latest WHERE rank_num >= 1"';
+    },
+
+    getCount: function() {
+        var postData = '{"query":"WITH latest AS (SELECT row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\') SELECT COUNT(*) as N FROM latest WHERE rank_num >= 1", "type":"global"}';
+
+        var message = this.createPostMessage(postData);
+        var response = message.execute();
+        var responseObj = JSON.parse(response.getBody());
+        var count = responseObj.items[0].N;
+        return count;
+    },
+
+    getSections: function(sectionLikeClause) {
+        var postData = '{"query":"SELECT section FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND ' + sectionLikeClause + ' GROUP BY section"}';
+
+        var msg = this.createPostMessage(postData);
+        var resp = msg.execute();
+        var respObj = JSON.parse(resp.getBody());
+
+        var sections = [];
+        for (i = 0; i < respObj.items.length; i++) {
+            sections.push(respObj.items[i].section);
+        }
+
+        return sections;
+    },
+
+    submitQueryJob: function(query) {
+        var postData = '{"query":' + query + ', "type":"global"}';
+        var msg = this.createPostJobMessage(postData);
+
+        var resp = msg.execute();
+        var respObj = JSON.parse(resp.getBody());
+
+        return respObj.id;
+    },
+	
+    pollQueryJob: function(queryJobId, section) {
+        var message = this.createJobInfoMessage(queryJobId);
+        var status = 'QUEUED';
+        do {
+            response = message.execute();
+            responseObj = JSON.parse(response.getBody());
+            status = JSON.parse(response.getBody()).status;
+            if (status != 'FINISHED' && status != 'ERROR' && status != 'QUEUED' && status != 'RUNNING') {
+                gs.error('status is not FINISHED, ERROR, RUNNING, or QUEUED.  status is: ' + status);
+            }
+            comp.wait(5000);
+        }
+        while (status != 'FINISHED' && status != 'ERROR');
+
+        if (status != 'FINISHED') {
+            this.missedSections.push(section);
+            gs.error('error: ' + responseObj.error.message.detail);
+        }
+        var nRows = responseObj.rowCount;
+        gs.warn('section: ' + section + ', nRows: ' + nRows);
+		
+		return nRows;
+	},
+	
+	pushToStaging: function(queryJobId, section) {
+        var nRows = this.pollQueryJob(queryJobId, section);
+        for (ii = 0; ii < nRows / 10000; ii++) { //loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+
+            //var nSkip = 0;
+            for (iii = 0; iii < responseObj.items.length; iii++) { // loop over records
+                    /*
+          var grComplianceDup = new GlideRecord('x_297025_uptycs_compliance_cis_benchmarks');
+          grComplianceDup.initialize();
+          grComplianceDup.addQuery('upt_asset_id', responseObj.items[iii].rowData.upt_asset_id);
+          grComplianceDup.addQuery('upt_time', responseObj.items[iii].rowData.upt_time);
+          grComplianceDup.addQuery('section_title', responseObj.items[iii].rowData.section_title);
+          grComplianceDup.query();
+          if(grCompliance_dup.next()){
+            gs.error('upt_asset_id: ' + responseObj.items[iii].rowData.upt_asset_id + ', upt_time: ' + responseObj.items[iii].rowData.upt_time + ', section_title: ' + responseObj.items[iii].rowData.section_title);
+            nSkip += 1;
+            continue;
+          }
+		  */
+
+                var grCompliance = new GlideRecord('x_297025_uptycs_co_compliance');
+                grCompliance.initialize();
+                grCompliance.setValue('upt_asset_id', responseObj.items[iii].rowData.upt_asset_id);
+                grCompliance.setValue('upt_day', responseObj.items[iii].rowData.upt_day);
+                grCompliance.setValue('upt_hash', responseObj.items[iii].rowData.upt_hash);
+                grCompliance.setValue('upt_hostname', responseObj.items[iii].rowData.upt_hostname);
+                grCompliance.setValue('upt_time', responseObj.items[iii].rowData.upt_time);
+                grCompliance.setValue('authoritative_source', responseObj.items[iii].rowData.authoritative_source);
+                grCompliance.setValue('expected_value', responseObj.items[iii].rowData.expected_value);
+                grCompliance.setValue('remediation', responseObj.items[iii].rowData.remediation);
+                grCompliance.setValue('command', responseObj.items[iii].rowData.command);
+                grCompliance.setValue('compliant', responseObj.items[iii].rowData.compliant);
+                grCompliance.setValue('description', responseObj.items[iii].rowData.description);
+                grCompliance.setValue('evidence', responseObj.items[iii].rowData.evidence);
+                grCompliance.setValue('metadata', responseObj.items[iii].rowData.metadata);
+                grCompliance.setValue('path', responseObj.items[iii].rowData.path);
+                grCompliance.setValue('rationale', responseObj.items[iii].rowData.rationale);
+                grCompliance.setValue('reason', responseObj.items[iii].rowData.reason);
+                grCompliance.setValue('score', responseObj.items[iii].rowData.score);
+                grCompliance.setValue('scored', responseObj.items[iii].rowData.scored);
+                grCompliance.setValue('section_title', responseObj.items[iii].rowData.section_title);
+                grCompliance.setValue('values', responseObj.items[iii].rowData.values);
+                grCompliance.setValue('version', responseObj.items[iii].rowData.version);
+                grCompliance.setValue('rank_num', responseObj.items[iii].rowData.rank_num);
+                grCompliance.insert();
+
+            } // records
+        } // offset
+	},
+	
+	getMissedSections: function() {
+        return this.missedSections;
+	},
+
+    runCompliance: function(sections) {
+		this.missedSections = [];
+        var qjIds = [];
+        for (i = 0; i < 20; i++) { //post first 20 query jobs
+            if (i < sections.length) {
+                qjIds[i] = this.submitQueryJob(this.createSectionQuery(sections[i]));
+            }
+        }
+
+        for (i = 0; i < sections.length; i++) { // loop over number of query jobs
+            if ((i + 10) % 20 == 0 && (i + 10) < sections.length) {
+                for (ii = 0; ii < 20; ii++) { //post next batch of query jobs
+                    if ((i + 10) + ii < sections.length) {
+                        qjIds[(i + 10) + ii] = this.submitQueryJob(this.createSectionQuery(sections[(i + 10) + ii]));
+                    }
+                }
+            }
+			this.pushToStaging(qjIds[i], sections[i]);
+        } //query jobs
+    },
+	
+    type: 'UptycsCompliance'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-09-14 17:40:57</sys_created_on>
+        <sys_id>49512e5e2fa230105113fe1df699b6d7</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>UptycsCompliance</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_script_include_49512e5e2fa230105113fe1df699b6d7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-09-14 18:34:47</sys_updated_on>
+    </sys_script_include>
+</record_update>

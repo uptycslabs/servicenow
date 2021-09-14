@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_sg_action_param_map">
+    <sys_sg_action_param_map action="INSERT_OR_UPDATE">
+        <button display_value="New Button (Compliance)">90f24e422fa630105113fe1df699b660</button>
+        <item_parameter display_value="Compliance compliant">5cf24e422fa630105113fe1df699b658</item_parameter>
+        <sys_class_name>sys_sg_action_param_map</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-09-13 20:48:50</sys_created_on>
+        <sys_id>d8f24e422fa630105113fe1df699b67e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>5cf24e422fa630105113fe1df699b658</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_sg_action_param_map_d8f24e422fa630105113fe1df699b67e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-09-13 20:48:50</sys_updated_on>
+        <ui_parameter display_value="Compliant">5cf24e422fa630105113fe1df699b66f</ui_parameter>
+    </sys_sg_action_param_map>
+</record_update>

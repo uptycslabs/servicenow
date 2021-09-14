@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn">
+    <sys_rest_message_fn action="INSERT_OR_UPDATE">
+        <authentication_type>inherit_from_parent</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <content/>
+        <function_name>GET Query Jobs Results</function_name>
+        <http_method>get</http_method>
+        <lock>false</lock>
+        <oauth2_profile/>
+        <protocol_name/>
+        <qualified_name>Uptycs Query Job [ GET Query Jobs Results ]</qualified_name>
+        <rest_endpoint>https://${url}/public/api/customers/${customer_id}/queryJobs/${job_id}/results?offset=${offset}</rest_endpoint>
+        <rest_message display_value="Uptycs Query Job">22c222de2fa230105113fe1df699b64a</rest_message>
+        <sys_class_name>sys_rest_message_fn</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-09-14 17:50:19</sys_created_on>
+        <sys_id>7083a6de2fa230105113fe1df699b6df</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>GET Query Jobs Results</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_rest_message_fn_7083a6de2fa230105113fe1df699b6df</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-09-14 17:50:19</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server/>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message_fn>
+</record_update>
