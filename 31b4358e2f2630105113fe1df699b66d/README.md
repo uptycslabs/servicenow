@@ -1,3 +1,59 @@
+# ServiceNow Compliance Integration
+An application to assist with pulling large amounts of compliance data from Uptycs.
+
+# Installation
+
+First, you will need to create the appropriate credential.  Type "credentials" in the filter navigator of your instance and navigate to the credentials table.  Click the 'New' button and then the 'Basic Auth Credentials' link.  For this application, all that is necessary to fill in is the Name and the User name.  'Name' is a name you choose to find it in the credentials table, 'User name' is your github account user name.
+
+Next, navigate to the ServiceNow Studio by typing "studio" in the filter navigator.  A window will pop up prompting you to select an application.  There is a button labelled 'Import From Source Control'.  Click it and you will be brought to a page where you can type in the URL for the application you want (in this case, the URL at the top of this page).  Fill in the URL and select the credential you just created from the drop down menu.  The branch name is master.  Click 'Import' and the application will be imported.
+
+# Usage
+
+Once the application is installed, you will have access to the Compliance Script Include.  This is a class of methods to assist in pulling the compliance data.  There is also an example Scheduled Script Execution called "Pull compliance data example".  In this Scheduled Script Execution, you will need to fill in url, customerId, auth, standard, and missedSections.  The meaning of these variables is as follows:
+  url - the url for your Uptycs instance (ex. kyle.uptycs.io)
+  customerId - the customerId for your Uptycs instance, this can be found in the api key file generated on your Uptycs instance
+  auth - the authorization token generated from the key and secret found in the api key file generated on your Uptycs instance, a short python script to generate the authorization can be found below.
+  standard - the compliance standard you want to pull data for, this will be unique to the compliance configuration chosen in the Uptycs UI (ex. cis_independent_linux)
+  missedSections - a clause to be added to the SQL query used to pull compliance data, to pull all sections use "section LIKE '%%'"
+
+The Scheduled Script Execution is ready, you can set it to a schduled interval or run it on demand.  All data pulled will end up in the Uptycs->Compliance table on your ServiceNow instance.
+
+# Token Generation Script
+```
+#!/usr/bin/python
+
+import sys
+import getopt
+import json
+import jwt
+
+def generate_auth(data, key, secret):
+   authVar = jwt.encode({'iss':key},secret)
+   authorization="Bearer %s" % (authVar)
+   return authorization
+
+def main():
+  try:
+    opts, args = getopt.getopt(sys.argv[1:], 'f:')
+  except getopt.GetoptError as err:
+    print(err)
+    usage()
+
+  apifile=None
+
+  for o,a in opts:
+    if o in ("-f"):
+      apifile=a
+
+  data = json.load(open(apifile))
+
+  print(data['customerId'])
+  print(generate_auth('' , data['key'], data['secret']));
+
+if __name__ == "__main__":
+  main()
+```
+
 # Generated files
 This repository contains generated files and a checksum.
 
@@ -16,3 +72,12 @@ If you find yourself unable to import your repository due to the presence of fil
   4. Run `git add -A`
   5. Run `git commit`
   6. Run `git push`
+
+ **Notes on dependencies**
+  1. Dependencies will not show up in the list of changes but will be exported/imported
+  2. It is your responsibility to resolve the dependencies before installing an application. ServiceNow source control will not manage these for you. In case you installed an application before installing its dependencies:
+   2.1 Delete the application
+   2.2 Activate/install all required dependencies
+   2.3 Re-import the application from source control
+   Currently listed dependencies:
+   * System Import Sets
