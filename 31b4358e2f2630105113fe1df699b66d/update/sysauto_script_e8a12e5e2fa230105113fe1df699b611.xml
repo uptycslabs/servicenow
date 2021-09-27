@@ -17,14 +17,17 @@
         <run_time>1970-01-01 08:00:00</run_time>
         <run_type>on_demand</run_type>
         <script><![CDATA[try {
-  var url = 'staging.uptycs.io'; //'example.uptycs.io';
-  var customerId = 'dc1e026b-98fa-47ce-ae8f-a315cdae3f5f'; //'<put your customer ID here>';  //Please contact Uptycs support if you don't know what this is.
-  var auth = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1UlY2QjdQWU1BVVhGWU01R0RPTUJYTkhNN0ZIWEJKNiJ9.3NTk-zk95GwsM4tzVuD_kb0mW-p6RvEHJEqaY48ZObg'; //'<put your Uptycs API token here>';  //Please contact Uptycs support if you don't know what this is.
-
+  //Please check README at github.com/uptycslabs/servicenow for more information on this example
+  var url = 'example.uptycs.io';
+  var customerId = '<put your customer ID here>';
+  var auth = '<put your Uptycs API token here>';
   var standard = 'cis_independent_linux';
+
   var comp = new UptycsCompliance();
   comp.initialize(standard, customerId, url, auth);
+
   var missedSections = comp.getSections("section LIKE '1.%%'");
+
   while (missedSections.length > 0) {
       comp.runCompliance(missedSections);
       missedSections = comp.getMissedSections();
