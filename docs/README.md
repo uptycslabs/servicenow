@@ -6,27 +6,27 @@ An application to assist with pulling large amounts of compliance data from Upty
 First, you will need to fork the repository and give yourself read-write access.  Then, navigate to your ServiceNow instance and create the appropriate credential.  To do so:
   - Type "credentials" in the filter navigator of your ServiceNow instance and navigate to the credentials table.  Click the 'New' button and then the 'Basic Auth Credentials' link.  
   
-  ![Deployment][ServiceNow_instance_credential_table.png]
+  ![Deployment](ServiceNow_instance_credential_table.png)
   
   - For this application, all that is necessary to fill in is the 'Name' and the 'User name'.  You will fill in the 'Password' field if you want to make your fork private.  'Name' is a name you choose to find the credential in the credentials table, 'User name' is your github account user name. If you wish to make your fork of the repository private, you will need to crate an authorization token to fill in the password field of your 'credential' to pull the repository.
 
-  ![Deployment][ServiceNow_instance_credential.png]
+  ![Deployment](ServiceNow_instance_credential.png)
 
 
   - Next, navigate to the ServiceNow Studio by typing "studio" in the filter navigator.
   
-  ![Deployment][ServiceNow_instance_studio_link.png]
+  ![Deployment](ServiceNow_instance_studio_link.png)
 
   - The app studio will open in a new tab where a window will pop up prompting you to select an application.  There is a button labelled 'Import From Source Control'.  Click it and you will be brought to a page where you can type in the URL for the application you want (in this case, the URL leading to your forked repository).  Fill in the URL and select the credential you just created from the drop down menu.  The branch name is main.  Click 'Import' and the application will be imported. You will now be able to install the app from the list of available of applications.
 
-  ![Deployment][ServiceNow_studio_import_app.png]
+  ![Deployment](ServiceNow_studio_import_app.png)
 
 
 # Usage
 
 Once the application is installed, you will have access to the Compliance Script Include.  This is a class of methods to assist in pulling the compliance data.  There is also an example Scheduled Script Execution called "Pull compliance data example".
 
-![Deployment][ServiceNow_compliance_app.png]
+![Deployment](ServiceNow_compliance_app.png)
 
 In this Scheduled Script Execution, you will need to fill in url, customerId, auth, standard, and missedSections.  The meaning of these variables is as follows:
   url - the url for your Uptycs instance (ex. kyle.uptycs.io)
