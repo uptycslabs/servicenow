@@ -41,6 +41,8 @@ In this Scheduled Script Execution, you will need to fill in url, customerId, au
 
 The Scheduled Script Execution is ready, you can set it to a schduled interval or run it on demand.  All data pulled will end up in the Uptycs Compliance->Compliance table on your ServiceNow instance.
 
+![Deployment](ServiceNow_compliance_staging_table.png)
+
 # Token Generation Script
 ```
 #!/usr/bin/python
