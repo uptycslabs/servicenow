@@ -29,17 +29,17 @@ Once the application is installed, you will have access to the Compliance Script
 ![Deployment](ServiceNow_compliance_app.png)
 
 In this Scheduled Script Execution, you will need to fill in url, customerId, auth, standard, and missedSections.  The meaning of these variables is as follows:
-  url - the url for your Uptycs instance (ex. kyle.uptycs.io)
+  **url** - the url for your Uptycs instance (ex. kyle.uptycs.io)
 
-  customerId - the customerId for your Uptycs instance, this can be found in the api key file generated on your Uptycs instance
+  **customerId** - the customerId for your Uptycs instance, this can be found in the api key file generated on your Uptycs instance
 
-  auth - the authorization token generated from the key and secret found in the api key file generated on your Uptycs instance, a short python script to generate the authorization can be found below.
+  **auth** - the authorization token generated from the key and secret found in the api key file generated on your Uptycs instance, a short python script to generate the authorization can be found below.
 
-  standard - the compliance standard you want to pull data for, this will be unique to the compliance configuration chosen in the Uptycs UI (ex. cis_independent_linux)
+  **standard** - the compliance standard you want to pull data for, this will be unique to the compliance configuration chosen in the Uptycs UI (ex. cis_independent_linux)
   
-  missedSections - a clause to be added to the SQL query used to pull compliance data, to pull all sections use "section LIKE '%%'"
+  **missedSections** - a clause to be added to the SQL query used to pull compliance data, to pull all sections use "section LIKE '%%'"
 
-The Scheduled Script Execution is ready, you can set it to a schduled interval or run it on demand.  All data pulled will end up in the Uptycs->Compliance table on your ServiceNow instance.
+The Scheduled Script Execution is ready, you can set it to a schduled interval or run it on demand.  All data pulled will end up in the Uptycs Compliance->Compliance table on your ServiceNow instance.
 
 # Token Generation Script
 ```
