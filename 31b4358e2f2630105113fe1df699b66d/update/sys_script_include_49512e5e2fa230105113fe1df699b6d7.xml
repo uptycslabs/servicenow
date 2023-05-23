@@ -163,7 +163,7 @@ UptycsCompliance.prototype = {
           grComplianceDup.addQuery('upt_time', responseObj.items[iii].rowData.upt_time);
           grComplianceDup.addQuery('section_title', responseObj.items[iii].rowData.section_title);
           grComplianceDup.query();
-          if(grCompliance_dup.next()){
+          if(grComplianceDup.next()){
             gs.error('upt_asset_id: ' + responseObj.items[iii].rowData.upt_asset_id + ', upt_time: ' + responseObj.items[iii].rowData.upt_time + ', section_title: ' + responseObj.items[iii].rowData.section_title);
             nSkip += 1;
             continue;
@@ -196,6 +196,50 @@ UptycsCompliance.prototype = {
                 grCompliance.setValue('rank_num', responseObj.items[iii].rowData.rank_num);
                 grCompliance.insert();
 
+				
+                var grConfigItem = new GlideRecord('cmdb_ci_hardware');
+                grConfigItem.initialize();
+                grConfigItem.addQuery('fqdn', responseObj.items[iii].rowData.upt_hostname);
+                grConfigItem.query();
+                if(!grConfigItem.next()){
+                    grConfigItem.setValue('fqdn', responseObj.items[iii].rowData.upt_hostname);
+                    grConfigItem.insert();
+				} //need to check 'name' if fqdn does not find a match
+				
+                var grConfigComplianceTest = new GlideRecord('sn_vulc_test');
+                grConfigComplianceTest.initialize();
+                grConfigComplianceTest.addQuery('number', responseObj.items[iii].rowData.section);
+                grConfigComplianceTest.query();
+                if(!grConfigComplianceTest.next()){
+                    grConfigComplianceTest.setValue('number', responseObj.items[iii].rowData.section);
+                    grConfigComplianceTest.setValue('source', 'Uptycs');
+                    grConfigComplianceTest.insert();
+				}
+				
+                var grConfigCompliancePolicy = new GlideRecord('sn_vulc_policy');
+                grConfigCompliancePolicy.initialize();
+                grConfigCompliancePolicy.addQuery('short_description', responseObj.items[iii].rowData.standard);
+                grConfigCompliancePolicy.query();
+                if(!grConfigCompliancePolicy.next()){
+                    grConfigCompliancePolicy.setValue('short_description', responseObj.items[iii].rowData.standard);
+                    grConfigCompliancePolicy.setValue('source', 'Uptycs');
+                    grConfigCompliancePolicy.insert();
+                }
+				
+                var grConfigCompliance = new GlideRecord('sn_vulc_result');
+                grConfigCompliance.initialize();
+                grConfigCompliance.setValue('cmdb_ci', responseObj.items[iii].rowData.upt_hostname); //reference
+                grConfigCompliance.setValue('control', responseObj.items[iii].rowData.section_title); //reference
+                grConfigCompliance.setValue('last_seen', responseObj.items[iii].rowData.upt_time);
+                grConfigCompliance.setValue('source', 'Uptycs');
+                grConfigCompliance.setValue('expected_values', responseObj.items[iii].rowData.expected_value);
+                grConfigCompliance.setValue('remediation', responseObj.items[iii].rowData.remediation);
+                grConfigCompliance.setValue('result', responseObj.items[iii].rowData.compliant);
+                grConfigCompliance.setValue('description', responseObj.items[iii].rowData.description);
+                grConfigCompliance.setValue('actual_values', responseObj.items[iii].rowData.evidence);
+                grConfigCompliance.setValue('risk_score', responseObj.items[iii].rowData.score);
+                grConfigCompliance.insert();
+				
             } // records
         } // offset
 	},
@@ -231,13 +275,13 @@ UptycsCompliance.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-14 17:40:57</sys_created_on>
         <sys_id>49512e5e2fa230105113fe1df699b6d7</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>UptycsCompliance</sys_name>
         <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_49512e5e2fa230105113fe1df699b6d7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-09-14 18:34:47</sys_updated_on>
+        <sys_updated_on>2023-05-23 12:40:50</sys_updated_on>
     </sys_script_include>
 </record_update>
