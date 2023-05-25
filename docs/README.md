@@ -51,9 +51,14 @@ import sys
 import getopt
 import json
 import jwt
+from datetime import datetime, timedelta
 
 def generate_auth(data, key, secret):
-   authVar = jwt.encode({'iss':key},secret)
+   utcnow = datetime.utcnow()
+   date = utcnow.strftime("%a, %d %b %Y %H:%M:%S GMT")
+   exp_time = utcnow + timedelta(seconds=3600)
+   exp = exp_time.timestamp()
+   authVar = jwt.encode({'iss':key, 'exp':exp},secret)
    authorization="Bearer %s" % (authVar)
    return authorization
 
