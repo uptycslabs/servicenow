@@ -83,7 +83,7 @@ UptycsCompliance.prototype = {
     },
 
     createSectionQuery: function(section) {
-        return '"WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results) SELECT * FROM latest WHERE rank_num >= 1"';
+        return '"WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results),final as ( SELECT * FROM latest WHERE rank_num >= 1) select ua.gateway, CONCAT(ua.hardware_vendor, \' \', ua.hardware_model) as model, ua.live, ua.os_version, cla.* FROM final cla JOIN upt_assets ua ON cla.upt_asset_id = ua.id"';
     },
 
     getCount: function() {
@@ -200,11 +200,17 @@ UptycsCompliance.prototype = {
                 var grConfigItem = new GlideRecord('cmdb_ci_hardware');
                 grConfigItem.initialize();
                 grConfigItem.addQuery('fqdn', responseObj.items[iii].rowData.upt_hostname);
+		grConfigItem.addOrCondition('name', responseObj.items[iii].rowData.upt_hostname);
                 grConfigItem.query();
                 if(!grConfigItem.next()){
                     grConfigItem.setValue('fqdn', responseObj.items[iii].rowData.upt_hostname);
+                    grConfigItem.setValue('name', responseObj.items[iii].rowData.upt_hostname);
+                    grConfigItem.setValue('ip_address', responseObj.items[iii].rowData.gateway);
+                    grConfigItem.setValue('model_number', responseObj.items[iii].rowData.model);
+                    grConfigItem.setValue('environment', responseObj.items[iii].rowData.os_version);
+                    grConfigItem.setValue('internet_facing', responseObj.items[iii].rowData.live);
                     grConfigItem.insert();
-				} //need to check 'name' if fqdn does not find a match
+                }
 				
                 var grConfigComplianceTest = new GlideRecord('sn_vulc_test');
                 grConfigComplianceTest.initialize();
@@ -213,8 +219,15 @@ UptycsCompliance.prototype = {
                 if(!grConfigComplianceTest.next()){
                     grConfigComplianceTest.setValue('number', responseObj.items[iii].rowData.section);
                     grConfigComplianceTest.setValue('source', 'Uptycs');
+                    grConfigComplianceTest.setValue('remediation', responseObj.items[iii].rowData.remediation);
+                    grConfigComplianceTest.setValue('description', responseObj.items[iii].rowData.description);
+                    grConfigComplianceTest.setValue('short_description', responseObj.items[iii].rowData.section_title);
+                    grConfigComplianceTest.setValue('source_id', responseObj.items[iii].rowData.authoritative_source);
+                    grConfigComplianceTest.setValue('source_category', responseObj.items[iii].rowData.section);
+                    grConfigComplianceTest.setValue('source_sub_category', responseObj.items[iii].rowData.version);
+                    grConfigComplianceTest.setValue('result', responseObj.items[iii].rowData.reason);
                     grConfigComplianceTest.insert();
-				}
+                }
 				
                 var grConfigCompliancePolicy = new GlideRecord('sn_vulc_policy');
                 grConfigCompliancePolicy.initialize();
@@ -223,6 +236,9 @@ UptycsCompliance.prototype = {
                 if(!grConfigCompliancePolicy.next()){
                     grConfigCompliancePolicy.setValue('short_description', responseObj.items[iii].rowData.standard);
                     grConfigCompliancePolicy.setValue('source', 'Uptycs');
+                    grConfigCompliancePolicy.setValue('number', responseObj.items[iii].rowData.section);
+                    grConfigCompliancePolicy.setValue('description', responseObj.items[iii].rowData.description);
+                    grConfigCompliancePolicy.setValue('source_id', responseObj.items[iii].rowData.authoritative_source);
                     grConfigCompliancePolicy.insert();
                 }
 				
@@ -232,12 +248,15 @@ UptycsCompliance.prototype = {
                 grConfigCompliance.setValue('control', responseObj.items[iii].rowData.section_title); //reference
                 grConfigCompliance.setValue('last_seen', responseObj.items[iii].rowData.upt_time);
                 grConfigCompliance.setValue('source', 'Uptycs');
+                grConfigCompliance.setValue('source_id', responseObj.items[iii].rowData.authoritative_source);
                 grConfigCompliance.setValue('expected_values', responseObj.items[iii].rowData.expected_value);
                 grConfigCompliance.setValue('remediation', responseObj.items[iii].rowData.remediation);
                 grConfigCompliance.setValue('result', responseObj.items[iii].rowData.compliant);
                 grConfigCompliance.setValue('description', responseObj.items[iii].rowData.description);
+                grConfigCompliance.setValue('display', responseObj.items[iii].rowData.description);
                 grConfigCompliance.setValue('actual_values', responseObj.items[iii].rowData.evidence);
                 grConfigCompliance.setValue('risk_score', responseObj.items[iii].rowData.score);
+                grConfigCompliance.setValue('number', responseObj.items[iii].rowData.section);
                 grConfigCompliance.insert();
 
             } // records
