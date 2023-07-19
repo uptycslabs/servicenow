@@ -3,152 +3,197 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>authoritative_source</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>3256aa922fe230105113fe1df699b658</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>9b2ce3f21b00791028b599f91d4bcb45</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>command</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>section_title</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>b656aa922fe230105113fe1df699b658</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>1f2ce3f21b00791028b599f91d4bcb45</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>compliant</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>command</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>3a56aa922fe230105113fe1df699b658</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>9f2ce3f21b00791028b599f91d4bcb45</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>description</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>compliant</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>3</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>ba56aa922fe230105113fe1df699b658</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>132ce3f21b00791028b599f91d4bcb46</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>evidence</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>description</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>4</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>3e56aa922fe230105113fe1df699b658</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>932ce3f21b00791028b599f91d4bcb46</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>expected_value</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>evidence</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>5</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>be56aa922fe230105113fe1df699b658</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>172ce3f21b00791028b599f91d4bcb46</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>metadata</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>expected_value</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>6</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>3256aa922fe230105113fe1df699b659</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>972ce3f21b00791028b599f91d4bcb46</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>path</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>metadata</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>7</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>b256aa922fe230105113fe1df699b659</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>1b2ce3f21b00791028b599f91d4bcb46</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>rationale</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>path</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>8</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>3656aa922fe230105113fe1df699b659</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>9b2ce3f21b00791028b599f91d4bcb46</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>reason</element>
-            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">7256aa922fe230105113fe1df699b657</list_id>
+            <element>rationale</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>9</position>
             <sum>false</sum>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
-            <sys_id>b656aa922fe230105113fe1df699b659</sys_id>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>1f2ce3f21b00791028b599f91d4bcb46</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>reason</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>10</position>
+            <sum>false</sum>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>9f2ce3f21b00791028b599f91d4bcb46</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>remediation</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>11</position>
+            <sum>false</sum>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>d72ce7f21b00791028b599f91d4bcb36</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>score</element>
+            <list_id display_value="x_297025_uptycs_co_compliance" element="NULL" name="x_297025_uptycs_co_compliance" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">9f2ce3f21b00791028b599f91d4bcb44</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>12</position>
+            <sum>false</sum>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
+            <sys_id>5b2ce7f21b00791028b599f91d4bcb36</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
@@ -162,10 +207,10 @@
             <sum>false</sum>
             <sys_class_name>sys_ui_list</sys_class_name>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2021-09-14 18:02:03</sys_created_on>
+            <sys_created_on>2023-07-19 14:31:42</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>7256aa922fe230105113fe1df699b657</sys_id>
+            <sys_id>9f2ce3f21b00791028b599f91d4bcb44</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_name>x_297025_uptycs_co_compliance</sys_name>
             <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
@@ -173,7 +218,7 @@
             <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
             <sys_update_name>sys_ui_list_x_297025_uptycs_co_compliance_null</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2021-09-14 18:02:03</sys_updated_on>
+            <sys_updated_on>2023-07-19 14:31:42</sys_updated_on>
             <sys_user/>
             <view display_value="Default view" name="NULL">Default view</view>
             <view_name/>

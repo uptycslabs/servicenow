@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_alias">
+    <sys_alias action="DELETE">
+        <configuration_template/>
+        <connection_type>http_connection</connection_type>
+        <id>x_297025_uptycs_co.Uptycs_test</id>
+        <multiple_connections>false</multiple_connections>
+        <name>Uptycs test</name>
+        <parent/>
+        <retry_policy display_value="Default HTTP Retry Policy">ef751ff07301330025d71afe2ff6a7f9</retry_policy>
+        <sys_class_name>sys_alias</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-18 17:10:44</sys_created_on>
+        <sys_id>3ad68fee1b047910aa042f876e4bcb0c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_297025_uptycs_co.Uptycs_test</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_alias_3ad68fee1b047910aa042f876e4bcb0c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-07-18 17:10:44</sys_updated_on>
+        <type>connection</type>
+    </sys_alias>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</application>
+        <file_path/>
+        <instance_id>592d308cdbc0399ccaf99027c59619af</instance_id>
+        <instance_name>ven06246</instance_name>
+        <name>sys_alias_3ad68fee1b047910aa042f876e4bcb0c</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_alias"><sys_alias action="INSERT_OR_UPDATE"><configuration_template/><connection_type>http_connection</connection_type><id>x_297025_uptycs_co.Uptycs_test</id><multiple_connections>false</multiple_connections><name>Uptycs test</name><parent/><retry_policy display_value="Default HTTP Retry Policy">ef751ff07301330025d71afe2ff6a7f9</retry_policy><sys_class_name>sys_alias</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2023-07-18 17:10:44</sys_created_on><sys_id>3ad68fee1b047910aa042f876e4bcb0c</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_297025_uptycs_co.Uptycs_test</sys_name><sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package><sys_policy/><sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope><sys_update_name>sys_alias_3ad68fee1b047910aa042f876e4bcb0c</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2023-07-18 17:10:44</sys_updated_on><type>connection</type></sys_alias></record_update>]]></payload>
+        <payload_hash>657921961</payload_hash>
+        <record_name>x_297025_uptycs_co.Uptycs_test</record_name>
+        <reverted_from/>
+        <source>ea861ce61bccf510aa042f876e4bcbb3</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-18 17:10:44</sys_created_on>
+        <sys_id>abf6cfee1b047910aa042f876e4bcbb1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18969fb9ddb0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-07-18 17:10:44</sys_updated_on>
+        <type>Connection &amp; Credential Aliases</type>
+        <update_guid>a3f6cfeed50479109ca053665cbe4db1</update_guid>
+        <update_guid_history>a3f6cfeed50479109ca053665cbe4db1:657921961</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-19 05:09:30</sys_created_on>
+        <sys_db_object display_value="" name="sys_alias">sys_alias</sys_db_object>
+        <sys_id>a0afd3e26141485a963e349cd4f08404</sys_id>
+        <sys_metadata>3ad68fee1b047910aa042f876e4bcb0c</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_297025_uptycs_co.Uptycs_test</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope_delete display_value="">06e13f983065467ba774d0a86997be89</sys_scope_delete>
+        <sys_update_name>sys_alias_3ad68fee1b047910aa042f876e4bcb0c</sys_update_name>
+        <sys_update_version display_value="sys_alias_3ad68fee1b047910aa042f876e4bcb0c">abf6cfee1b047910aa042f876e4bcbb1</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-07-19 05:09:30</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

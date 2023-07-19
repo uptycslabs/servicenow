@@ -7,16 +7,56 @@
         <client_callable>false</client_callable>
         <description/>
         <name>UptycsCompliance</name>
-        <script><![CDATA[var UptycsCompliance = Class.create();
+        <script><![CDATA[var CryptoJS = new Crypto().CryptoJS;
+var UptycsCompliance = Class.create();
 UptycsCompliance.prototype = {
-    initialize: function(uptStandard, uptCustomerId, uptUrl, uptToken) {
+    initialize: function(uptStandard, uptCustomerId, uptUrl, iss, secret) {
 		this.standard = uptStandard;
         this.customerId = uptCustomerId;
 		this.url = uptUrl;
-		this.auth = uptToken;
+		//this.auth = uptToken;
+		this.iss = iss;
+		this.secret = secret;
 		this.missedSections = [];
 	},
 
+	// Helper function to remove illegal characters from the base64 string
+    removeIllegalCharacters: function (input) {
+        return input.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+    },
+
+	// Helper function to convert an object to a base64 string
+    base64object: function (input) {
+		var inputWords = CryptoJS.enc.Utf8.parse(JSON.stringify(input));
+		var base64 = CryptoJS.enc.Base64.stringify(inputWords);
+		var output = this.removeIllegalCharacters(base64);
+		return output;
+	},
+
+	getToken: function(apiDate) {
+
+		// Calculate the current date in seconds (UNIX timestamp)
+		var date = Math.floor(apiDate.getTime() / 1000);
+
+		// Create the header and payload objects
+		var header = { 'alg': 'HS256', 'typ': 'JWT' };
+		var payload = { 'iss': this.iss, 'iat': date, 'exp': date + 3600 }; // Token expires in 3600 seconds (1 hour)
+
+		// Generate the unsigned token
+		var unsignedToken = this.base64object(header) + "." + this.base64object(payload);
+		
+		// Calculate the signature hash using HMAC-SHA256
+		var signatureHash = CryptoJS.HmacSHA256(unsignedToken, this.secret);
+
+		// Convert the signature hash to base64
+		var signature = signatureHash.toString(CryptoJS.enc.Base64);
+
+		// Concatenate the unsigned token and signature to create the final token
+		var token = this.removeIllegalCharacters(unsignedToken + '.' + signature);
+
+		return 'Bearer ' + token;
+    },
+	
     wait: function(ms) {
         var start = Date.now(),
             current = start;
@@ -28,13 +68,16 @@ UptycsCompliance.prototype = {
     createPostMessage: function(postData) {
         var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query', 'POST Query');
 
-        message.setStringParameterNoEscape('header_auth', this.auth);
+        //message.setStringParameterNoEscape('header_auth', this.auth);
         message.setStringParameterNoEscape('url', this.url);
         message.setStringParameterNoEscape('customer_id', this.customerId);
         now = new Date();
-        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        message.setRequestHeader('date', now.toUTCString());
         message.setRequestHeader('content-type', 'application/json');
+        //message.setRequestHeader('Authorization', this.auth);
+		message.setRequestHeader('Authorization',this.getToken(now));
         message.setRequestBody(postData);
+		gs.info(postData);
 
         return message;
     },
@@ -42,13 +85,16 @@ UptycsCompliance.prototype = {
     createPostJobMessage: function(postData) {
         var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'POST Query Job');
 
-        message.setStringParameterNoEscape('header_auth', this.auth);
+        //message.setStringParameterNoEscape('header_auth', this.auth);
         message.setStringParameterNoEscape('url', this.url);
         message.setStringParameterNoEscape('customer_id', this.customerId);
         now = new Date();
-        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        message.setRequestHeader('date', now.toUTCString());
+        //message.setRequestHeader('Authorization', this.auth);
+		message.setRequestHeader('Authorization',this.getToken(now));
         message.setRequestHeader('content-type', 'application/json');
         message.setRequestBody(postData);
+		gs.info(postData);
 
         return message;
     },
@@ -56,28 +102,32 @@ UptycsCompliance.prototype = {
     createJobInfoMessage: function(queryJobId) {
         var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Job Info');
 
-        message.setStringParameterNoEscape('header_auth', this.auth);
+        //message.setStringParameterNoEscape('header_auth', this.auth);
         message.setStringParameterNoEscape('url', this.url);
         message.setStringParameterNoEscape('customer_id', this.customerId);
         message.setStringParameterNoEscape('job_id', queryJobId);
-        now = new Date();
-        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        //message.setStringParameterNoEscape('header_date', now.toUTCString());
         message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+        //message.setRequestHeader('Authorization', this.auth);
+		message.setRequestHeader('Authorization',this.getToken(now));
 
         return message;
     },
 
     createJobResultsMessage: function(queryJobId, offset) {
-        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Jobs Results'); //('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Job Results');
-
-        message.setStringParameterNoEscape('header_auth', this.auth);
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Jobs Results'); 
+        //message.setStringParameterNoEscape('header_auth', this.auth);
         message.setStringParameterNoEscape('url', this.url);
         message.setStringParameterNoEscape('customer_id', this.customerId);
         message.setStringParameterNoEscape('job_id', queryJobId);
         message.setStringParameterNoEscape('offset', offset);
         now = new Date();
-        message.setStringParameterNoEscape('header_date', now.toUTCString());
+        message.setRequestHeader('date', now.toUTCString());
         message.setRequestHeader('content-type', 'application/json');
+        //message.setRequestHeader('Authorization', this.auth);
+		message.setRequestHeader('Authorization',this.getToken(now));
 
         return message;
     },
@@ -99,8 +149,11 @@ UptycsCompliance.prototype = {
     getSections: function(sectionLikeClause) {
         var postData = '{"query":"SELECT section FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND ' + sectionLikeClause + ' GROUP BY section"}';
 
+		gs.info('sending uptycs query');
         var msg = this.createPostMessage(postData);
         var resp = msg.execute();
+		var httpResponseStatus = resp.getStatusCode();
+		gs.info("parsing response, status_code:  " + httpResponseStatus); 
         var respObj = JSON.parse(resp.getBody());
 
         var sections = [];
@@ -127,8 +180,15 @@ UptycsCompliance.prototype = {
         do {
             response = message.execute();
             responseObj = JSON.parse(response.getBody());
+			gs.info(responseObj);
             status = JSON.parse(response.getBody()).status;
-            if (status != 'FINISHED' && status != 'ERROR' && status != 'QUEUED' && status != 'RUNNING') {
+			// Check if status is undefined and exit the loop
+			if (!status) {
+				gs.error('status is undefined. Exiting the loop.');
+				break;
+			}
+			
+			if (status != 'FINISHED' && status != 'ERROR' && status != 'QUEUED' && status != 'RUNNING') {
                 gs.error('status is not FINISHED, ERROR, RUNNING, or QUEUED.  status is: ' + status);
             }
             comp.wait(5000);
@@ -156,19 +216,6 @@ UptycsCompliance.prototype = {
 
             //var nSkip = 0;
             for (iii = 0; iii < responseObj.items.length; iii++) { // loop over records
-                    /*
-          var grComplianceDup = new GlideRecord('x_297025_uptycs_compliance_cis_benchmarks');
-          grComplianceDup.initialize();
-          grComplianceDup.addQuery('upt_asset_id', responseObj.items[iii].rowData.upt_asset_id);
-          grComplianceDup.addQuery('upt_time', responseObj.items[iii].rowData.upt_time);
-          grComplianceDup.addQuery('section_title', responseObj.items[iii].rowData.section_title);
-          grComplianceDup.query();
-          if(grComplianceDup.next()){
-            gs.error('upt_asset_id: ' + responseObj.items[iii].rowData.upt_asset_id + ', upt_time: ' + responseObj.items[iii].rowData.upt_time + ', section_title: ' + responseObj.items[iii].rowData.section_title);
-            nSkip += 1;
-            continue;
-          }
-		  */
 
                 var grCompliance = new GlideRecord('x_297025_uptycs_co_compliance');
                 grCompliance.initialize();
@@ -200,7 +247,7 @@ UptycsCompliance.prototype = {
                 var grConfigItem = new GlideRecord('cmdb_ci_hardware');
                 grConfigItem.initialize();
                 grConfigItem.addQuery('fqdn', responseObj.items[iii].rowData.upt_hostname);
-		grConfigItem.addOrCondition('name', responseObj.items[iii].rowData.upt_hostname);
+                grConfigItem.addQuery('name', responseObj.items[iii].rowData.upt_hostname);
                 grConfigItem.query();
                 if(!grConfigItem.next()){
                     grConfigItem.setValue('fqdn', responseObj.items[iii].rowData.upt_hostname);
@@ -294,13 +341,13 @@ UptycsCompliance.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-14 17:40:57</sys_created_on>
         <sys_id>49512e5e2fa230105113fe1df699b6d7</sys_id>
-        <sys_mod_count>16</sys_mod_count>
+        <sys_mod_count>37</sys_mod_count>
         <sys_name>UptycsCompliance</sys_name>
         <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_49512e5e2fa230105113fe1df699b6d7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-05-23 12:40:50</sys_updated_on>
+        <sys_updated_on>2023-07-19 15:02:43</sys_updated_on>
     </sys_script_include>
 </record_update>
