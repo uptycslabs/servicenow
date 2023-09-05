@@ -133,7 +133,7 @@ UptycsCompliance.prototype = {
     },
 
     createSectionQuery: function(section) {
-        return '"WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results),final as ( SELECT * FROM latest WHERE rank_num >= 1) select ua.gateway, CONCAT(ua.hardware_vendor, \' \', ua.hardware_model) as model, ua.live, ua.os_version, cla.* FROM final cla JOIN upt_assets ua ON cla.upt_asset_id = ua.id"';
+        return '"WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + this.standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results),final as ( SELECT * FROM latest WHERE rank_num = 1) select ua.gateway, CONCAT(ua.hardware_vendor, \' \', ua.hardware_model) as model, ua.live, ua.os_version, cla.* FROM final cla JOIN upt_assets ua ON cla.upt_asset_id = ua.id"';
     },
 
     getCount: function() {
@@ -305,6 +305,7 @@ UptycsCompliance.prototype = {
                     grConfigComplianceTest.insert();
 					gs.info('inserted sn_vulc_test record');
                 }
+				var sysIdTest = grConfigComplianceTest.sys_id.toString();
 				
                 var grConfigCompliancePolicy = new GlideRecord('sn_vulc_policy');
 				gs.info('initializing sn_vulc_policy record');
@@ -320,15 +321,17 @@ UptycsCompliance.prototype = {
                     grConfigCompliancePolicy.insert();
 					gs.info('inserted sn_vulc_policy record');
                 }
-
+				var sysIdPolicy = grConfigCompliancePolicy.sys_id.toString();
+				
                 var grConfigCompliancePolicyTest = new GlideRecord('sn_vulc_policy_test');
 				gs.info('initializing sn_vulc_policy_test record');
                 grConfigCompliancePolicyTest.initialize();
-                grConfigCompliancePolicyTest.addQuery('name', responseObj.items[iii].rowData.authoritative_source);
+                grConfigCompliancePolicyTest.addQuery('section_name', responseObj.items[iii].rowData.authoritative_source);
                 grConfigCompliancePolicyTest.query();
                 if(!grConfigCompliancePolicyTest.next()){
                     grConfigCompliancePolicyTest.setValue('name', responseObj.items[iii].rowData.authoritative_source);
-                    grConfigCompliancePolicyTest.setValue('policy', grConfigCompliancePolicy.getUniqueValue());
+                    grConfigCompliancePolicyTest.setValue('section_name', responseObj.items[iii].rowData.authoritative_source);
+                    grConfigCompliancePolicyTest.setValue('policy', sysIdPolicy);
                     grConfigCompliancePolicyTest.setValue('control', grConfigComplianceTest.getUniqueValue());
                     grConfigCompliancePolicyTest.insert();
 					gs.info('inserted sn_vulc_policy_test record');
@@ -339,7 +342,7 @@ UptycsCompliance.prototype = {
                 grConfigCompliance.initialize();
 				var desc = responseObj.items[iii].rowData.section_title + ' ' + responseObj.items[iii].rowData.description;
                 grConfigCompliance.setValue('cmdb_ci', assetRef); //reference
-                grConfigCompliance.setValue('control', grConfigComplianceTest.getUniqueValue()); //reference
+                grConfigCompliance.setValue('control', sysIdTest); //reference
                 grConfigCompliance.setValue('last_seen', responseObj.items[iii].rowData.upt_time);
                 grConfigCompliance.setValue('source', 'Uptycs');
                 grConfigCompliance.setValue('source_id', responseObj.items[iii].rowData.authoritative_source);
@@ -387,13 +390,13 @@ UptycsCompliance.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-14 17:40:57</sys_created_on>
         <sys_id>49512e5e2fa230105113fe1df699b6d7</sys_id>
-        <sys_mod_count>52</sys_mod_count>
+        <sys_mod_count>65</sys_mod_count>
         <sys_name>UptycsCompliance</sys_name>
         <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_49512e5e2fa230105113fe1df699b6d7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-09-05 08:30:45</sys_updated_on>
+        <sys_updated_on>2023-09-05 14:20:23</sys_updated_on>
     </sys_script_include>
 </record_update>
