@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="connection_attributes">
+    <connection_attributes action="DELETE">
+        <active>true</active>
+        <array>false</array>
+        <attributes/>
+        <audit>false</audit>
+        <calculation><![CDATA[(function calculatedFieldValue(current) {
+
+	// Add your code here
+	return '';  // return the calculated value
+
+})(current);]]></calculation>
+        <choice/>
+        <choice_field/>
+        <choice_table/>
+        <column_label/>
+        <comments/>
+        <create_roles/>
+        <default_value/>
+        <defaultsort/>
+        <delete_roles/>
+        <dependent/>
+        <dependent_on_field/>
+        <display>false</display>
+        <dynamic_creation>false</dynamic_creation>
+        <dynamic_creation_script/>
+        <dynamic_default_value/>
+        <dynamic_ref_qual/>
+        <element>u_iss</element>
+        <element_reference>false</element_reference>
+        <foreign_database/>
+        <formula/>
+        <function_definition/>
+        <function_field>false</function_field>
+        <help/>
+        <hint/>
+        <internal_type display_value="">password</internal_type>
+        <label>iss</label>
+        <mandatory>false</mandatory>
+        <max_length>40</max_length>
+        <model display_value="x_297025_uptycs_co.Uptycs_credentials">72dec9c61b8d711028b599f91d4bcb0e</model>
+        <model_id>72dec9c61b8d711028b599f91d4bcb0e</model_id>
+        <model_table/>
+        <name>var__m_connection_attributes_72dec9c61b8d711028b599f91d4bcb0e</name>
+        <next_element/>
+        <order>100</order>
+        <primary>false</primary>
+        <read_only>false</read_only>
+        <read_roles/>
+        <reference/>
+        <reference_cascade_rule/>
+        <reference_floats>false</reference_floats>
+        <reference_key/>
+        <reference_qual/>
+        <reference_qual_condition/>
+        <reference_type/>
+        <spell_check>false</spell_check>
+        <staged>false</staged>
+        <sys_class_name>connection_attributes</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-04 12:24:30</sys_created_on>
+        <sys_id>a271950a1b8d711028b599f91d4bcbdb</sys_id>
+        <sys_name>iss</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>connection_attributes_a271950a1b8d711028b599f91d4bcbdb</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-09-04 12:24:30</sys_updated_on>
+        <table_reference>false</table_reference>
+        <text_index>false</text_index>
+        <unique>false</unique>
+        <use_dependent_field>false</use_dependent_field>
+        <use_dynamic_default>false</use_dynamic_default>
+        <use_reference_qualifier>simple</use_reference_qualifier>
+        <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
+        <widget/>
+        <write_roles/>
+        <xml_view>false</xml_view>
+    </connection_attributes>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</application>
+        <file_path/>
+        <instance_id>592d308cdbc0399ccaf99027c59619af</instance_id>
+        <instance_name>ven06246</instance_name>
+        <name>connection_attributes_a271950a1b8d711028b599f91d4bcbdb</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="connection_attributes"&gt;&lt;connection_attributes action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;array&gt;false&lt;/array&gt;&lt;attributes/&gt;&lt;audit&gt;false&lt;/audit&gt;&lt;calculation&gt;&lt;![CDATA[(function calculatedFieldValue(current) {
+
+	// Add your code here
+	return '';  // return the calculated value
+
+})(current);]]&gt;&lt;/calculation&gt;&lt;choice/&gt;&lt;choice_field/&gt;&lt;choice_table/&gt;&lt;column_label/&gt;&lt;comments/&gt;&lt;create_roles/&gt;&lt;default_value/&gt;&lt;defaultsort/&gt;&lt;delete_roles/&gt;&lt;dependent/&gt;&lt;dependent_on_field/&gt;&lt;display&gt;false&lt;/display&gt;&lt;dynamic_creation&gt;false&lt;/dynamic_creation&gt;&lt;dynamic_creation_script/&gt;&lt;dynamic_default_value/&gt;&lt;dynamic_ref_qual/&gt;&lt;element&gt;u_iss&lt;/element&gt;&lt;element_reference&gt;false&lt;/element_reference&gt;&lt;foreign_database/&gt;&lt;formula/&gt;&lt;function_definition/&gt;&lt;function_field&gt;false&lt;/function_field&gt;&lt;help/&gt;&lt;hint/&gt;&lt;internal_type display_value=""&gt;password&lt;/internal_type&gt;&lt;label&gt;iss&lt;/label&gt;&lt;mandatory&gt;false&lt;/mandatory&gt;&lt;max_length&gt;40&lt;/max_length&gt;&lt;model display_value="x_297025_uptycs_co.Uptycs_credentials"&gt;72dec9c61b8d711028b599f91d4bcb0e&lt;/model&gt;&lt;model_id&gt;72dec9c61b8d711028b599f91d4bcb0e&lt;/model_id&gt;&lt;model_table/&gt;&lt;name&gt;var__m_connection_attributes_72dec9c61b8d711028b599f91d4bcb0e&lt;/name&gt;&lt;next_element/&gt;&lt;order&gt;100&lt;/order&gt;&lt;primary&gt;false&lt;/primary&gt;&lt;read_only&gt;false&lt;/read_only&gt;&lt;read_roles/&gt;&lt;reference/&gt;&lt;reference_cascade_rule/&gt;&lt;reference_floats&gt;false&lt;/reference_floats&gt;&lt;reference_key/&gt;&lt;reference_qual/&gt;&lt;reference_qual_condition/&gt;&lt;reference_type/&gt;&lt;spell_check&gt;false&lt;/spell_check&gt;&lt;staged&gt;false&lt;/staged&gt;&lt;sys_class_name&gt;connection_attributes&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-09-04 12:24:30&lt;/sys_created_on&gt;&lt;sys_id&gt;a271950a1b8d711028b599f91d4bcbdb&lt;/sys_id&gt;&lt;sys_name&gt;iss&lt;/sys_name&gt;&lt;sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co"&gt;31b4358e2f2630105113fe1df699b66d&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Uptycs Compliance"&gt;31b4358e2f2630105113fe1df699b66d&lt;/sys_scope&gt;&lt;sys_update_name&gt;connection_attributes_a271950a1b8d711028b599f91d4bcbdb&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-09-04 12:24:30&lt;/sys_updated_on&gt;&lt;table_reference&gt;false&lt;/table_reference&gt;&lt;text_index&gt;false&lt;/text_index&gt;&lt;unique&gt;false&lt;/unique&gt;&lt;use_dependent_field&gt;false&lt;/use_dependent_field&gt;&lt;use_dynamic_default&gt;false&lt;/use_dynamic_default&gt;&lt;use_reference_qualifier&gt;simple&lt;/use_reference_qualifier&gt;&lt;virtual&gt;false&lt;/virtual&gt;&lt;virtual_type&gt;script&lt;/virtual_type&gt;&lt;widget/&gt;&lt;write_roles/&gt;&lt;xml_view&gt;false&lt;/xml_view&gt;&lt;/connection_attributes&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>767932104</payload_hash>
+        <record_name>iss</record_name>
+        <reverted_from/>
+        <source>ea861ce61bccf510aa042f876e4bcbb3</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-04 12:24:33</sys_created_on>
+        <sys_id>0bc1d18a1b8d711028b599f91d4bcb45</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18a6026d8ab0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-09-04 12:24:33</sys_updated_on>
+        <type>Connection Attributes</type>
+        <update_guid>43c1d18a098d7110c36bddeabc477845</update_guid>
+        <update_guid_history>43c1d18a098d7110c36bddeabc477845:767932104,83c1d18af48d7110080e15d9fd305842:-95875860,0fc1d18ae48d7110cae21792f8ff5a31:767932104</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="iss">e502d58a1b8d711028b599f91d4bcb13</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-04 12:25:31</sys_created_on>
+        <sys_db_object display_value="" name="connection_attributes">connection_attributes</sys_db_object>
+        <sys_id>196d0d53a8c4400699677660e87897c4</sys_id>
+        <sys_metadata>a271950a1b8d711028b599f91d4bcbdb</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>iss</sys_name>
+        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope_delete display_value="">06e13f983065467ba774d0a86997be89</sys_scope_delete>
+        <sys_update_name>connection_attributes_a271950a1b8d711028b599f91d4bcbdb</sys_update_name>
+        <sys_update_version display_value="connection_attributes_a271950a1b8d711028b599f91d4bcbdb">0bc1d18a1b8d711028b599f91d4bcb45</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-09-04 12:25:31</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

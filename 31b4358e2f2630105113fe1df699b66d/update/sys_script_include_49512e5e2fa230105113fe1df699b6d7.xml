@@ -179,17 +179,20 @@ UptycsCompliance.prototype = {
         var status = 'QUEUED';
         do {
             response = message.execute();
+			var httpResponseStatus = response.getStatusCode();
             responseObj = JSON.parse(response.getBody());
-			gs.info(responseObj);
-            status = JSON.parse(response.getBody()).status;
+			gs.info('query job status code ' + queryJobId + ' ' + httpResponseStatus);
+			//gs.info(response.getBody());
+            status = responseObj.status;
 			// Check if status is undefined and exit the loop
-			if (!status) {
+			if (!status || httpResponseStatus != 200) {
 				gs.error('status is undefined. Exiting the loop.');
 				break;
 			}
 			
 			if (status != 'FINISHED' && status != 'ERROR' && status != 'QUEUED' && status != 'RUNNING') {
                 gs.error('status is not FINISHED, ERROR, RUNNING, or QUEUED.  status is: ' + status);
+				break;
             }
             comp.wait(5000);
         }
@@ -244,7 +247,8 @@ UptycsCompliance.prototype = {
                 grCompliance.insert();
 
 				
-                var grConfigItem = new GlideRecord('cmdb_ci_hardware');
+				gs.info('initializing cmdb record');
+                /*var grConfigItem = new GlideRecord('cmdb_ci_hardware');
                 grConfigItem.initialize();
                 grConfigItem.addQuery('fqdn', responseObj.items[iii].rowData.upt_hostname);
                 grConfigItem.addQuery('name', responseObj.items[iii].rowData.upt_hostname);
@@ -256,15 +260,39 @@ UptycsCompliance.prototype = {
                     grConfigItem.setValue('model_number', responseObj.items[iii].rowData.model);
                     grConfigItem.setValue('environment', responseObj.items[iii].rowData.os_version);
                     grConfigItem.setValue('internet_facing', responseObj.items[iii].rowData.live);
+                    grConfigItem.setValue('short_description', 'Uptycs Asset');
                     grConfigItem.insert();
-                }
+					gs.info('inserted cmdb record');
+                }*/
+				var payload = {
+					"items": [
+						{
+							"className": "cmdb_ci_hardware",
+							"values": {
+								"fqdn": responseObj.items[iii].rowData.upt_hostname,
+								"name": responseObj.items[iii].rowData.upt_hostname,
+								"short_description": "Uptycs Asset",
+								"ip_address": responseObj.items[iii].rowData.gateway,
+								"model_number": responseObj.items[iii].rowData.model,
+								"environment" : responseObj.items[iii].rowData.os_version
+								}
+						}
+					]
+				};
+				var input = JSON.stringify(payload);
+				var output = sn_cmdb.IdentificationEngine.createOrUpdateCI('ServiceNow', input);
+				var asset = JSON.parse(output);
+				var assetRef = asset["items"][0]["sysId"];
 				
                 var grConfigComplianceTest = new GlideRecord('sn_vulc_test');
+				gs.info('initializing sn_vulc_test record');
                 grConfigComplianceTest.initialize();
-                grConfigComplianceTest.addQuery('number', responseObj.items[iii].rowData.section);
+                grConfigComplianceTest.addQuery('short_description', responseObj.items[iii].rowData.section_title);
+                grConfigComplianceTest.addQuery('source_id', responseObj.items[iii].rowData.authoritative_source);
+                grConfigComplianceTest.addQuery('source_category', responseObj.items[iii].rowData.section);
+                grConfigComplianceTest.addQuery('source_sub_category', responseObj.items[iii].rowData.version);
                 grConfigComplianceTest.query();
                 if(!grConfigComplianceTest.next()){
-                    grConfigComplianceTest.setValue('number', responseObj.items[iii].rowData.section);
                     grConfigComplianceTest.setValue('source', 'Uptycs');
                     grConfigComplianceTest.setValue('remediation', responseObj.items[iii].rowData.remediation);
                     grConfigComplianceTest.setValue('description', responseObj.items[iii].rowData.description);
@@ -273,39 +301,57 @@ UptycsCompliance.prototype = {
                     grConfigComplianceTest.setValue('source_category', responseObj.items[iii].rowData.section);
                     grConfigComplianceTest.setValue('source_sub_category', responseObj.items[iii].rowData.version);
                     grConfigComplianceTest.setValue('result', responseObj.items[iii].rowData.reason);
+                    grConfigComplianceTest.setValue('risk_score', responseObj.items[iii].rowData.score);
                     grConfigComplianceTest.insert();
+					gs.info('inserted sn_vulc_test record');
                 }
 				
                 var grConfigCompliancePolicy = new GlideRecord('sn_vulc_policy');
+				gs.info('initializing sn_vulc_policy record');
                 grConfigCompliancePolicy.initialize();
-                grConfigCompliancePolicy.addQuery('short_description', responseObj.items[iii].rowData.standard);
+                grConfigCompliancePolicy.addQuery('source_id', responseObj.items[iii].rowData.authoritative_source);
                 grConfigCompliancePolicy.query();
                 if(!grConfigCompliancePolicy.next()){
-                    grConfigCompliancePolicy.setValue('short_description', responseObj.items[iii].rowData.standard);
+                    grConfigCompliancePolicy.setValue('short_description', responseObj.items[iii].rowData.authoritative_source);
                     grConfigCompliancePolicy.setValue('source', 'Uptycs');
-                    grConfigCompliancePolicy.setValue('number', responseObj.items[iii].rowData.section);
-                    grConfigCompliancePolicy.setValue('description', responseObj.items[iii].rowData.description);
+                    grConfigCompliancePolicy.setValue('description', 'Uptycs compliance standard');
                     grConfigCompliancePolicy.setValue('source_id', responseObj.items[iii].rowData.authoritative_source);
+                    grConfigCompliancePolicy.setValue('active', true);
                     grConfigCompliancePolicy.insert();
+					gs.info('inserted sn_vulc_policy record');
                 }
-				
+
+                var grConfigCompliancePolicyTest = new GlideRecord('sn_vulc_policy_test');
+				gs.info('initializing sn_vulc_policy_test record');
+                grConfigCompliancePolicyTest.initialize();
+                grConfigCompliancePolicyTest.addQuery('name', responseObj.items[iii].rowData.authoritative_source);
+                grConfigCompliancePolicyTest.query();
+                if(!grConfigCompliancePolicyTest.next()){
+                    grConfigCompliancePolicyTest.setValue('name', responseObj.items[iii].rowData.authoritative_source);
+                    grConfigCompliancePolicyTest.setValue('policy', grConfigCompliancePolicy.getUniqueValue());
+                    grConfigCompliancePolicyTest.setValue('control', grConfigComplianceTest.getUniqueValue());
+                    grConfigCompliancePolicyTest.insert();
+					gs.info('inserted sn_vulc_policy_test record');
+                }
+
                 var grConfigCompliance = new GlideRecord('sn_vulc_result');
+				gs.info('initializing sn_vulc_result record');
                 grConfigCompliance.initialize();
-                grConfigCompliance.setValue('cmdb_ci', responseObj.items[iii].rowData.upt_hostname); //reference
-                grConfigCompliance.setValue('control', responseObj.items[iii].rowData.section_title); //reference
+				var desc = responseObj.items[iii].rowData.section_title + ' ' + responseObj.items[iii].rowData.description;
+                grConfigCompliance.setValue('cmdb_ci', assetRef); //reference
+                grConfigCompliance.setValue('control', grConfigComplianceTest.getUniqueValue()); //reference
                 grConfigCompliance.setValue('last_seen', responseObj.items[iii].rowData.upt_time);
                 grConfigCompliance.setValue('source', 'Uptycs');
                 grConfigCompliance.setValue('source_id', responseObj.items[iii].rowData.authoritative_source);
                 grConfigCompliance.setValue('expected_values', responseObj.items[iii].rowData.expected_value);
                 grConfigCompliance.setValue('remediation', responseObj.items[iii].rowData.remediation);
                 grConfigCompliance.setValue('result', responseObj.items[iii].rowData.compliant);
-                grConfigCompliance.setValue('description', responseObj.items[iii].rowData.description);
+                grConfigCompliance.setValue('description', desc);
                 grConfigCompliance.setValue('display', responseObj.items[iii].rowData.description);
                 grConfigCompliance.setValue('actual_values', responseObj.items[iii].rowData.evidence);
                 grConfigCompliance.setValue('risk_score', responseObj.items[iii].rowData.score);
-                grConfigCompliance.setValue('number', responseObj.items[iii].rowData.section);
                 grConfigCompliance.insert();
-
+				gs.info('inserted sn_vulc_result record');
             } // records
         } // offset
 	},
@@ -341,13 +387,13 @@ UptycsCompliance.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-14 17:40:57</sys_created_on>
         <sys_id>49512e5e2fa230105113fe1df699b6d7</sys_id>
-        <sys_mod_count>37</sys_mod_count>
+        <sys_mod_count>52</sys_mod_count>
         <sys_name>UptycsCompliance</sys_name>
         <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_49512e5e2fa230105113fe1df699b6d7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-07-19 15:02:43</sys_updated_on>
+        <sys_updated_on>2023-09-05 08:30:45</sys_updated_on>
     </sys_script_include>
 </record_update>
