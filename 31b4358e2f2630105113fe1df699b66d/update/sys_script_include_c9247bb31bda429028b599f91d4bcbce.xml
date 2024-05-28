@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_297025_uptycs_co.UptycsAPI</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>UptycsAPI</name>
+        <script><![CDATA[var CryptoJS = new Crypto().CryptoJS;
+var UptycsAPI = Class.create();
+UptycsAPI.prototype = {
+    initialize: function(uptCustomerId, uptUrl, iss, secret) {
+        this.customerId = uptCustomerId;
+		this.url = uptUrl;
+		this.iss = iss;
+		this.secret = secret;
+	},
+
+	// Helper function to remove illegal characters from the base64 string
+    removeIllegalCharacters: function (input) {
+        return input.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+    },
+
+	// Helper function to convert an object to a base64 string
+    base64object: function (input) {
+		var inputWords = CryptoJS.enc.Utf8.parse(JSON.stringify(input));
+		var base64 = CryptoJS.enc.Base64.stringify(inputWords);
+		var output = this.removeIllegalCharacters(base64);
+		return output;
+	},
+
+	getToken: function(apiDate) {
+
+		// Calculate the current date in seconds (UNIX timestamp)
+		var date = Math.floor(apiDate.getTime() / 1000);
+
+		// Create the header and payload objects
+		var header = { 'alg': 'HS256', 'typ': 'JWT' };
+		var payload = { 'iss': this.iss, 'iat': date, 'exp': date + 3600 }; // Token expires in 3600 seconds (1 hour)
+
+		// Generate the unsigned token
+		var unsignedToken = this.base64object(header) + "." + this.base64object(payload);
+		
+		// Calculate the signature hash using HMAC-SHA256
+		var signatureHash = CryptoJS.HmacSHA256(unsignedToken, this.secret);
+
+		// Convert the signature hash to base64
+		var signature = signatureHash.toString(CryptoJS.enc.Base64);
+
+		// Concatenate the unsigned token and signature to create the final token
+		var token = this.removeIllegalCharacters(unsignedToken + '.' + signature);
+
+		return 'Bearer ' + token;
+    },
+	
+    wait: function(ms) {
+        var start = Date.now(),
+            current = start;
+        while (current - start < ms) {
+            current = Date.now();
+        }
+    },
+
+    createPostMessage: function(postData) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query', 'POST Query');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+		message.setRequestHeader('Authorization',this.getToken(now));
+        message.setRequestBody(postData);
+		gs.info(postData);
+
+        return message;
+    },
+
+    createPostJobMessage: function(postData) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'POST Query Job');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+        message.setRequestHeader('content-type', 'application/json');
+        message.setRequestBody(postData);
+		gs.info(postData);
+
+        return message;
+    },
+
+    createJobInfoMessage: function(queryJobId) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Job Info');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('job_id', queryJobId);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+
+        return message;
+    },
+
+    createJobResultsMessage: function(queryJobId, offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Jobs Results'); 
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('job_id', queryJobId);
+        message.setStringParameterNoEscape('offset', offset);
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+		message.setRequestHeader('Authorization',this.getToken(now));
+
+        return message;
+    },
+
+	submitQueryJob: function(query) {
+        var postData = '{"query":"' + query + '", "type":"global"}';
+        var msg = this.createPostJobMessage(postData);
+        var resp = msg.execute();
+        var respObj = JSON.parse(resp.getBody());
+
+        return respObj.id;
+    },
+	
+    pollQueryJob: function(queryJobId) {
+        var message = this.createJobInfoMessage(queryJobId);
+        var status = 'QUEUED';
+        do {
+            response = message.execute();
+			var httpResponseStatus = response.getStatusCode();
+            responseObj = JSON.parse(response.getBody());
+			gs.info('query job status code ' + queryJobId + ' ' + httpResponseStatus);
+			//gs.info(response.getBody());
+            status = responseObj.status;
+			// Check if status is undefined and exit the loop
+			if (!status || httpResponseStatus != 200) {
+				gs.error('status is undefined. Exiting the loop.');
+				break;
+			}
+			
+			if (status != 'FINISHED' && status != 'ERROR' && status != 'QUEUED' && status != 'RUNNING') {
+                gs.error('status is not FINISHED, ERROR, RUNNING, or QUEUED.  status is: ' + status);
+				break;
+            }
+            comp.wait(5000);
+        }
+        while (status != 'FINISHED' && status != 'ERROR');
+
+        if (status != 'FINISHED') {
+            gs.error('error: ' + responseObj.error.message.detail);
+			return 0;
+        }
+        var nRows = responseObj.rowCount;
+        gs.warn('Uptycs Query Job nRows: ' + nRows);
+		
+		return nRows;
+	},
+	
+	getAssets: function() {
+        var query = 'select host_name,gateway,hardware_vendor,hardware_model,os,os_version from upt_assets;';
+		gs.info('sending uptycs query');
+        var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+        for (ii = 0; ii < nRows / 10000; ii++) { //loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+            for (iii = 0; iii < responseObj.items.length; iii++) { // loop over records
+				gs.info('initializing cmdb record');
+				var asset = responseObj.items[iii].rowData;
+				var payload = {
+					"items": [
+						{
+							"className": "cmdb_ci_hardware",
+							"values": {
+								"fqdn": asset.host_name,
+								"name": asset.host_name,
+								"short_description": "Uptycs Asset " + asset.host_name,
+								"ip_address": asset.gateway,
+								"model_number": asset.hardware_model,
+								"environment" : asset.os + ' ' + asset.os_version
+								}
+						}
+					]
+				};
+				var input = JSON.stringify(payload);
+				sn_cmdb.IdentificationEngine.createOrUpdateCI('ServiceNow', input);
+			}
+		}
+    },
+
+    type: 'UptycsAPI'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-05-28 10:17:50</sys_created_on>
+        <sys_id>c9247bb31bda429028b599f91d4bcbce</sys_id>
+        <sys_mod_count>12</sys_mod_count>
+        <sys_name>UptycsAPI</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_script_include_c9247bb31bda429028b599f91d4bcbce</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-05-28 12:37:37</sys_updated_on>
+    </sys_script_include>
+</record_update>

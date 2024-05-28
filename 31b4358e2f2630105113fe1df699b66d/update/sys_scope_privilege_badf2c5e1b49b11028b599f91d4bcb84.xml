@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_scope_privilege">
     <sys_scope_privilege action="INSERT_OR_UPDATE">
         <operation>execute</operation>
-        <source_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</source_scope>
+        <source_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</source_scope>
         <status>allowed</status>
         <sys_class_name>sys_scope_privilege</sys_class_name>
         <sys_created_by>admin</sys_created_by>
@@ -9,9 +9,9 @@
         <sys_id>badf2c5e1b49b11028b599f91d4bcb84</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>ResourceSupport</sys_name>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_scope_privilege_badf2c5e1b49b11028b599f91d4bcb84</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2023-09-05 04:34:43</sys_updated_on>

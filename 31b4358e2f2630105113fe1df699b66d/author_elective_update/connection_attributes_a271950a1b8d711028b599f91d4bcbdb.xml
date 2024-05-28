@@ -81,7 +81,7 @@
     </connection_attributes>
     <sys_update_version action="INSERT_OR_UPDATE">
         <action>DELETE</action>
-        <application display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</application>
+        <application display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</application>
         <file_path/>
         <instance_id>592d308cdbc0399ccaf99027c59619af</instance_id>
         <instance_name>ven06246</instance_name>
@@ -97,14 +97,14 @@
         <reverted_from/>
         <source>ea861ce61bccf510aa042f876e4bcbb3</source>
         <source_table>sys_update_set</source_table>
-        <state>current</state>
+        <state>previous</state>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-09-04 12:24:33</sys_created_on>
         <sys_id>0bc1d18a1b8d711028b599f91d4bcb45</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_recorded_at>18a6026d8ab0000001</sys_recorded_at>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-09-04 12:24:33</sys_updated_on>
+        <sys_updated_by>system</sys_updated_by>
+        <sys_updated_on>2024-04-16 06:01:26</sys_updated_on>
         <type>Connection Attributes</type>
         <update_guid>43c1d18a098d7110c36bddeabc477845</update_guid>
         <update_guid_history>43c1d18a098d7110c36bddeabc477845:767932104,83c1d18af48d7110080e15d9fd305842:-95875860,0fc1d18ae48d7110cae21792f8ff5a31:767932104</update_guid_history>
@@ -119,10 +119,10 @@
         <sys_metadata>a271950a1b8d711028b599f91d4bcbdb</sys_metadata>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>iss</sys_name>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_parent/>
         <sys_policy/>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_scope_delete display_value="">06e13f983065467ba774d0a86997be89</sys_scope_delete>
         <sys_update_name>connection_attributes_a271950a1b8d711028b599f91d4bcbdb</sys_update_name>
         <sys_update_version display_value="connection_attributes_a271950a1b8d711028b599f91d4bcbdb">0bc1d18a1b8d711028b599f91d4bcb45</sys_update_version>

@@ -392,9 +392,9 @@ UptycsCompliance.prototype = {
         <sys_id>49512e5e2fa230105113fe1df699b6d7</sys_id>
         <sys_mod_count>65</sys_mod_count>
         <sys_name>UptycsCompliance</sys_name>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_49512e5e2fa230105113fe1df699b6d7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2023-09-05 14:20:23</sys_updated_on>

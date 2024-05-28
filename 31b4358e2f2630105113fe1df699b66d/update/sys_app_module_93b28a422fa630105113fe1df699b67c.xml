@@ -17,6 +17,7 @@
         <override_menu_roles>false</override_menu_roles>
         <query/>
         <report/>
+        <require_confirmation>true</require_confirmation>
         <roles/>
         <sys_class_name>sys_app_module</sys_class_name>
         <sys_created_by>admin</sys_created_by>
@@ -27,9 +28,9 @@
         <sys_mod_count>0</sys_mod_count>
         <sys_name>All</sys_name>
         <sys_overrides/>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_app_module_93b28a422fa630105113fe1df699b67c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2021-09-13 20:47:56</sys_updated_on>

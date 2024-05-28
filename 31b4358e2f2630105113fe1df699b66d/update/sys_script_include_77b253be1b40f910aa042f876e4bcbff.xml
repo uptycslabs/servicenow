@@ -1149,9 +1149,9 @@ Crypto.prototype = {
         <sys_id>77b253be1b40f910aa042f876e4bcbff</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>CryptoJS</sys_name>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_77b253be1b40f910aa042f876e4bcbff</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2023-07-19 12:48:46</sys_updated_on>

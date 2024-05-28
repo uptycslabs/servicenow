@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_metric_policy_has_schedule">
+    <sys_metric_policy_has_schedule action="INSERT_OR_UPDATE">
+        <retention_policy display_value="system series policy (sys|MbPlusWalMessa">c1e7e61a1b61021028b599f91d4bcbba</retention_policy>
+        <schedule display_value="10 Days @ 10 Minutes period">cde72a1a1b61021028b599f91d4bcb0d</schedule>
+        <sys_class_name>sys_metric_policy_has_schedule</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-04-16 06:01:44</sys_created_on>
+        <sys_id>0de72a1a1b61021028b599f91d4bcb0f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_metric_policy_has_schedule_0de72a1a1b61021028b599f91d4bcb0f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-04-16 06:01:44</sys_updated_on>
+    </sys_metric_policy_has_schedule>
+</record_update>

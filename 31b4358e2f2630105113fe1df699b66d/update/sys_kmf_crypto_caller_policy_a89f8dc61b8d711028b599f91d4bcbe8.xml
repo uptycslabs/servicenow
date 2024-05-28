@@ -3,7 +3,7 @@
         <active>true</active>
         <approval_type/>
         <check_script_hash>false</check_script_hash>
-        <crypto_module display_value="com_snc_core_automation_connection_credential_glideencrypter">550cd0b07722201099808d1168106121</crypto_module>
+        <crypto_module display_value="global.com_snc_core_automation_connection_credential_glideencrypter">550cd0b07722201099808d1168106121</crypto_module>
         <crypto_spec display_value="com_snc_core_automation_connection_credential_glideencrypter --- Symmetric Key Wrapping/Unwrapping">110cd0b07722201099808d1168106123</crypto_spec>
         <granular_operation/>
         <identity_group_alias/>
@@ -22,9 +22,9 @@
         <sys_id>a89f8dc61b8d711028b599f91d4bcbe8</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name/>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_kmf_crypto_caller_policy_a89f8dc61b8d711028b599f91d4bcbe8</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2023-09-04 12:14:48</sys_updated_on>

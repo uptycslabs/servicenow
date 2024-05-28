@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
-    <element label="Compliance" max_length="40" name="x_297025_uptycs_co_compliance" sizeclass="0" type="collection">
+    <element db_object_id="e356d82a1bccf510aa042f876e4bcb9b" label="Compliance" max_length="40" name="x_297025_uptycs_co_compliance" type="collection">
         <element attributes="edge_encryption_enabled=true" label="Authoritative Source" max_length="40" name="authoritative_source" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Command" max_length="1024" name="command" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Compliant" max_length="40" name="compliant" type="string"/>

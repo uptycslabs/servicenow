@@ -5,6 +5,7 @@
         <condition/>
         <conditional>false</conditional>
         <entered_time/>
+        <max_drift/>
         <name>Pull compliance data example</name>
         <offset/>
         <offset_type>0</offset_type>
@@ -17,14 +18,22 @@
         <run_time>1970-01-01 08:00:00</run_time>
         <run_type>on_demand</run_type>
         <script><![CDATA[try {
-  //Please check README at github.com/uptycslabs/servicenow for more information on this example
-  var url = 'example.uptycs.io';
-  var customerId = '<put your customer ID here>';
-  var auth = '<put your Uptycs API token here>';
+  var provider = new sn_cc.ConnectionInfoProvider();
+  var connectionInfo = provider.getConnectionInfo("72dec9c61b8d711028b599f91d4bcb0e");
+  gs.info("getting connection info");
+  if (connectionInfo != null) {
+	var url = connectionInfo.getAttribute("host");
+	var customerId = connectionInfo.getCredentialAttribute("user_name");
+	var iss = connectionInfo.getCredentialAttribute("privacy_key");
+	var secret = connectionInfo.getCredentialAttribute("password");
+  } else {
+	gs.info("ConnectionInfo is null. Script execution halted.");
+	throw new Error("ConnectionInfo is null. Script execution halted.");
+  }
   var standard = 'cis_independent_linux';
 
   var comp = new UptycsCompliance();
-  comp.initialize(standard, customerId, url, auth);
+  comp.initialize(standard, customerId, url, iss, secret);
 
   var missedSections = comp.getSections("section LIKE '1.%%'");
 
@@ -36,20 +45,20 @@
   gs.warn('End compliance import');
 	
 } catch(ex) {
-  gs.warn("Scheduled Script Execution: 'Pull Uptycs Compliance' failed with error message: ");// + ex.message);
+  gs.warn("Scheduled Script Execution: 'Pull Uptycs Compliance' failed with error message: " + ex.message);
 }]]></script>
         <sys_class_name>sysauto_script</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-14 17:41:54</sys_created_on>
         <sys_id>e8a12e5e2fa230105113fe1df699b611</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>20</sys_mod_count>
         <sys_name>Pull compliance data example</sys_name>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sysauto_script_e8a12e5e2fa230105113fe1df699b611</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-09-14 18:24:48</sys_updated_on>
+        <sys_updated_on>2023-09-05 14:42:46</sys_updated_on>
         <time_zone/>
         <upgrade_safe>false</upgrade_safe>
     </sysauto_script>
