@@ -62,6 +62,54 @@ UptycsAPI.prototype = {
         }
     },
 
+    getDetection: function(detectionId) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Detection', 'GET Detection Info');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('detection_id', detectionId);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs Detection not found - " + detectionId);
+			return null;
+		}
+    },
+
+    closeDetection: function(detectionId , incidentId) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Detection', 'Close Detection');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        //message.setStringParameterNoEscape('detection_id', detectionId);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var postData = { "filters":{"id":{"equals":detectionId}},
+                         "note":{"memo":"Service Now incident " + incidentId + " resolved"},
+                         "status":"closed"
+                       };
+        message.setRequestBody(JSON.stringify(postData));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+		if (httpResponseStatus === 200) {
+          gs.info("Closed Uptycs Detection - " + detectionId);
+          return true;
+		} else {
+			gs.error("Unable to close Uptycs Detection - " + detectionId);
+			gs.error(response.getBody());
+			return false;
+		}
+    },
+
     createPostMessage: function(postData) {
         var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query', 'POST Query');
 
@@ -184,7 +232,7 @@ UptycsAPI.prototype = {
 							"values": {
 								"fqdn": asset.host_name,
 								"name": asset.host_name,
-								"short_description": "Uptycs Asset " + asset.host_name,
+								"short_description": "uptycs asset - " + asset.host_name,
 								"ip_address": asset.gateway,
 								"model_number": asset.hardware_model,
 								"environment" : asset.os + ' ' + asset.os_version
@@ -204,13 +252,13 @@ UptycsAPI.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-05-28 10:17:50</sys_created_on>
         <sys_id>c9247bb31bda429028b599f91d4bcbce</sys_id>
-        <sys_mod_count>12</sys_mod_count>
+        <sys_mod_count>23</sys_mod_count>
         <sys_name>UptycsAPI</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_c9247bb31bda429028b599f91d4bcbce</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-05-28 12:37:37</sys_updated_on>
+        <sys_updated_on>2024-05-31 13:04:57</sys_updated_on>
     </sys_script_include>
 </record_update>
