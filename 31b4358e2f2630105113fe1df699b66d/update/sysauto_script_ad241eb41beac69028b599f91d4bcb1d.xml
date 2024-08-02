@@ -39,7 +39,7 @@
 
   var incidentUtils = new IncidentUtils();
   gs.info('Get incidents modified in the last 10 minutes');
-  var recentIncidents = incidentUtils.getRecentIncidents('minutes', 60); 
+  var recentIncidents = incidentUtils.getRecentIncidents('minutes', 10); 
 
   for (var i = 0; i < recentIncidents.length; i++) {
 	//gs.warn(JSON.stringify(recentIncidents[i]));
@@ -61,7 +61,7 @@
       //gs.info("Extracted Detection from UPTYCS :" + JSON.stringify(detection));
       if (detection === null) {
 		continue;
-      } else if (detection.status === 'closed') {
+      } else if (detection.detection.status === 'closed') {
 		gs.info("Detection already closed - " + detectionID);
       } else {
 		// close uptycs detection
@@ -80,14 +80,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-05-31 05:47:52</sys_created_on>
         <sys_id>ad241eb41beac69028b599f91d4bcb1d</sys_id>
-        <sys_mod_count>37</sys_mod_count>
+        <sys_mod_count>39</sys_mod_count>
         <sys_name>Incident Scheduled Update workflow</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sysauto_script_ad241eb41beac69028b599f91d4bcb1d</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-05-31 13:40:47</sys_updated_on>
+        <sys_updated_on>2024-06-04 13:22:03</sys_updated_on>
         <time_zone/>
         <upgrade_safe>false</upgrade_safe>
     </sysauto_script>
