@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_application">
+    <sys_ui_application action="DELETE">
+        <active>true</active>
+        <hint/>
+        <name>Cloud Compliance</name>
+        <order/>
+        <roles>x_297025_uptycs_co.cloud_compliance_user</roles>
+        <sys_class_name>sys_ui_application</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-02 12:37:45</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>533e04d91bff8ad0aa042f876e4bcbff</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Cloud Compliance</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_ui_application_533e04d91bff8ad0aa042f876e4bcbff</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-02 12:37:45</sys_updated_on>
+    </sys_ui_application>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</application>
+        <file_path/>
+        <instance_id>592d308cdbc0399ccaf99027c59619af</instance_id>
+        <instance_name>ven06246</instance_name>
+        <name>sys_ui_application_533e04d91bff8ad0aa042f876e4bcbff</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_application"><sys_ui_application action="INSERT_OR_UPDATE"><active>true</active><hint/><name>Cloud Compliance</name><order/><roles>x_297025_uptycs_co.cloud_compliance_user</roles><sys_class_name>sys_ui_application</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2024-08-02 12:37:45</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>533e04d91bff8ad0aa042f876e4bcbff</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Cloud Compliance</sys_name><sys_overrides/><sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package><sys_policy/><sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope><sys_update_name>sys_ui_application_533e04d91bff8ad0aa042f876e4bcbff</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2024-08-02 12:37:45</sys_updated_on></sys_ui_application></record_update>]]></payload>
+        <payload_hash>539600497</payload_hash>
+        <record_name>Cloud Compliance</record_name>
+        <reverted_from/>
+        <source>ee952ac91bbf4ad0aa042f876e4bcbb0</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-02 12:37:45</sys_created_on>
+        <sys_id>633e44d91bff8ad0aa042f876e4bcb02</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19113189c8a0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-02 12:37:45</sys_updated_on>
+        <type>Application Menu</type>
+        <update_guid>273e44d9eaff8ad02aa7cff664c41501</update_guid>
+        <update_guid_history>273e44d9eaff8ad02aa7cff664c41501:539600497</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-02 14:22:57</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_application">sys_ui_application</sys_db_object>
+        <sys_id>36e1a66a66b24698a9469360103aac40</sys_id>
+        <sys_metadata>533e04d91bff8ad0aa042f876e4bcbff</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Cloud Compliance</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope_delete display_value="">06e13f983065467ba774d0a86997be89</sys_scope_delete>
+        <sys_update_name>sys_ui_application_533e04d91bff8ad0aa042f876e4bcbff</sys_update_name>
+        <sys_update_version display_value="sys_ui_application_533e04d91bff8ad0aa042f876e4bcbff">633e44d91bff8ad0aa042f876e4bcb02</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-02 14:22:57</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
