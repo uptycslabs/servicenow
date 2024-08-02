@@ -39,37 +39,61 @@ VulcTestManager.prototype = {
         grCompliance.insert();
 	},
 
-    createOrUpdateTest: function(testData) {
+    createOrUpdateTest: function(testData, sysIdPolicy) {
         var grConfigComplianceTest = new GlideRecord('sn_vulc_test');
+		var source_id = testData.authoritative_source + '-' + testData.section + '-' + testData.version
         grConfigComplianceTest.addQuery('source', 'Uptycs');
         grConfigComplianceTest.addQuery('short_description', testData.section_title);
-        grConfigComplianceTest.addQuery('source_id', testData.authoritative_source);
+        grConfigComplianceTest.addQuery('source_id', source_id);
         grConfigComplianceTest.addQuery('source_category', testData.section);
         grConfigComplianceTest.addQuery('source_sub_category', testData.version);
         grConfigComplianceTest.query();
         
         if (grConfigComplianceTest.next()) {
             // Update existing record
+			gs.info('sn_vulc_test record exists for '+ testData.section, testData.version);
             grConfigComplianceTest.setValue('remediation', testData.remediation);
             grConfigComplianceTest.setValue('description', testData.description);
             grConfigComplianceTest.setValue('result', testData.result);
             grConfigComplianceTest.setValue('risk_score', testData.score);
+            grConfigComplianceTest.setValue('test_group', sysIdPolicy);
             grConfigComplianceTest.update();
         } else {
             // Insert new record
+			gs.info('sn_vulc_test record creating for '+ testData.section + ' - ' + testData.version);
             grConfigComplianceTest.initialize();
-            grConfigComplianceTest.setValue('source', 'Uptycs');
-            grConfigComplianceTest.setValue('remediation', testData.remediation);
-            grConfigComplianceTest.setValue('description', testData.description);
-            grConfigComplianceTest.setValue('short_description', testData.section_title);
-            grConfigComplianceTest.setValue('source_id', testData.authoritative_source);
-            grConfigComplianceTest.setValue('source_category', testData.section);
-            grConfigComplianceTest.setValue('source_sub_category', testData.version);
-            grConfigComplianceTest.setValue('result', testData.reason);
-            grConfigComplianceTest.setValue('risk_score', testData.score);
-            grConfigComplianceTest.insert();
+		
+			// Set field values with validation
+            var fields = {
+                'source': 'Uptycs',
+                'remediation': testData.remediation,
+                'description': testData.description,
+                'short_description': testData.section_title,
+                'source_id': source_id,
+                'source_category': testData.section,
+                'source_sub_category': testData.version,
+                'result': testData.result,
+                'risk_score': testData.score,
+				'test_group': sysIdPolicy,
+            };
+
+            for (var field in fields) {
+                if (grConfigComplianceTest.isValidField(field)) {
+                    grConfigComplianceTest.setValue(field, fields[field]);
+                } else {
+                    gs.error('Invalid field: ' + field);
+                }
+            }
+
+            var insertResult = grConfigComplianceTest.insert();
+			//gs.info('Insert result: ' + insertResult);
         }
-        return grConfigComplianceTest.sys_id.toString();
+		if (grConfigComplianceTest.isValidRecord()) {
+			return grConfigComplianceTest.sys_id.toString();
+		} else {
+			gs.error('Failed to create or update sn_vulc_test record for ' + testData.section + ' - ' + testData.version);
+			return null;
+		}
     },
 
 	createOrUpdatePolicy: function(policyData) {
@@ -146,13 +170,13 @@ VulcTestManager.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-07-11 09:38:02</sys_created_on>
         <sys_id>32d19e0e1b5f8a10aa042f876e4bcbb3</sys_id>
-        <sys_mod_count>11</sys_mod_count>
+        <sys_mod_count>19</sys_mod_count>
         <sys_name>VulcTestManager</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_32d19e0e1b5f8a10aa042f876e4bcbb3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-07-24 13:29:36</sys_updated_on>
+        <sys_updated_on>2024-08-02 10:12:12</sys_updated_on>
     </sys_script_include>
 </record_update>

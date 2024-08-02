@@ -15,7 +15,7 @@ UptycsAPI.prototype = {
 		this.url = uptUrl;
 		this.iss = iss;
 		this.secret = secret;
-		this.vulcTestManager = new vulcTestManager();
+		this.vulcTestManager = new VulcTestManager();
 		this.missedSections = [];
 	},
 
@@ -69,19 +69,19 @@ UptycsAPI.prototype = {
 	},
 
     createComplianceSectionQuery: function(section, standard) {
-        return '"WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results),final as ( SELECT * FROM latest WHERE rank_num = 1) select ua.gateway, ua.hardware_vendor, ua.hardware_model, ua.live, ua.os, ua.os_version, cla.* FROM final cla JOIN upt_assets ua ON cla.upt_asset_id = ua.id"';
+        return 'WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results),final as ( SELECT * FROM latest WHERE rank_num = 1) select ua.gateway, ua.hardware_vendor, ua.hardware_model, ua.live, ua.os, ua.os_version, cla.* FROM final cla JOIN upt_assets ua ON cla.upt_asset_id = ua.id';
     },
 
     getComplianceCount: function(standard) {
-        var postData = '{"query":"WITH latest AS (SELECT row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\') SELECT COUNT(*) as N FROM latest WHERE rank_num >= 1", "type":"global"}';
-        var queryJobId = this.submitQueryJob(postData);
+        var query = 'WITH latest AS (SELECT row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\') SELECT COUNT(*) as N FROM latest WHERE rank_num >= 1';
+        var queryJobId = this.submitQueryJob(query);
 		var nRows = this.pollQueryJob(queryJobId);
         return nRows;
     },
 
     getComplianceSections: function(sectionLikeClause, standard) {
-        var postData = '{"query":"SELECT section FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND ' + sectionLikeClause + ' GROUP BY section"}';
-		var queryJobId = this.submitQueryJob(postData);
+        var query = 'SELECT section FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND ' + sectionLikeClause + ' GROUP BY section';
+		var queryJobId = this.submitQueryJob(query);
 		var nRows = this.pollQueryJob(queryJobId);
 		var sections = [];
 		for (ii = 0; ii < nRows / 10000; ii++) { 
@@ -233,7 +233,7 @@ UptycsAPI.prototype = {
                 gs.error('status is not FINISHED, ERROR, RUNNING, or QUEUED.  status is: ' + status);
 				break;
             }
-            comp.wait(5000);
+            this.wait(5000);
         }
         while (status != 'FINISHED' && status != 'ERROR');
 
@@ -284,7 +284,7 @@ UptycsAPI.prototype = {
             for (iii = 0; iii < responseObj.items.length; iii++) { // loop over records
 				gs.info('initializing cmdb record');
 				//var asset = responseObj.items[iii].rowData;
-				this.createOrUpdateCI(responseObj.items[iii].rowData);
+				this.createOrUpdateAsset(responseObj.items[iii].rowData);
 				/*var payload = {
 					"items": [
 						{
@@ -334,7 +334,7 @@ UptycsAPI.prototype = {
 					os: responseObj.items[iii].rowData.os,
 					os_version: responseObj.items[iii].rowData.os_version,
 				};
-				var assetRef = this.createOrUpdateCI(uptycsCI);
+				var assetRef = this.createOrUpdateAsset(uptycsCI);
 				/*var payload = {
 					"items": [
 						{
@@ -356,20 +356,20 @@ UptycsAPI.prototype = {
 				var assetRef = asset["items"][0]["sysId"];*/
 				
 				gs.info('initializing sn_vulc_test record');
-				var sysIdTest = this.vulcTestManager.createOrUpdateTest(responseObj.items[iii].rowData);				
 				var sysIdPolicy = this.vulcTestManager.createOrUpdatePolicy(responseObj.items[iii].rowData);
+				var sysIdTest = this.vulcTestManager.createOrUpdateTest(responseObj.items[iii].rowData, sysIdPolicy);
 				this.vulcTestManager.createOrUpdatePolicyTest(responseObj.items[iii].rowData, sysIdPolicy, sysIdTest);
 				this.vulcTestManager.createOrUpdateResult(responseObj.items[iii].rowData, assetRef, sysIdTest);
             } // records
         } // offset
 	},
 
-    runCompliance: function(sections) {
+    runCompliance: function(sections, standard) {
 		this.missedSections = [];
         var qjIds = [];
         for (i = 0; i < 20; i++) { //post first 20 query jobs
             if (i < sections.length) {
-                qjIds[i] = this.submitQueryJob(this.createComplianceSectionQuery(sections[i]));
+                qjIds[i] = this.submitQueryJob(this.createComplianceSectionQuery(sections[i], standard));
             }
         }
 
@@ -377,7 +377,7 @@ UptycsAPI.prototype = {
             if ((i + 10) % 20 == 0 && (i + 10) < sections.length) {
                 for (ii = 0; ii < 20; ii++) { //post next batch of query jobs
                     if ((i + 10) + ii < sections.length) {
-                        qjIds[(i + 10) + ii] = this.submitQueryJob(this.createComplianceSectionQuery(sections[(i + 10) + ii]));
+                        qjIds[(i + 10) + ii] = this.submitQueryJob(this.createComplianceSectionQuery(sections[(i + 10) + ii], standard));
                     }
                 }
             }
@@ -391,13 +391,13 @@ UptycsAPI.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-05-28 10:17:50</sys_created_on>
         <sys_id>c9247bb31bda429028b599f91d4bcbce</sys_id>
-        <sys_mod_count>54</sys_mod_count>
+        <sys_mod_count>63</sys_mod_count>
         <sys_name>UptycsAPI</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_c9247bb31bda429028b599f91d4bcbce</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-07-24 14:39:21</sys_updated_on>
+        <sys_updated_on>2024-08-02 09:37:49</sys_updated_on>
     </sys_script_include>
 </record_update>
