@@ -5,6 +5,7 @@
         <enforce_license>log</enforce_license>
         <guided_setup_guid/>
         <hide_on_ui>false</hide_on_ui>
+        <ide_created/>
         <installed_as_dependency>false</installed_as_dependency>
         <js_level>helsinki_es5</js_level>
         <licensable>true</licensable>
@@ -14,7 +15,8 @@
         <license_model>none</license_model>
         <logo>24bc8d611b997d1028b599f91d4bcb4a</logo>
         <menu/>
-        <name>Uptycs Compliance</name>
+        <name>Uptycs</name>
+        <package_json/>
         <private>false</private>
         <restrict_table_access>false</restrict_table_access>
         <runtime_access_tracking>permissive</runtime_access_tracking>
@@ -24,14 +26,15 @@
         <source>x_297025_uptycs_co</source>
         <store_correlation_id/>
         <store_url/>
+        <subscription_entitlement/>
         <sys_class_name>sys_app</sys_class_name>
         <sys_code/>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-13 19:46:41</sys_created_on>
         <sys_id>31b4358e2f2630105113fe1df699b66d</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-09-15 09:01:00</sys_updated_on>
+        <sys_updated_on>2024-05-28 13:03:45</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <uninstall_blocked>false</uninstall_blocked>

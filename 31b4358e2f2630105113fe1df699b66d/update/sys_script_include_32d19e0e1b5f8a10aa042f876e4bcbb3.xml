@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_297025_uptycs_co.VulcTestManager</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>VulcTestManager</name>
+        <script><![CDATA[var VulcTestManager = Class.create();
+VulcTestManager.prototype = {
+    initialize: function() {},
+
+    createOrUpdateUptycsRecord: function(testData) {
+        var grCompliance = new GlideRecord('x_297025_uptycs_co_compliance');
+        grCompliance.initialize();
+        grCompliance.setValue('upt_asset_id', testData.upt_asset_id);
+        grCompliance.setValue('upt_day', testData.upt_day);
+        grCompliance.setValue('upt_hash', testData.upt_hash);
+        grCompliance.setValue('upt_hostname', testData.upt_hostname);
+        grCompliance.setValue('upt_time', testData.upt_time);
+        grCompliance.setValue('authoritative_source', testData.authoritative_source);
+        grCompliance.setValue('expected_value', testData.expected_value);
+        grCompliance.setValue('remediation', testData.remediation);
+        grCompliance.setValue('command', testData.command);
+        grCompliance.setValue('compliant', testData.compliant);
+        grCompliance.setValue('description', testData.description);
+        grCompliance.setValue('evidence', testData.evidence);
+        grCompliance.setValue('metadata', testData.metadata);
+        grCompliance.setValue('path', testData.path);
+        grCompliance.setValue('rationale', testData.rationale);
+        grCompliance.setValue('reason', testData.reason);
+        grCompliance.setValue('score', testData.score);
+        grCompliance.setValue('scored', testData.scored);
+        grCompliance.setValue('section_title', testData.section_title);
+        grCompliance.setValue('values', testData.values);
+        grCompliance.setValue('version', testData.version);
+        grCompliance.setValue('rank_num', testData.rank_num);
+        grCompliance.insert();
+	},
+
+    createOrUpdateTest: function(testData) {
+        var grConfigComplianceTest = new GlideRecord('sn_vulc_test');
+        grConfigComplianceTest.addQuery('source', 'Uptycs');
+        grConfigComplianceTest.addQuery('short_description', testData.section_title);
+        grConfigComplianceTest.addQuery('source_id', testData.authoritative_source);
+        grConfigComplianceTest.addQuery('source_category', testData.section);
+        grConfigComplianceTest.addQuery('source_sub_category', testData.version);
+        grConfigComplianceTest.query();
+        
+        if (grConfigComplianceTest.next()) {
+            // Update existing record
+            grConfigComplianceTest.setValue('remediation', testData.remediation);
+            grConfigComplianceTest.setValue('description', testData.description);
+            grConfigComplianceTest.setValue('result', testData.result);
+            grConfigComplianceTest.setValue('risk_score', testData.score);
+            grConfigComplianceTest.update();
+        } else {
+            // Insert new record
+            grConfigComplianceTest.initialize();
+            grConfigComplianceTest.setValue('source', 'Uptycs');
+            grConfigComplianceTest.setValue('remediation', testData.remediation);
+            grConfigComplianceTest.setValue('description', testData.description);
+            grConfigComplianceTest.setValue('short_description', testData.section_title);
+            grConfigComplianceTest.setValue('source_id', testData.authoritative_source);
+            grConfigComplianceTest.setValue('source_category', testData.section);
+            grConfigComplianceTest.setValue('source_sub_category', testData.version);
+            grConfigComplianceTest.setValue('result', testData.reason);
+            grConfigComplianceTest.setValue('risk_score', testData.score);
+            grConfigComplianceTest.insert();
+        }
+        return grConfigComplianceTest.sys_id.toString();
+    },
+
+	createOrUpdatePolicy: function(policyData) {
+        var grConfigCompliancePolicy = new GlideRecord('sn_vulc_policy');
+        grConfigCompliancePolicy.addQuery('source', 'Uptycs');
+        grConfigCompliancePolicy.addQuery('source_id', policyData.authoritative_source);
+        grConfigCompliancePolicy.addQuery('short_description', policyData.authoritative_source);
+        grConfigCompliancePolicy.query();
+        
+        if (grConfigCompliancePolicy.next()) {
+            // Update existing record
+            grConfigCompliancePolicy.setValue('active', true);
+            grConfigCompliancePolicy.update();
+        } else {
+            // Insert new record
+            grConfigCompliancePolicy.initialize();
+            grConfigCompliancePolicy.setValue('source', 'Uptycs');
+            grConfigCompliancePolicy.setValue('short_description', policyData.authoritative_source);
+            grConfigCompliancePolicy.setValue('description', 'Uptycs compliance standard');
+            grConfigCompliancePolicy.setValue('source_id', policyData.authoritative_source);
+            grConfigCompliancePolicy.setValue('active', true);
+            grConfigCompliancePolicy.insert();
+        }
+        return grConfigCompliancePolicy.sys_id.toString();
+    },
+
+	createOrUpdatePolicyTest: function(policyTestData, policySysId, testSysId) {
+        var grConfigCompliancePolicyTest = new GlideRecord('sn_vulc_policy_test');
+        grConfigCompliancePolicyTest.addQuery('name', policyTestData.authoritative_source);
+        grConfigCompliancePolicyTest.addQuery('section_name', policyTestData.authoritative_source);
+        grConfigCompliancePolicyTest.query();
+        
+        if (grConfigCompliancePolicyTest.next()) {
+            // Update existing record
+            grConfigCompliancePolicyTest.setValue('policy', policySysId);
+            grConfigCompliancePolicyTest.setValue('control', testSysId);
+            grConfigCompliancePolicyTest.update();
+        } else {
+            // Insert new record
+            grConfigCompliancePolicyTest.initialize();
+            grConfigCompliancePolicyTest.setValue('name', policyTestData.authoritative_source);
+            grConfigCompliancePolicyTest.setValue('section_name', policyTestData.authoritative_source);
+            grConfigCompliancePolicyTest.setValue('policy', policySysId);
+            grConfigCompliancePolicyTest.setValue('control', testSysId);
+            grConfigCompliancePolicyTest.insert();
+        }
+        return grConfigCompliancePolicyTest.sys_id.toString();
+    },
+
+	createOrUpdateResult: function(resultData, assetRef, sysIdTest) {
+        var grConfigCompliance = new GlideRecord('sn_vulc_result');
+		var desc = resultData.section_title + ' ' + resultData.description;
+        grConfigCompliance.initialize();
+        grConfigCompliance.setValue('cmdb_ci', assetRef);
+        grConfigCompliance.setValue('control', sysIdTest);
+        grConfigCompliance.setValue('last_seen', resultData.upt_time);
+        grConfigCompliance.setValue('source', 'Uptycs');
+        grConfigCompliance.setValue('source_id', resultData.authoritative_source);
+        grConfigCompliance.setValue('expected_values', resultData.expected_value);
+        grConfigCompliance.setValue('remediation', resultData.remediation);
+        grConfigCompliance.setValue('result', resultData.compliant);
+        grConfigCompliance.setValue('description', desc);
+        grConfigCompliance.setValue('display', resultData.description);
+        grConfigCompliance.setValue('actual_values', resultData.evidence);
+        grConfigCompliance.setValue('risk_score', resultData.score);
+        grConfigCompliance.insert();
+        return grConfigCompliance.sys_id.toString();
+    },
+	
+    type: 'VulcTestManager'
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-07-11 09:38:02</sys_created_on>
+        <sys_id>32d19e0e1b5f8a10aa042f876e4bcbb3</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>VulcTestManager</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_script_include_32d19e0e1b5f8a10aa042f876e4bcbb3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-07-24 13:29:36</sys_updated_on>
+    </sys_script_include>
+</record_update>

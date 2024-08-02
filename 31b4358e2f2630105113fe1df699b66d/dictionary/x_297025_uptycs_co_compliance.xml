@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="e356d82a1bccf510aa042f876e4bcb9b" label="Compliance" max_length="40" name="x_297025_uptycs_co_compliance" type="collection">
-        <element attributes="edge_encryption_enabled=true" label="Authoritative Source" max_length="40" name="authoritative_source" type="string"/>
+        <element label="Section" max_length="256" name="section" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Command" max_length="1024" name="command" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Compliant" max_length="40" name="compliant" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Description" max_length="4096" name="description" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Evidence" max_length="4096" name="evidence" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Expected Value" max_length="1024" name="expected_value" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Metadata" max_length="4096" name="metadata" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Path" max_length="128" name="path" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Rationale" max_length="4096" name="rationale" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Reason" max_length="4096" name="reason" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Remediation" max_length="4096" name="remediation" type="string"/>
-        <element label="Score" max_length="40" name="score" type="float"/>
-        <element attributes="edge_encryption_enabled=true" label="Scored" max_length="40" name="scored" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Section Title" max_length="128" name="section_title" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Upt Asset Id" max_length="64" name="upt_asset_id" type="string"/>
-        <element label="Upt Day" max_length="40" name="upt_day" type="integer"/>
-        <element attributes="edge_encryption_enabled=true" label="Upt Hostname" max_length="128" name="upt_hostname" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Upt Time" max_length="40" name="upt_time" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Remediation" max_length="4096" name="remediation" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Section Title" max_length="128" name="section_title" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Expected Value" max_length="1024" name="expected_value" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Reason" max_length="4096" name="reason" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Upt Hostname" max_length="128" name="upt_hostname" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Evidence" max_length="4096" name="evidence" type="string"/>
+        <element label="Upt Hash" max_length="256" name="upt_hash" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Scored" max_length="40" name="scored" type="string"/>
+        <element label="Upt Day" max_length="40" name="upt_day" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Rationale" max_length="4096" name="rationale" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Compliant" max_length="40" name="compliant" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Authoritative Source" max_length="40" name="authoritative_source" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="4096" name="description" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Version" max_length="40" name="version" type="string"/>
+        <element label="Score" max_length="40" name="score" type="float"/>
+        <element attributes="edge_encryption_enabled=true" label="Upt Asset Id" max_length="64" name="upt_asset_id" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Path" max_length="128" name="path" type="string"/>
     </element>
 </database>
