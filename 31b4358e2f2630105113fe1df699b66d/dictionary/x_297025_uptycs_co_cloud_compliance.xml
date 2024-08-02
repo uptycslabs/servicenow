@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="71bdc4991bff8ad0aa042f876e4bcbcd" label="Cloud Compliance" max_length="40" name="x_297025_uptycs_co_cloud_compliance" type="collection">
+        <element label="Rationale" max_length="1024" name="rationale" type="string"/>
+        <element label="Cloud Account ID" max_length="256" name="cloud_account_id" type="string"/>
+        <element label="Score" max_length="40" name="score" type="float"/>
+        <element label="Check ID" max_length="64" name="check_id" type="string"/>
+        <element label="Resource Type" max_length="256" name="resource_type" type="string"/>
+        <element label="Resource Location" max_length="128" name="resource_location" type="string"/>
+        <element label="Service" max_length="32" name="service" type="string"/>
+        <element label="Remediation" max_length="1024" name="remediation" type="string"/>
+        <element label="Command" max_length="1024" name="command" type="string"/>
+        <element label="Reason" max_length="256" name="reason" type="string"/>
+        <element label="Chapter" max_length="1024" name="chapter" type="string"/>
+        <element label="Title" max_length="1024" name="title" type="string"/>
+        <element label="Version" max_length="256" name="version" type="string"/>
+        <element label="Resource ID" max_length="1024" name="resource_id" type="string"/>
+        <element display="true" label="Type" mandatory="true" max_length="32" name="type" type="string"/>
+        <element label="Upt Time" max_length="40" name="upt_time" type="glide_date_time"/>
+        <element label="Standard" max_length="256" name="standard" type="string"/>
+        <element label="Description" max_length="1024" name="description" type="string"/>
+        <element label="Passed" max_length="40" name="passed" type="boolean"/>
+    </element>
+</database>

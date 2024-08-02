@@ -11,7 +11,7 @@
 VulcTestManager.prototype = {
     initialize: function() {},
 
-    createOrUpdateUptycsRecord: function(testData) {
+    createUptycsComplianceRecord: function(testData) {
         var grCompliance = new GlideRecord('x_297025_uptycs_co_compliance');
         grCompliance.initialize();
         grCompliance.setValue('upt_asset_id', testData.upt_asset_id);
@@ -36,6 +36,31 @@ VulcTestManager.prototype = {
         grCompliance.setValue('values', testData.values);
         grCompliance.setValue('version', testData.version);
         grCompliance.setValue('rank_num', testData.rank_num);
+        grCompliance.insert();
+	},
+
+    createUptycsCloudComplianceRecord: function(testData) {
+        var grCompliance = new GlideRecord('x_297025_uptycs_co_cloud_compliance');
+        grCompliance.initialize();
+        grCompliance.setValue('type', testData.type);
+        grCompliance.setValue('service', testData.service);
+        grCompliance.setValue('check_id', testData.check_id);
+        grCompliance.setValue('resource_location', testData.check_resource_location);
+        grCompliance.setValue('resource_type', testData.check_resource_type);
+        grCompliance.setValue('resource_id', testData.check_resource_id);
+        grCompliance.setValue('passed', testData.passed);
+        grCompliance.setValue('reason', testData.reason);
+        grCompliance.setValue('upt_time', testData.created_at);
+        grCompliance.setValue('cloud_account_id', testData.cloud_account_id);
+        grCompliance.setValue('title', testData.title);
+        grCompliance.setValue('description', testData.description);
+        grCompliance.setValue('standard', testData.standard);
+        grCompliance.setValue('version', testData.version);
+        grCompliance.setValue('chapter', testData.chapter);
+        grCompliance.setValue('score', testData.score);
+        grCompliance.setValue('rationale', testData.rationale);
+        grCompliance.setValue('remediation', testData.remediation);
+        grCompliance.setValue('command', testData.command);
         grCompliance.insert();
 	},
 
@@ -170,13 +195,13 @@ VulcTestManager.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-07-11 09:38:02</sys_created_on>
         <sys_id>32d19e0e1b5f8a10aa042f876e4bcbb3</sys_id>
-        <sys_mod_count>19</sys_mod_count>
+        <sys_mod_count>21</sys_mod_count>
         <sys_name>VulcTestManager</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_32d19e0e1b5f8a10aa042f876e4bcbb3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-02 10:12:12</sys_updated_on>
+        <sys_updated_on>2024-08-02 13:57:07</sys_updated_on>
     </sys_script_include>
 </record_update>

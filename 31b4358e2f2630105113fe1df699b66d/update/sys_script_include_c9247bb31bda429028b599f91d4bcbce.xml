@@ -99,6 +99,24 @@ UptycsAPI.prototype = {
         return sections;
     },
 
+    ingestCloudComplianceRecords: function(standard) {
+		var query = 'select type,service,check_id,check_resource_location,check_resource_type,check_resource_id,passed,reason,created_at,cloud_account_id,title,description,standard,version,chapter,score,rationale,remediation,command,severity,expected_value from upt_cloud_compliances where created_at >= (CURRENT_DATE - INTERVAL \'1\' DAY) and type in (\'AWS\',\'AZURE\', \'GCP\')';
+		var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+		for (ii = 0; ii < nRows / 10000; ii++) { 
+			//loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+			for (iii = 0; iii < responseObj.items.length; iii++) { 
+				// loop over records
+				this.vulcTestManager.createUptycsCloudComplianceRecord(responseObj.items[iii].rowData);
+			}
+		}
+	},
+
     getDetection: function(detectionId) {
         var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Detection', 'GET Detection Info');
 
@@ -323,7 +341,7 @@ UptycsAPI.prototype = {
             //var nSkip = 0;
             for (iii = 0; iii < responseObj.items.length; iii++) { // loop over records
 
-				this.vulcTestManager.createOrUpdateUptycsRecord(responseObj.items[iii].rowData);
+				this.vulcTestManager.createUptycsComplianceRecord(responseObj.items[iii].rowData);
 				gs.info('initializing cmdb record');
 				var uptycsCI = {
 					host_name: responseObj.items[iii].rowData.upt_hostname,
@@ -391,13 +409,13 @@ UptycsAPI.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-05-28 10:17:50</sys_created_on>
         <sys_id>c9247bb31bda429028b599f91d4bcbce</sys_id>
-        <sys_mod_count>63</sys_mod_count>
+        <sys_mod_count>66</sys_mod_count>
         <sys_name>UptycsAPI</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_c9247bb31bda429028b599f91d4bcbce</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-02 09:37:49</sys_updated_on>
+        <sys_updated_on>2024-08-02 14:01:06</sys_updated_on>
     </sys_script_include>
 </record_update>

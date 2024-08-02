@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_application">
+    <sys_ui_application action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <hint/>
+        <name>Cloud Compliance</name>
+        <order/>
+        <roles>x_297025_uptycs_co.cloud_compliance_user</roles>
+        <sys_class_name>sys_ui_application</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-02 12:37:45</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>533e04d91bff8ad0aa042f876e4bcbff</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Cloud Compliance</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_ui_application_533e04d91bff8ad0aa042f876e4bcbff</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-02 12:37:45</sys_updated_on>
+    </sys_ui_application>
+</record_update>
