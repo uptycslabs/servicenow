@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Uptycs">0bb2ca0a2f6630105113fe1df699b683</application>
+        <assessment/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>REPORT</link_type>
+        <map_page/>
+        <mobile_title>Cloud Compliance Report</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name/>
+        <order>5</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report display_value="Uptycs Cloud Compliance">587e78311bb74210aa042f876e4bcb06</report>
+        <require_confirmation>true</require_confirmation>
+        <roles/>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-04 05:37:16</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>70c009351bb74210aa042f876e4bcb70</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>Cloud Report</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_app_module_70c009351bb74210aa042f876e4bcb70</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-04 06:08:15</sys_updated_on>
+        <timeline_page/>
+        <title>Cloud Report</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>

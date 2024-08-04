@@ -79,8 +79,8 @@ UptycsAPI.prototype = {
         return nRows;
     },
 
-    getComplianceSections: function(sectionLikeClause, standard) {
-        var query = 'SELECT section FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND ' + sectionLikeClause + ' GROUP BY section';
+    getComplianceSections: function(standard) {
+        var query = 'SELECT section FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) GROUP BY section';
 		var queryJobId = this.submitQueryJob(query);
 		var nRows = this.pollQueryJob(queryJobId);
 		var sections = [];
@@ -409,13 +409,13 @@ UptycsAPI.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-05-28 10:17:50</sys_created_on>
         <sys_id>c9247bb31bda429028b599f91d4bcbce</sys_id>
-        <sys_mod_count>66</sys_mod_count>
+        <sys_mod_count>67</sys_mod_count>
         <sys_name>UptycsAPI</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_c9247bb31bda429028b599f91d4bcbce</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-02 14:01:06</sys_updated_on>
+        <sys_updated_on>2024-08-04 07:45:39</sys_updated_on>
     </sys_script_include>
 </record_update>

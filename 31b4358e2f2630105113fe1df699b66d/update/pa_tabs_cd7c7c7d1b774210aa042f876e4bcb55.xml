@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="pa_tabs">
+    <pa_tabs action="INSERT_OR_UPDATE">
+        <canvas_page display_value="New Tab 1">017c7c7d1b774210aa042f876e4bcb53</canvas_page>
+        <name>cd7c7c7d1b774210aa042f876e4bcb55New Tab 1</name>
+        <page/>
+        <sys_class_name>pa_tabs</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-04 05:16:37</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>cd7c7c7d1b774210aa042f876e4bcb55</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>cd7c7c7d1b774210aa042f876e4bcb55New Tab 1</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>pa_tabs_cd7c7c7d1b774210aa042f876e4bcb55</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-04 05:16:37</sys_updated_on>
+    </pa_tabs>
+</record_update>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="e356d82a1bccf510aa042f876e4bcb9b" label="Compliance" max_length="40" name="x_297025_uptycs_co_compliance" type="collection">
         <element label="Section" max_length="256" name="section" type="string"/>
+        <element label="Compliant" max_length="40" name="compliant" type="boolean"/>
         <element attributes="edge_encryption_enabled=true" label="Command" max_length="1024" name="command" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Metadata" max_length="4096" name="metadata" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Upt Time" max_length="40" name="upt_time" type="string"/>
@@ -14,7 +15,6 @@
         <element attributes="edge_encryption_enabled=true" label="Scored" max_length="40" name="scored" type="string"/>
         <element label="Upt Day" max_length="40" name="upt_day" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Rationale" max_length="4096" name="rationale" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="Compliant" max_length="40" name="compliant" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Authoritative Source" max_length="40" name="authoritative_source" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Description" max_length="4096" name="description" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Version" max_length="40" name="version" type="string"/>
