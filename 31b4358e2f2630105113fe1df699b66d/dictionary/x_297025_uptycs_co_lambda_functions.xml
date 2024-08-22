@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="3244d6d71b449210aa042f876e4bcba8" label="Lambda Functions" max_length="40" name="x_297025_uptycs_co_lambda_functions" type="collection">
+        <element label="Last Update Status" max_length="64" name="last_update_status" type="string"/>
+        <element label="Function Arn" max_length="256" name="function_arn" type="string"/>
+        <element label="Code Size" max_length="40" name="code_size" type="integer"/>
+        <element label="Memory Size" max_length="256" name="memory_size" type="integer"/>
+        <element label="Function Name" max_length="256" name="function_name" type="string"/>
+        <element label="Tenant Name" max_length="256" name="tenant_name" type="string"/>
+        <element label="Package Type" max_length="64" name="package_type" type="string"/>
+        <element label="Version" max_length="256" name="version" type="string"/>
+        <element label="State" max_length="64" name="state" type="string"/>
+        <element label="Description" max_length="1024" name="description" type="string"/>
+        <element label="Region Code" max_length="256" name="region_code" type="string"/>
+        <element label="Timeout" max_length="40" name="timeout" type="integer"/>
+        <element label="Account Id" max_length="256" name="account_id" type="string"/>
+        <element label="Last Modified" max_length="40" name="last_modified" type="glide_date_time"/>
+        <element label="Role" max_length="256" name="role" type="string"/>
+        <element label="Region" max_length="256" name="region" type="string"/>
+        <element label="Upt Resource Id" max_length="256" name="upt_resource_id" type="string"/>
+        <element label="Tracing Config Mode" max_length="256" name="tracing_config_mode" type="string"/>
+        <element label="Handler" max_length="256" name="handler" type="string"/>
+        <element label="Is Lambda Public" max_length="40" name="is_lambda_public" type="boolean"/>
+        <element label="Run Time" max_length="64" name="run_time" type="string"/>
+        <element label="Master Arn" max_length="256" name="master_arn" type="string"/>
+    </element>
+</database>

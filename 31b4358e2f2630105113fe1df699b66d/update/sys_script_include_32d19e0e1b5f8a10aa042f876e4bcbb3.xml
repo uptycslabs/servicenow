@@ -11,6 +11,316 @@
 VulcTestManager.prototype = {
     initialize: function() {},
 
+    createAzureSqlRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_azure_sql');
+        record.addQuery('name', data.name);
+        record.addQuery('resource_id', data.resourceId);
+        record.addQuery('upt_resource_id', data.uptResourceId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('catalog_collation', data.catalogCollation);
+			record.setValue('collation_val', data.collationVal);
+			record.setValue('creation_date', data.creationDate);
+			record.setValue('database_id', data.databaseId);
+			record.setValue('default_secondary_location', data.defaultSecondaryLocation);
+			record.setValue('edition', data.edition);
+			record.setValue('kind', data.kind);
+			record.setValue('maintenance_configuration_id', data.maintenanceConfigurationId);
+			record.setValue('server_resource_id', data.serverResourceId);
+			record.setValue('status', data.status);
+			record.setValue('type', data.type);
+			record.setValue('resource_group', data.resourceGroup);
+			record.setValue('subscription_id', data.subscriptionId);
+			record.setValue('az_tenant_id', data.azTenantId);
+			record.setValue('upt_tenant_id', data.uptTenantId);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('name', data.name);
+            record.setValue('resource_id', data.resourceId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('catalog_collation', data.catalogCollation);
+			record.setValue('collation_val', data.collationVal);
+			record.setValue('creation_date', data.creationDate);
+			record.setValue('database_id', data.databaseId);
+			record.setValue('default_secondary_location', data.defaultSecondaryLocation);
+			record.setValue('edition', data.edition);
+			record.setValue('kind', data.kind);
+			record.setValue('maintenance_configuration_id', data.maintenanceConfigurationId);
+			record.setValue('server_resource_id', data.serverResourceId);
+			record.setValue('status', data.status);
+			record.setValue('type', data.type);
+			record.setValue('resource_group', data.resourceGroup);
+			record.setValue('subscription_id', data.subscriptionId);
+			record.setValue('az_tenant_id', data.azTenantId);
+			record.setValue('upt_tenant_id', data.uptTenantId);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.insert();
+        }
+	},
+
+    createRDSClusterRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_rds_db_clusters');
+        record.addQuery('database_name', data.databaseName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.addQuery('upt_resource_id', data.uptResourceId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('allocated_storage', data.allocatedStorage);
+            record.setValue('availability_zones', data.availabilityZones.join(','));
+			record.setValue('backup_retention_period', data.backupRetentionPeriod);
+			record.setValue('cluster_create_time', data.clusterCreateTime);
+			record.setValue('db_cluster_arn', data.dbClusterArn);
+			record.setValue('db_cluster_identifier', data.dbClusterIdentifier);
+			record.setValue('db_cluster_parameter_group', data.dbClusterParameterGroup);
+			record.setValue('db_subnet_group', data.dbSubnetGroup);
+			record.setValue('database_name', data.databaseName);
+			record.setValue('db_cluster_resource_id', data.dbClusterResourceId);
+			record.setValue('deletion_protection', data.deletionProtection);
+			record.setValue('endpoint', data.endpoint);
+			record.setValue('engine', data.engine);
+			record.setValue('engine_mode', data.engineMode);
+			record.setValue('engine_version', data.engineVersion);
+			record.setValue('hosted_zone_id', data.hostedZoneId);
+            record.setValue('http_endpoint_enabled', data.httpEndpointEnabled);
+            record.setValue('iam_database_authentication_enabled', data.iamDatabaseAuthenticationEnabled);
+            record.setValue('latest_restorable_time', data.latestRestorableTime);
+            record.setValue('master_username', data.masterUsername);
+            record.setValue('port', data.port);
+            record.setValue('reader_endpoint', data.readerEndpoint);
+            record.setValue('status', data.status);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('database_name', data.databaseName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('allocated_storage', data.allocatedStorage);
+            record.setValue('availability_zones', data.availabilityZones.join(','));
+			record.setValue('backup_retention_period', data.backupRetentionPeriod);
+			record.setValue('cluster_create_time', data.clusterCreateTime);
+			record.setValue('db_cluster_arn', data.dbClusterArn);
+			record.setValue('db_cluster_identifier', data.dbClusterIdentifier);
+			record.setValue('db_cluster_parameter_group', data.dbClusterParameterGroup);
+			record.setValue('db_subnet_group', data.dbSubnetGroup);
+			record.setValue('database_name', data.databaseName);
+			record.setValue('db_cluster_resource_id', data.dbClusterResourceId);
+			record.setValue('deletion_protection', data.deletionProtection);
+			record.setValue('endpoint', data.endpoint);
+			record.setValue('engine', data.engine);
+			record.setValue('engine_mode', data.engineMode);
+			record.setValue('engine_version', data.engineVersion);
+			record.setValue('hosted_zone_id', data.hostedZoneId);
+            record.setValue('http_endpoint_enabled', data.httpEndpointEnabled);
+            record.setValue('iam_database_authentication_enabled', data.iamDatabaseAuthenticationEnabled);
+            record.setValue('latest_restorable_time', data.latestRestorableTime);
+            record.setValue('master_username', data.masterUsername);
+            record.setValue('port', data.port);
+            record.setValue('reader_endpoint', data.readerEndpoint);
+            record.setValue('status', data.status);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.insert();
+        }
+	},
+
+    createAWSIAMRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_aws_iam');
+        record.addQuery('policy_name', data.policyName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('policy_arn', data.policyArn);
+            record.setValue('policy_attachment_count', data.policyAttachmentCount);
+			record.setValue('policy_create_date', data.policyCreateDate);
+			record.setValue('policy_default_version', data.policyDefaultVersion);
+			record.setValue('policy_description', data.policyDescription);
+			record.setValue('policy_doc', data.policyDoc);
+			record.setValue('policy_group_details', data.policyGroupDetails);
+			record.setValue('policy_id', data.policyId);
+			record.setValue('policy_is_attachable', data.policyIsAttachable);
+			record.setValue('policy_is_depricated', data.policyIsDepricated);
+			record.setValue('policy_name', data.policyName);
+			record.setValue('policy_path', data.policyPath);
+			record.setValue('policy_permissions_boundary_usage_count', data.policyPermissionsBoundaryUsageCount);
+			record.setValue('policy_role_details', data.policyRoleDetails);
+			record.setValue('policy_type', data.policyType);
+			record.setValue('policy_update_date', data.policyUpdateDate);
+            record.setValue('policy_user_details', data.policyUserDetails);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('policy_name', data.policyName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('policy_arn', data.policyArn);
+            record.setValue('policy_attachment_count', data.policyAttachmentCount);
+			record.setValue('policy_create_date', data.policyCreateDate);
+			record.setValue('policy_default_version', data.policyDefaultVersion);
+			record.setValue('policy_description', data.policyDescription);
+			record.setValue('policy_doc', data.policyDoc);
+			record.setValue('policy_group_details', data.policyGroupDetails);
+			record.setValue('policy_id', data.policyId);
+			record.setValue('policy_is_attachable', data.policyIsAttachable);
+			record.setValue('policy_is_depricated', data.policyIsDepricated);
+			record.setValue('policy_name', data.policyName);
+			record.setValue('policy_path', data.policyPath);
+			record.setValue('policy_permissions_boundary_usage_count', data.policyPermissionsBoundaryUsageCount);
+			record.setValue('policy_role_details', data.policyRoleDetails);
+			record.setValue('policy_type', data.policyType);
+			record.setValue('policy_update_date', data.policyUpdateDate);
+            record.setValue('policy_user_details', data.policyUserDetails);
+            record.insert();
+        }
+	},
+
+    createLambdaFuctionRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_lambda_functions');
+        record.addQuery('function_name', data.functionName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('code_size', data.codeSize);
+            record.setValue('description', data.description);
+			record.setValue('function_arn', data.functionArn);
+			record.setValue('function_name', data.functionName);
+			record.setValue('handler', data.handler);
+			record.setValue('is_lambda_public', data.isLambdaPublic);
+			record.setValue('last_modified', data.lastModified);
+			record.setValue('last_update_status', data.lastUpdateStatus);
+			record.setValue('master_arn', data.masterArn);
+			record.setValue('memory_size', data.memorySize);
+			record.setValue('package_type', data.packageType);
+			record.setValue('role', data.role);
+			record.setValue('runtime', data.runtime);
+			record.setValue('timeout', data.timeout);
+			record.setValue('tracing_config_mode', data.tracingConfigMode);
+			record.setValue('version', data.version);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('function_name', data.functionName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('code_size', data.codeSize);
+            record.setValue('description', data.description);
+			record.setValue('function_arn', data.functionArn);
+			record.setValue('function_name', data.functionName);
+			record.setValue('handler', data.handler);
+			record.setValue('is_lambda_public', data.isLambdaPublic);
+			record.setValue('last_modified', data.lastModified);
+			record.setValue('last_update_status', data.lastUpdateStatus);
+			record.setValue('master_arn', data.masterArn);
+			record.setValue('memory_size', data.memorySize);
+			record.setValue('package_type', data.packageType);
+			record.setValue('role', data.role);
+			record.setValue('runtime', data.runtime);
+			record.setValue('timeout', data.timeout);
+			record.setValue('tracing_config_mode', data.tracingConfigMode);
+			record.setValue('version', data.version);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.insert();
+        }
+	},
+
+    createECSClusterRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_ecs_clusters');
+        record.addQuery('cluster_name', data.clusterName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('active_services_count', data.activeServicesCount);
+            record.setValue('cluster_arn', data.clusterArn);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('cluster_name', data.clusterName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('active_services_count', data.activeServicesCount);
+            record.setValue('cluster_arn', data.clusterArn);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.insert();
+        }
+	},
+
+    createS3BucketRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_s3_buckets');
+        record.addQuery('bucket_name', data.bucketName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('acl_owner_display_name', data.aclOwnerDisplayName);
+            record.setValue('acl_owner_id', data.aclOwnerId);
+            record.setValue('bucket_region', data.bucketRegion);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('bucket_creation_date', data.bucketCreationDate);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('bucket_name', data.bucketName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('acl_owner_display_name', data.aclOwnerDisplayName);
+            record.setValue('acl_owner_id', data.aclOwnerId);
+            record.setValue('bucket_region', data.bucketRegion);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('bucket_creation_date', data.bucketCreationDate);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.insert();
+        }
+	},
+
     createUptycsComplianceRecord: function(testData) {
         var grCompliance = new GlideRecord('x_297025_uptycs_co_compliance');
         grCompliance.initialize();
@@ -196,13 +506,13 @@ VulcTestManager.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-07-11 09:38:02</sys_created_on>
         <sys_id>32d19e0e1b5f8a10aa042f876e4bcbb3</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>35</sys_mod_count>
         <sys_name>VulcTestManager</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_32d19e0e1b5f8a10aa042f876e4bcbb3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-04 07:16:07</sys_updated_on>
+        <sys_updated_on>2024-08-22 11:50:55</sys_updated_on>
     </sys_script_include>
 </record_update>

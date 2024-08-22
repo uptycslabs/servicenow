@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_module">
+    <sys_ui_module action="DELETE">
+        <active>true</active>
+        <application display_value="Uptycs">e1ca2d1b1b0c969028b599f91d4bcbd1</application>
+        <filter/>
+        <name>S3 Buckets</name>
+        <order/>
+        <path/>
+        <path_relative_to_root>false</path_relative_to_root>
+        <roles>x_297025_uptycs_co.s3_buckets_user</roles>
+        <sys_class_name>sys_ui_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 10:45:36</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>e9ca2d1b1b0c969028b599f91d4bcbd4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>S3 Buckets</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_ui_module_e9ca2d1b1b0c969028b599f91d4bcbd4</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 10:45:36</sys_updated_on>
+        <table>x_297025_uptycs_co_s3_buckets</table>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+    </sys_ui_module>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</application>
+        <file_path/>
+        <instance_id>592d308cdbc0399ccaf99027c59619af</instance_id>
+        <instance_name>ven06246</instance_name>
+        <name>sys_ui_module_e9ca2d1b1b0c969028b599f91d4bcbd4</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_module"><sys_ui_module action="INSERT_OR_UPDATE"><active>true</active><application display_value="Uptycs">e1ca2d1b1b0c969028b599f91d4bcbd1</application><filter/><name>S3 Buckets</name><order/><path/><path_relative_to_root>false</path_relative_to_root><roles>x_297025_uptycs_co.s3_buckets_user</roles><sys_class_name>sys_ui_module</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2024-08-21 10:45:36</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>e9ca2d1b1b0c969028b599f91d4bcbd4</sys_id><sys_mod_count>0</sys_mod_count><sys_name>S3 Buckets</sys_name><sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package><sys_policy/><sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope><sys_update_name>sys_ui_module_e9ca2d1b1b0c969028b599f91d4bcbd4</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2024-08-21 10:45:36</sys_updated_on><table>x_297025_uptycs_co_s3_buckets</table><uncancelable>false</uncancelable><view_name/></sys_ui_module></record_update>]]></payload>
+        <payload_hash>-2050125497</payload_hash>
+        <record_name>S3 Buckets</record_name>
+        <reverted_from/>
+        <source>ee952ac91bbf4ad0aa042f876e4bcbb0</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 10:45:36</sys_created_on>
+        <sys_id>6dca6d1b1b0c969028b599f91d4bcb09</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>191748ac1000000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 10:45:36</sys_updated_on>
+        <type>Module</type>
+        <update_guid>21ca6d1bed0c9690ad09e98cfca4a709</update_guid>
+        <update_guid_history>21ca6d1bed0c9690ad09e98cfca4a709:-2050125497</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 12:29:23</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_module">sys_ui_module</sys_db_object>
+        <sys_id>6a36736b72344326828d049ae6623289</sys_id>
+        <sys_metadata>e9ca2d1b1b0c969028b599f91d4bcbd4</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>S3 Buckets</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope_delete display_value="">06e13f983065467ba774d0a86997be89</sys_scope_delete>
+        <sys_update_name>sys_ui_module_e9ca2d1b1b0c969028b599f91d4bcbd4</sys_update_name>
+        <sys_update_version display_value="sys_ui_module_e9ca2d1b1b0c969028b599f91d4bcbd4">6dca6d1b1b0c969028b599f91d4bcb09</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 12:29:23</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

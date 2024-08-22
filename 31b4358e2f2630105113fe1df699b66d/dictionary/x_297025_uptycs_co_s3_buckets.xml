@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="411a29d71b0c969028b599f91d4bcba0" label="S3 Buckets" max_length="40" name="x_297025_uptycs_co_s3_buckets" type="collection">
+        <element label="Account Id" max_length="256" name="account_id" type="string"/>
+        <element label="Bucket Name" max_length="256" name="bucket_name" type="string"/>
+        <element label="ACL Owner Id" max_length="1024" name="acl_owner_id" type="string"/>
+        <element label="Region Code" max_length="256" name="region_code" type="string"/>
+        <element label="Upt Resource Id" max_length="256" name="upt_resource_id" type="string"/>
+        <element label="ACL Owner Display Name" max_length="1024" name="acl_owner_display_name" type="string"/>
+        <element label="region" max_length="256" name="region" type="string"/>
+        <element label="Bucket Region" max_length="256" name="bucket_region" type="string"/>
+        <element label="Tenant Name" max_length="256" name="tenant_name" type="string"/>
+        <element label="Bucket Creation Date" max_length="40" name="bucket_creation_date" type="glide_date_time"/>
+    </element>
+</database>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <business_calendar/>
+        <condition/>
+        <conditional>false</conditional>
+        <entered_time>1970-01-01 00:00:00</entered_time>
+        <max_drift/>
+        <name>Pull Uptycs Cloud Compliance data</name>
+        <offset/>
+        <offset_type>0</offset_type>
+        <run_as display_value="System Administrator">6816f79cc0a8016401c5a33be04be441</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2024-08-02 13:57:41</run_start>
+        <run_time>1970-01-01 08:00:00</run_time>
+        <run_type>on_demand</run_type>
+        <script><![CDATA[try {
+  var provider = new sn_cc.ConnectionInfoProvider();
+  var connectionInfo = provider.getConnectionInfo("72dec9c61b8d711028b599f91d4bcb0e");
+  gs.info("getting connection info");
+  if (connectionInfo != null) {
+	var url = connectionInfo.getAttribute("host");
+	var customerId = connectionInfo.getCredentialAttribute("user_name");
+	var iss = connectionInfo.getCredentialAttribute("privacy_key");
+	var secret = connectionInfo.getCredentialAttribute("password");
+  } else {
+	gs.info("ConnectionInfo is null. Script execution halted.");
+	throw new Error("ConnectionInfo is null. Script execution halted.");
+  }
+  var uptycsApi = new UptycsAPI();
+  uptycsApi.initialize(customerId, url, iss, secret);
+  uptycsApi.ingestCloudComplianceRecords();
+  gs.warn('End Uptycs cloud compliance import');
+	
+} catch(ex) {
+  gs.warn("Scheduled Script Execution: 'Pull Uptycs cloud Compliance' failed with error message: " + ex.message);
+}]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-02 14:01:42</sys_created_on>
+        <sys_id>1680ac591b73cad0aa042f876e4bcb9f</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Pull Uptycs Cloud Compliance data</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sysauto_script_1680ac591b73cad0aa042f876e4bcb9f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-02 14:48:51</sys_updated_on>
+        <time_zone/>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

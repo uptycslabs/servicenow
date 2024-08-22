@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_user_role">
+    <sys_user_role action="DELETE">
+        <assignable_by/>
+        <can_delegate>true</can_delegate>
+        <description/>
+        <elevated_privilege>false</elevated_privilege>
+        <grantable>true</grantable>
+        <includes_roles/>
+        <name>x_297025_uptycs_co.s3_buckets_user</name>
+        <scoped_admin>false</scoped_admin>
+        <suffix>s3_buckets_user</suffix>
+        <sys_class_name>sys_user_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 10:45:35</sys_created_on>
+        <sys_id>1dca65571b0c969028b599f91d4bcb3b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_297025_uptycs_co.s3_buckets_user</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_user_role_1dca65571b0c969028b599f91d4bcb3b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 10:45:35</sys_updated_on>
+    </sys_user_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</application>
+        <file_path/>
+        <instance_id>592d308cdbc0399ccaf99027c59619af</instance_id>
+        <instance_name>ven06246</instance_name>
+        <name>sys_user_role_1dca65571b0c969028b599f91d4bcb3b</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_user_role"><sys_user_role action="INSERT_OR_UPDATE"><assignable_by/><can_delegate>true</can_delegate><description/><elevated_privilege>false</elevated_privilege><grantable>true</grantable><includes_roles/><name>x_297025_uptycs_co.s3_buckets_user</name><scoped_admin>false</scoped_admin><suffix>s3_buckets_user</suffix><sys_class_name>sys_user_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2024-08-21 10:45:35</sys_created_on><sys_id>1dca65571b0c969028b599f91d4bcb3b</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_297025_uptycs_co.s3_buckets_user</sys_name><sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package><sys_policy/><sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope><sys_update_name>sys_user_role_1dca65571b0c969028b599f91d4bcb3b</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2024-08-21 10:45:35</sys_updated_on></sys_user_role></record_update>]]></payload>
+        <payload_hash>585846475</payload_hash>
+        <record_name>x_297025_uptycs_co.s3_buckets_user</record_name>
+        <reverted_from/>
+        <source>ee952ac91bbf4ad0aa042f876e4bcbb0</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 10:45:35</sys_created_on>
+        <sys_id>d5ca2d1b1b0c969028b599f91d4bcbc9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>191748abdf20000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 10:45:35</sys_updated_on>
+        <type>Role</type>
+        <update_guid>19ca6557500c9690d44aea05f2cfcd40</update_guid>
+        <update_guid_history>19ca6557500c9690d44aea05f2cfcd40:585846475</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="x_297025_uptycs_co.s3_buckets_user">46ea69d71b0c969028b599f91d4bcbc5</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 10:46:12</sys_created_on>
+        <sys_db_object display_value="" name="sys_user_role">sys_user_role</sys_db_object>
+        <sys_id>a33b6b80cca643a5b22daf04025b20f1</sys_id>
+        <sys_metadata>1dca65571b0c969028b599f91d4bcb3b</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_297025_uptycs_co.s3_buckets_user</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope_delete display_value="">06e13f983065467ba774d0a86997be89</sys_scope_delete>
+        <sys_update_name>sys_user_role_1dca65571b0c969028b599f91d4bcb3b</sys_update_name>
+        <sys_update_version display_value="sys_user_role_1dca65571b0c969028b599f91d4bcb3b">d5ca2d1b1b0c969028b599f91d4bcbc9</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 10:46:12</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

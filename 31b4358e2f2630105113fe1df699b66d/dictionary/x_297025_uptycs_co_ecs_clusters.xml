@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="323af5971b8c969028b599f91d4bcb83" label="ECS Clusters" max_length="40" name="x_297025_uptycs_co_ecs_clusters" type="collection">
+        <element label="Account Id" max_length="256" name="account_id" type="string"/>
+        <element label="status" max_length="64" name="status" type="string"/>
+        <element label="region" max_length="256" name="region" type="string"/>
+        <element label="Region Code" max_length="256" name="region_code" type="string"/>
+        <element label="Tenant Name" max_length="256" name="tenant_name" type="string"/>
+        <element label="Upt Resource Id" max_length="256" name="upt_resource_id" type="string"/>
+        <element label="Active Services Count" max_length="40" name="active_services_count" type="integer"/>
+        <element label="Cluster Arn" max_length="1024" name="cluster_arn" type="string"/>
+        <element label="Cluster Name" max_length="256" name="cluster_name" type="string"/>
+    </element>
+</database>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="75e73e2f1b801610aa042f876e4bcb49" label="Azure SQL" max_length="40" name="x_297025_uptycs_co_azure_sql" type="collection">
+        <element label="Default Secondary Location" max_length="256" name="default_secondary_location" type="string"/>
+        <element label="Subscription Id" max_length="256" name="subscription_id" type="string"/>
+        <element label="az Tenant Id" max_length="256" name="az_tenant_id" type="string"/>
+        <element label="Region" max_length="256" name="region" type="string"/>
+        <element label="Upt Tenant Id" max_length="256" name="upt_tenant_id" type="string"/>
+        <element label="Database Id" max_length="256" name="database_id" type="string"/>
+        <element label="Resource Id" max_length="256" name="resource_id" type="string"/>
+        <element label="Creation Date" max_length="40" name="creation_date" type="glide_date_time"/>
+        <element label="Catalog Collation" max_length="256" name="catalog_collation" type="string"/>
+        <element label="Server Resource Id" max_length="256" name="server_resource_id" type="string"/>
+        <element label="Name" max_length="256" name="name" type="string"/>
+        <element label="Maintenance Configuration Id" max_length="256" name="maintenance_configuration_id" type="string"/>
+        <element label="Type" max_length="256" name="type" type="string"/>
+        <element label="Kind" max_length="256" name="kind" type="string"/>
+        <element label="Collation Val" max_length="256" name="collation_val" type="string"/>
+        <element label="Upt Resource Id" max_length="256" name="upt_resource_id" type="string"/>
+        <element label="Resource Group" max_length="256" name="resource_group" type="string"/>
+        <element label="Region Code" max_length="256" name="region_code" type="string"/>
+        <element label="Status" max_length="64" name="status" type="string"/>
+        <element label="Tenant Name" max_length="256" name="tenant_name" type="string"/>
+        <element label="Edition" max_length="256" name="edition" type="string"/>
+    </element>
+</database>

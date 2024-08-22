@@ -31,7 +31,7 @@
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2024-08-02 12:38:34</sys_updated_on>
         <update_access>true</update_access>
-        <user_role display_value="x_297025_uptycs_co.cloud_compliance_user" name="x_297025_uptycs_co.cloud_compliance_user">8f3e0c991bff8ad0aa042f876e4bcbf5</user_role>
+        <user_role/>
         <ws_access>true</ws_access>
     </sys_db_object>
 </record_update>

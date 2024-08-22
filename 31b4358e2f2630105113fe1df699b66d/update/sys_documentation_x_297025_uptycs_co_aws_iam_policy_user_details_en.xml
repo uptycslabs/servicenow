@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="policy_user_details" label="Policy User Details" language="en" table="x_297025_uptycs_co_aws_iam">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>policy_user_details</element>
+            <help/>
+            <hint/>
+            <label>Policy User Details</label>
+            <language>en</language>
+            <name>x_297025_uptycs_co_aws_iam</name>
+            <plural>Policy User Details</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2024-08-21 14:45:14</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Policy User Details</sys_name>
+            <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+            <sys_update_name>sys_documentation_x_297025_uptycs_co_aws_iam_policy_user_details_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2024-08-21 14:45:14</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

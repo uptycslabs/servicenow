@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="195f5ed71b849210aa042f876e4bcbdf" label="AWS IAM" max_length="40" name="x_297025_uptycs_co_aws_iam" type="collection">
+        <element label="Policy Doc" max_length="1024" name="policy_doc" type="string"/>
+        <element label="Policy Group Details" max_length="256" name="policy_group_details" type="string"/>
+        <element label="Policy Description" max_length="1024" name="policy_description" type="string"/>
+        <element label="Policy Create Date" max_length="40" name="policy_create_date" type="glide_date_time"/>
+        <element label="Policy Path" max_length="256" name="policy_path" type="string"/>
+        <element label="Policy Arn" max_length="256" name="policy_arn" type="string"/>
+        <element label="Policy Is Attachable" max_length="40" name="policy_is_attachable" type="boolean"/>
+        <element label="Policy Id" max_length="256" name="policy_id" type="string"/>
+        <element label="Policy Type" max_length="256" name="policy_type" type="string"/>
+        <element label="Account Id" max_length="256" name="account_id" type="string"/>
+        <element label="Policy Is Depricated" max_length="40" name="policy_is_depricated" type="boolean"/>
+        <element label="Policy Role Details" max_length="256" name="policy_role_details" type="string"/>
+        <element label="Policy Update Date" max_length="40" name="policy_update_date" type="glide_date_time"/>
+        <element label="Policy Permissions Boundary Usage Count" max_length="40" name="policy_permissions_boundary_usage_count" type="integer"/>
+        <element label="Policy Name" max_length="256" name="policy_name" type="string"/>
+        <element label="Policy Attachment Count" max_length="256" name="policy_attachment_count" type="integer"/>
+        <element label="Tenant Name" max_length="256" name="tenant_name" type="string"/>
+        <element label="Upt Resource Id" max_length="256" name="upt_resource_id" type="string"/>
+        <element label="Policy User Details" max_length="256" name="policy_user_details" type="string"/>
+        <element label="Policy Default Version" max_length="256" name="policy_default_version" type="string"/>
+    </element>
+</database>

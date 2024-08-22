@@ -30,7 +30,8 @@
 	gs.info("ConnectionInfo is null. Script execution halted.");
 	throw new Error("ConnectionInfo is null. Script execution halted.");
   }
-  var standard = 'cis_independent_linux';
+  //var standard = 'cis_independent_linux';
+  var standards = ['uptycs_uds_windows', 'cis_independent_linux', 'pci_linux_server', 'uptycs_uds_macos'];
 
   /*var comp = new UptycsCompliance();
   comp.initialize(standard, customerId, url, iss, secret);
@@ -43,10 +44,19 @@
   }*/
   var uptycsApi = new UptycsAPI();
   uptycsApi.initialize(customerId, url, iss, secret);
-  var missedSections = uptycsApi.getComplianceSections("section LIKE '1.%%'", standard);
-  while (missedSections.length > 0) {
-    uptycsApi.runCompliance(missedSections, standard);
-	missedSections = uptycsApi.getMissedSections();
+  //var missedSections = uptycsApi.getComplianceSections("section LIKE '2.%%'", standard);
+  var index = 0;
+  while (index < standards.length) {
+	var standard = standards[index];
+	gs.info("Fetching info for " + standard);
+	var missedSections = uptycsApi.getComplianceSections(standard);
+    while (missedSections.length > 0) {
+      gs.info("missed sections " + missedSections.join(','));
+      uptycsApi.runCompliance(missedSections, standard);
+      missedSections = uptycsApi.getMissedSections();
+    }
+	gs.info("Fetching complete for " + standard);
+    index++;
   }
 
   gs.warn('End compliance import');
@@ -58,14 +68,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-14 17:41:54</sys_created_on>
         <sys_id>e8a12e5e2fa230105113fe1df699b611</sys_id>
-        <sys_mod_count>28</sys_mod_count>
+        <sys_mod_count>38</sys_mod_count>
         <sys_name>Pull compliance data example</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sysauto_script_e8a12e5e2fa230105113fe1df699b611</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-02 06:29:31</sys_updated_on>
+        <sys_updated_on>2024-08-04 08:02:43</sys_updated_on>
         <time_zone/>
         <upgrade_safe>false</upgrade_safe>
     </sysauto_script>
