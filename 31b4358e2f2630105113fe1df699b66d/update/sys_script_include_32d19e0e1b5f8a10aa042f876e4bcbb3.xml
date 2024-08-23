@@ -11,6 +11,75 @@
 VulcTestManager.prototype = {
     initialize: function() {},
 
+    createEndpointAssetRecord: function(data, cmdb_sys_id) {
+        var record = new GlideRecord('x_297025_uptycs_co_endpoint_assets');
+        record.addQuery('upt_asset_id', data.upt_asset_id);
+        record.query();        
+        if (record.next()) {
+            // Update existing record
+			record.setValue('cmdb_ci_hardware_id', cmdb_sys_id);
+            record.setValue('hostname', data.host_name);
+            record.setValue('location', data.LOCATION);
+			record.setValue('latitude', data.latitude);
+			record.setValue('longitude', data.longitude);
+			record.setValue('gateway', data.gateway);
+			record.setValue('cpu_brand', data.cpu_brand);
+			record.setValue('hardware_model', data.hardware_model);
+			record.setValue('hardware_serial', data.hardware_serial);
+			record.setValue('hardware_vendor', data.hardware_vendor);
+            record.setValue('uptycs_osquery_version', data.osquery_version);
+			record.setValue('cores', data.cores);
+			record.setValue('logical_cores', data.logical_cores);
+			record.setValue('memory_mb', data.memory_mb);
+			record.setValue('os', data.os);
+			record.setValue('os_version', data.os_version);
+			record.setValue('os_flavor', data.os_flavor);
+			record.setValue('status', data.status);
+            record.setValue('disabled', data.disabled);
+            record.setValue('created_at', data.created_at);
+            record.setValue('deleted_at', data.deleted_at);
+            record.setValue('live', data.live);
+            record.setValue('agentless', data.agentless);
+            record.setValue('is_command_line_tool', data.is_command_line_tool);
+            record.setValue('model_name', data.model_name);
+            record.setValue('model_dimension', data.model_dimension);
+            record.setValue('model_year', data.model_year);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+			record.setValue('cmdb_ci_hardware_id', cmdb_sys_id);
+            record.setValue('upt_asset_id', data.upt_asset_id);
+            record.setValue('hostname', data.host_name);
+            record.setValue('location', data.LOCATION);
+			record.setValue('latitude', data.latitude);
+			record.setValue('longitude', data.longitude);
+			record.setValue('gateway', data.gateway);
+			record.setValue('cpu_brand', data.cpu_brand);
+			record.setValue('hardware_model', data.hardware_model);
+			record.setValue('hardware_serial', data.hardware_serial);
+			record.setValue('hardware_vendor', data.hardware_vendor);
+            record.setValue('uptycs_osquery_version', data.osquery_version);
+			record.setValue('cores', data.cores);
+			record.setValue('logical_cores', data.logical_cores);
+			record.setValue('memory_mb', data.memory_mb);
+			record.setValue('os', data.os);
+			record.setValue('os_version', data.os_version);
+			record.setValue('os_flavor', data.os_flavor);
+			record.setValue('status', data.status);
+            record.setValue('disabled', data.disabled);
+            record.setValue('created_at', data.created_at);
+            record.setValue('deleted_at', data.deleted_at);
+            record.setValue('live', data.live);
+            record.setValue('agentless', data.agentless);
+            record.setValue('is_command_line_tool', data.is_command_line_tool);
+            record.setValue('model_name', data.model_name);
+            record.setValue('model_dimension', data.model_dimension);
+            record.setValue('model_year', data.model_year);
+            record.insert();
+        }
+	},
+
     createAzureSqlRecord: function(data) {
         var record = new GlideRecord('x_297025_uptycs_co_azure_sql');
         record.addQuery('name', data.name);
@@ -506,13 +575,13 @@ VulcTestManager.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-07-11 09:38:02</sys_created_on>
         <sys_id>32d19e0e1b5f8a10aa042f876e4bcbb3</sys_id>
-        <sys_mod_count>35</sys_mod_count>
+        <sys_mod_count>39</sys_mod_count>
         <sys_name>VulcTestManager</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_32d19e0e1b5f8a10aa042f876e4bcbb3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-22 11:50:55</sys_updated_on>
+        <sys_updated_on>2024-08-23 13:28:43</sys_updated_on>
     </sys_script_include>
 </record_update>
