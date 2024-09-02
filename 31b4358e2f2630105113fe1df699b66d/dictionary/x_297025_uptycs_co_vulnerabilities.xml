@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="c0932b8793589e105de87844fbba1055" label="Vulnerabilities" max_length="40" name="x_297025_uptycs_co_vulnerabilities" type="collection">
+        <element label="Package name" max_length="1024" name="package_name" type="string"/>
+        <element label="System type" max_length="256" name="system_type" type="string"/>
+        <element label="Upt first seen" max_length="40" name="upt_first_seen" type="glide_date_time"/>
+        <element label="Upt last seen" max_length="40" name="upt_last_seen" type="glide_date_time"/>
+        <element label="Zeroday exploit" max_length="40" name="zeroday_exploit" type="boolean"/>
+        <element label="description" max_length="1024" name="description" type="string"/>
+        <element label="Exploit" max_length="40" name="exploit" type="boolean"/>
+        <element label="Asset" max_length="32" name="asset" reference="cmdb_ci_hardware" type="reference"/>
+        <element label="Package type" max_length="256" name="package_type" type="string"/>
+        <element label="Cvss score" max_length="40" name="cvss_score" type="float"/>
+        <element label="Uptycs severity" max_length="32" name="uptycs_severity" type="string"/>
+        <element label="Uptycs score" max_length="40" name="uptycs_score" type="float"/>
+        <element label="cve" max_length="1024" name="cve" type="string"/>
+        <element label="Fix version" max_length="1024" name="fix_version" type="string"/>
+        <index name="index">
+            <element name="asset"/>
+        </index>
+    </element>
+</database>

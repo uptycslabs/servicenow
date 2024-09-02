@@ -14,7 +14,7 @@ VulcTestManager.prototype = {
     createEndpointAssetRecord: function(data, cmdb_sys_id) {
         var record = new GlideRecord('x_297025_uptycs_co_endpoint_assets');
         record.addQuery('upt_asset_id', data.upt_asset_id);
-        record.query();        
+        record.query();
         if (record.next()) {
             // Update existing record
 			record.setValue('cmdb_ci_hardware_id', cmdb_sys_id);
@@ -79,6 +79,136 @@ VulcTestManager.prototype = {
             record.insert();
         }
 	},
+
+    createVulnerabilityRecord: function(data, asset_id) {
+        var record = new GlideRecord('x_297025_uptycs_co_vulnerabilities');
+        record.addQuery('cve', data.cve_list);
+        record.addQuery('asset', asset_id);
+        record.addQuery('package_name', data.package_name);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('exploit', data.exploit);
+			record.setValue('zeroday_exploit', data.zeroday_exploit);
+			record.setValue('package_type', data.package_type);
+			record.setValue('system_type', data.system_type);
+			record.setValue('uptycs_severity', data.uptycs_severity);
+			record.setValue('package_name', data.package_name);
+			record.setValue('package_version', data.package_version);
+			record.setValue('fix_version', data.fix_version);
+			record.setValue('description', data.vuln_desc);
+			record.setValue('cve', data.cve_list);
+			record.setValue('cvss_score', data.cvss_score);
+			record.setValue('uptycs_score', data.uptycs_score);
+			record.setValue('upt_first_seen', data.upt_first_seen);
+			record.setValue('upt_last_seen', data.upt_last_seen);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('cve', data.cve_list);
+            record.setValue('asset', asset_id);
+            record.setValue('package_name', data.package_name);
+            record.setValue('exploit', data.exploit);
+			record.setValue('zeroday_exploit', data.zeroday_exploit);
+			record.setValue('package_type', data.package_type);
+			record.setValue('system_type', data.system_type);
+			record.setValue('uptycs_severity', data.uptycs_severity);
+			record.setValue('package_name', data.package_name);
+			record.setValue('package_version', data.package_version);
+			record.setValue('fix_version', data.fix_version);
+			record.setValue('description', data.vuln_desc);
+			record.setValue('cve', data.cve_list);
+			record.setValue('cvss_score', data.cvss_score);
+			record.setValue('uptycs_score', data.uptycs_score);
+			record.setValue('upt_first_seen', data.upt_first_seen);
+			record.setValue('upt_last_seen', data.upt_last_seen);
+			record.insert();
+        }
+	},
+
+    ingestVulnerability: function(vulnData, asset_id) {
+        try {
+			if (vulnData.vuln_desc === '') {
+				return;
+			}
+            // Check if the vulnerability already exists based on CVE ID
+            var vulnerabilityGR = new GlideRecord('sn_vul_entry');
+            vulnerabilityGR.addQuery('name', vulnData.cve_list);
+            vulnerabilityGR.addQuery('id', vulnData.cve_list);
+            vulnerabilityGR.query();
+
+            if (!vulnerabilityGR.next()) {
+                gs.info('Vulnerability with CVE ' + vulnData.cve_list + ' does not exist. Creating a new record.');
+                // Insert new vulnerability record
+                vulnerabilityGR.initialize();
+                vulnerabilityGR.name = vulnData.cve_list;
+                vulnerabilityGR.id = vulnData.cve_list;
+                vulnerabilityGR.date_published = vulnData.published;
+				vulnerabilityGR.summary = vulnData.vuln_desc;
+				vulnerabilityGR.source = 'Uptycs';
+				if (vulnData.exploit) {
+                    vulnerabilityGR.exploit = 1;
+				} else {
+					vulnerabilityGR.exploit = 0;
+				}
+				vulnerabilityGR.vulnerability_status = 'Open';
+                vulnerabilityGR.insert();
+            }
+
+            // Check if the vulnerable software exists based on package name
+            var vuln_sw = new GlideRecord('sn_vul_software');
+            vuln_sw.addQuery('display_name', vulnData.package_name);
+            vuln_sw.addQuery('version', vulnData.package_version);
+            vuln_sw.query();
+
+            if (!vuln_sw.next()) {
+                vuln_sw.initialize();
+                vuln_sw.display_name = vulnData.package_name;
+                vuln_sw.version = vulnData.package_version;
+                vuln_sw.insert();
+            }
+
+            // Check if a vulnerable item already exists for this vulnerability and asset
+            var vulnerableItemGR = new GlideRecord('sn_vul_vulnerable_item');
+            vulnerableItemGR.addQuery('vulnerability', vulnerabilityGR.sys_id);
+            vulnerableItemGR.addQuery('cmdb_ci', asset_id);
+			vulnerableItemGR.addQuery('sw_vulnerability', vuln_sw.sys_id);
+            vulnerableItemGR.query();
+
+            if (vulnerableItemGR.next()) {
+                vulnerableItemGR.description = vulnData.vuln_desc;
+                vulnerableItemGR.state = '1';
+				vulnerableItemGR.active = true;
+                vulnerableItemGR.update();
+            } else {
+                vulnerableItemGR.initialize();
+                vulnerableItemGR.vulnerability = vulnerabilityGR.sys_id;  // Reference to vulnerability record
+                vulnerableItemGR.cmdb_ci = asset_id;  // Reference to asset in CMDB
+                vulnerableItemGR.sw_vulnerability = vuln_sw.sys_id;  // Reference to asset in CMDB
+                vulnerableItemGR.description = vulnData.vuln_desc;
+                vulnerableItemGR.state = '1';
+				vulnerableItemGR.active = true;
+                vulnerableItemGR.insert();
+            }
+
+            // Check if a vulnerable item already exists for this vulnerability and asset
+            var vulnGR = new GlideRecord('sn_vul_vulnerability');
+            vulnGR.addQuery('sn_vul_entry', vulnerabilityGR.sys_id);
+            vulnGR.query();
+
+            if (!vulnGR.next()) {
+                vulnerableItemGR.initialize();
+                vulnerableItemGR.sn_vul_entry = vulnerabilityGR.sys_id;  // Reference to vulnerability record
+                vulnerableItemGR.insert();
+            }
+
+            gs.info('Vulnerability and related records processed successfully.');
+        } catch (ex) {
+            gs.error('Error ingesting vulnerability data: ' + ex.message);
+        }
+    },
 
     createAzureSqlRecord: function(data) {
         var record = new GlideRecord('x_297025_uptycs_co_azure_sql');
@@ -575,13 +705,13 @@ VulcTestManager.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-07-11 09:38:02</sys_created_on>
         <sys_id>32d19e0e1b5f8a10aa042f876e4bcbb3</sys_id>
-        <sys_mod_count>39</sys_mod_count>
+        <sys_mod_count>53</sys_mod_count>
         <sys_name>VulcTestManager</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_32d19e0e1b5f8a10aa042f876e4bcbb3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-23 13:28:43</sys_updated_on>
+        <sys_updated_on>2024-09-02 15:43:15</sys_updated_on>
     </sys_script_include>
 </record_update>

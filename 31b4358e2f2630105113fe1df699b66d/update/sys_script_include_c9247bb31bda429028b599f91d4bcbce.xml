@@ -601,19 +601,39 @@ UptycsAPI.prototype = {
         } //query jobs
     },
 
+    ingestVulnerabilityRecords: function(standard) {
+		var query = 'select published,IF(ute.description IS NOT NULL, TRUE, FALSE) AS exploit, IF(ute.sources LIKE \'%Zero%\', TRUE, FALSE) AS zeroday_exploit, package_type,system_type,uptycs_severity,package_name,package_version, CASE WHEN indicator_operator = \'lt\' AND indicator_version IS NOT NULL THEN indicator_version WHEN indicator_operator = \'rng_e\' AND indicator_version IS NOT NULL THEN SPLIT_PART(indicator_version, \',\', 2) ELSE \'\' END AS fix_version, uvs.description as vuln_desc, cve_list, cvss_score, uptycs_score, from_unixtime(upt_first_seen) as upt_first_seen, from_unixtime(upt_last_seen) as upt_last_seen, ua.* from upt_vulnerabilities_state uvs join upt_assets ua on ua.id = uvs.upt_asset_id left join upt_threat_exploits ute on uvs.cve_list = ute.cve_id where from_unixtime(upt_time) >= current_timestamp - interval \'1\' day and (TRY_CAST(cvss_score as double) > 6 or TRY_CAST(uptycs_score as double) > 6) order by cvss_score, uptycs_score desc limit 10000';
+		var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+		for (ii = 0; ii < nRows / 10000; ii++) { 
+			//loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+			for (iii = 0; iii < responseObj.items.length; iii++) { 
+				// loop over records
+				var asset_id = this.createOrUpdateAsset(responseObj.items[iii].rowData);
+				this.vulcTestManager.createVulnerabilityRecord(responseObj.items[iii].rowData, asset_id);
+				this.vulcTestManager.ingestVulnerability(responseObj.items[iii].rowData, asset_id);
+			}
+		}
+	},
+
     type: 'UptycsAPI'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2024-05-28 10:17:50</sys_created_on>
         <sys_id>c9247bb31bda429028b599f91d4bcbce</sys_id>
-        <sys_mod_count>82</sys_mod_count>
+        <sys_mod_count>87</sys_mod_count>
         <sys_name>UptycsAPI</sys_name>
         <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_script_include_c9247bb31bda429028b599f91d4bcbce</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-08-23 13:23:00</sys_updated_on>
+        <sys_updated_on>2024-09-02 14:45:30</sys_updated_on>
     </sys_script_include>
 </record_update>
