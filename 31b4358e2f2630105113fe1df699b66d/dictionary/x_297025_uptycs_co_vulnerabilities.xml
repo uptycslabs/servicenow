@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="c0932b8793589e105de87844fbba1055" label="Vulnerabilities" max_length="40" name="x_297025_uptycs_co_vulnerabilities" type="collection">
+        <element label="Package version" max_length="1024" name="package_version" type="string"/>
         <element label="Package name" max_length="1024" name="package_name" type="string"/>
         <element label="System type" max_length="256" name="system_type" type="string"/>
         <element label="Upt first seen" max_length="40" name="upt_first_seen" type="glide_date_time"/>

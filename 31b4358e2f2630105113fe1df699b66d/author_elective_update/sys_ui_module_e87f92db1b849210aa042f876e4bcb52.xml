@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_module">
+    <sys_ui_module action="DELETE">
+        <active>true</active>
+        <application display_value="Uptycs">e594d21b1b449210aa042f876e4bcbe0</application>
+        <filter/>
+        <name>AWS IAMs</name>
+        <order/>
+        <path/>
+        <path_relative_to_root>false</path_relative_to_root>
+        <roles>x_297025_uptycs_co.uptycs_user</roles>
+        <sys_class_name>sys_ui_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 14:35:44</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>e87f92db1b849210aa042f876e4bcb52</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>AWS IAMs</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_ui_module_e87f92db1b849210aa042f876e4bcb52</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 14:35:44</sys_updated_on>
+        <table>x_297025_uptycs_co_aws_iam</table>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+    </sys_ui_module>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</application>
+        <file_path/>
+        <instance_id>592d308cdbc0399ccaf99027c59619af</instance_id>
+        <instance_name>ven06246</instance_name>
+        <name>sys_ui_module_e87f92db1b849210aa042f876e4bcb52</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_module"><sys_ui_module action="INSERT_OR_UPDATE"><active>true</active><application display_value="Uptycs">e594d21b1b449210aa042f876e4bcbe0</application><filter/><name>AWS IAMs</name><order/><path/><path_relative_to_root>false</path_relative_to_root><roles>x_297025_uptycs_co.uptycs_user</roles><sys_class_name>sys_ui_module</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2024-08-21 14:35:44</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>e87f92db1b849210aa042f876e4bcb52</sys_id><sys_mod_count>0</sys_mod_count><sys_name>AWS IAMs</sys_name><sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package><sys_policy/><sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope><sys_update_name>sys_ui_module_e87f92db1b849210aa042f876e4bcb52</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2024-08-21 14:35:44</sys_updated_on><table>x_297025_uptycs_co_aws_iam</table><uncancelable>false</uncancelable><view_name/></sys_ui_module></record_update>]]></payload>
+        <payload_hash>306911605</payload_hash>
+        <record_name>AWS IAMs</record_name>
+        <reverted_from/>
+        <source>ee952ac91bbf4ad0aa042f876e4bcbb0</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-08-21 14:35:44</sys_created_on>
+        <sys_id>607f92db1b849210aa042f876e4bcb55</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>191755d72950000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-08-21 14:35:44</sys_updated_on>
+        <type>Module</type>
+        <update_guid>647f92dbad8492101ae5758306bef254</update_guid>
+        <update_guid_history>647f92dbad8492101ae5758306bef254:306911605</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-09-03 14:21:40</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_module">sys_ui_module</sys_db_object>
+        <sys_id>60d2a0adab5c4e0a9b10944c5bcc77b9</sys_id>
+        <sys_metadata>e87f92db1b849210aa042f876e4bcb52</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>AWS IAMs</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope_delete display_value="">06e13f983065467ba774d0a86997be89</sys_scope_delete>
+        <sys_update_name>sys_ui_module_e87f92db1b849210aa042f876e4bcb52</sys_update_name>
+        <sys_update_version display_value="sys_ui_module_e87f92db1b849210aa042f876e4bcb52">607f92db1b849210aa042f876e4bcb55</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-09-03 14:21:40</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
