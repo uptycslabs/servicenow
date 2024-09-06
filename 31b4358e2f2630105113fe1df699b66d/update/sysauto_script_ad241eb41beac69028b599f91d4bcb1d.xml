@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <business_calendar/>
+        <condition/>
+        <conditional>false</conditional>
+        <entered_time>1970-01-01 00:00:00</entered_time>
+        <max_drift/>
+        <name>Incident Scheduled Update workflow</name>
+        <offset/>
+        <offset_type>0</offset_type>
+        <run_as display_value="System Administrator">6816f79cc0a8016401c5a33be04be441</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2024-05-31 05:47:23</run_start>
+        <run_time>1970-01-01 08:00:00</run_time>
+        <run_type>on_demand</run_type>
+        <script><![CDATA[try {
+  var provider = new sn_cc.ConnectionInfoProvider();
+  var connectionInfo = provider.getConnectionInfo("72dec9c61b8d711028b599f91d4bcb0e");
+  gs.info("getting connection info");
+  if (connectionInfo != null) {
+	var url = connectionInfo.getAttribute("host");
+	var customerId = connectionInfo.getCredentialAttribute("user_name");
+	var iss = connectionInfo.getCredentialAttribute("privacy_key");
+	var secret = connectionInfo.getCredentialAttribute("password");
+  } else {
+	gs.info("ConnectionInfo is null. Script execution halted.");
+	throw new Error("ConnectionInfo is null. Script execution halted.");
+  }
+
+  var uptycsApi = new UptycsAPI();
+  uptycsApi.initialize(customerId, url, iss, secret);
+
+  //var regex = /detection\/([a-fA-F0-9-]+)/;
+  var regex = /Detection\sID:\s([a-fA-F0-9-]+)/;
+
+  var incidentUtils = new IncidentUtils();
+  gs.info('Get incidents modified in the last 10 minutes');
+  var recentIncidents = incidentUtils.getRecentIncidents('minutes', 10); 
+
+  for (var i = 0; i < recentIncidents.length; i++) {
+	//gs.warn(JSON.stringify(recentIncidents[i]));
+	var incident = recentIncidents[i];
+    var description = incident.description;
+	if (incident.state in [1, 2, 3] ) {
+		//gs.info('Incident is still open - ' + incident.number);
+		continue;
+    } else {
+		gs.info('Incident is closed or resolved - ' + incident.number);
+	}
+    //gs.info("Description " + description);
+    var match = description.match(regex);
+	//gs.info("match - " + match);
+	if (match.length > 1) {
+      var detectionID = match[1];
+      gs.info("Extracted Detection ID:" + detectionID);
+      var detection = uptycsApi.getDetection(detectionID);
+      //gs.info("Extracted Detection from UPTYCS :" + JSON.stringify(detection));
+      if (detection === null) {
+		continue;
+      } else if (detection.detection.status === 'closed') {
+		gs.info("Detection already closed - " + detectionID);
+      } else {
+		// close uptycs detection
+		gs.info("Detection is open - " + detectionID);
+		uptycsApi.closeDetection(detectionID , incident.number);
+      }
+	} else {
+      gs.info("Detection ID not found in the string.");
+	}
+  }
+
+} catch(ex) {
+  gs.warn("Scheduled Script Execution: 'Pull Uptycs Inventory' failed with error message: " + ex.message);
+}]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-05-31 05:47:52</sys_created_on>
+        <sys_id>ad241eb41beac69028b599f91d4bcb1d</sys_id>
+        <sys_mod_count>39</sys_mod_count>
+        <sys_name>Incident Scheduled Update workflow</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sysauto_script_ad241eb41beac69028b599f91d4bcb1d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-06-04 13:22:03</sys_updated_on>
+        <time_zone/>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

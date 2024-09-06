@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="master_arn" label="Master Arn" language="en" table="x_297025_uptycs_co_lambda_functions">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>master_arn</element>
+            <help/>
+            <hint/>
+            <label>Master Arn</label>
+            <language>en</language>
+            <name>x_297025_uptycs_co_lambda_functions</name>
+            <plural>Master Arns</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2024-08-21 13:56:18</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Master Arn</sys_name>
+            <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+            <sys_update_name>sys_documentation_x_297025_uptycs_co_lambda_functions_master_arn_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2024-08-21 13:56:18</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

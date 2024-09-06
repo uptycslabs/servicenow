@@ -2,9 +2,10 @@
     <sys_app action="INSERT_OR_UPDATE">
         <active>true</active>
         <can_edit_in_studio>true</can_edit_in_studio>
-        <enforce_license>none</enforce_license>
+        <enforce_license>log</enforce_license>
         <guided_setup_guid/>
         <hide_on_ui>false</hide_on_ui>
+        <ide_created/>
         <installed_as_dependency>false</installed_as_dependency>
         <js_level>helsinki_es5</js_level>
         <licensable>true</licensable>
@@ -12,9 +13,10 @@
         <license_category>none</license_category>
         <license_definition/>
         <license_model>none</license_model>
-        <logo>d6b4fd862f6630105113fe1df699b670</logo>
+        <logo>24bc8d611b997d1028b599f91d4bcb4a</logo>
         <menu/>
-        <name>Uptycs Compliance</name>
+        <name>Uptycs</name>
+        <package_json/>
         <private>false</private>
         <restrict_table_access>false</restrict_table_access>
         <runtime_access_tracking>permissive</runtime_access_tracking>
@@ -24,14 +26,15 @@
         <source>x_297025_uptycs_co</source>
         <store_correlation_id/>
         <store_url/>
+        <subscription_entitlement/>
         <sys_class_name>sys_app</sys_class_name>
         <sys_code/>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-13 19:46:41</sys_created_on>
         <sys_id>31b4358e2f2630105113fe1df699b66d</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-09-13 19:46:42</sys_updated_on>
+        <sys_updated_on>2024-05-28 13:03:45</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <uninstall_blocked>false</uninstall_blocked>
@@ -40,6 +43,46 @@
         <vendor_prefix/>
         <version>1.0.0</version>
     </sys_app>
+    <sys_translated_text action="delete_multiple" query="documentkey=31b4358e2f2630105113fe1df699b66d"/>
+    <sys_attachment action="INSERT_OR_UPDATE">
+        <average_image_color/>
+        <chunk_size_bytes>700000</chunk_size_bytes>
+        <compressed>true</compressed>
+        <content_type>image/svg+xml</content_type>
+        <file_name>logo</file_name>
+        <hash>df13d75132cce6270bc39f536560eb326dc7d76f013e8c681fc4120f7e0f4300</hash>
+        <image_height/>
+        <image_width/>
+        <size_bytes>3152</size_bytes>
+        <size_compressed>1375</size_compressed>
+        <state>available</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-15 09:00:59</sys_created_on>
+        <sys_id>24bc8d611b997d1028b599f91d4bcb4a</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>system</sys_updated_by>
+        <sys_updated_on>2023-09-15 09:00:59</sys_updated_on>
+        <table_name>ZZ_YYsys_app</table_name>
+        <table_sys_id>31b4358e2f2630105113fe1df699b66d</table_sys_id>
+    </sys_attachment>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>H4sIAAAAAAAAAA==</data>
+        <length>16</length>
+        <position>0</position>
+        <sys_attachment display_value="logo" sys_id="24bc8d611b997d1028b599f91d4bcb4a">24bc8d611b997d1028b599f91d4bcb4a</sys_attachment>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-15 09:00:59</sys_created_on>
+        <sys_id>64bc8d611b997d1028b599f91d4bcb4a</sys_id>
+    </sys_attachment_doc>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>jVbLbh03DN33K4SbTbuoTJHUg4WdRaeLWbhAV3eRTVHEN7YB1w4SJ87n91CjmbGDBnCA4PqMJIqPw0Odf/56HZ5urx5vLg4p5UO4Od1e3zxeHLgcwtfb09PvD98uDhQoYDX4xw+3d3cXh/uH+9MhfPv37v7zxeHm8fHjb2dnT09P8Uniw6frMyaiM5g+vP0p4N/5dXh/d/vx14//+D1fPt39/MYx/a3Z8D+1X8bGvtl3hauLw5+Zo7G2wCkK5zzlHJtRXXHINbYqLSSLRUsLuUXJnEKqkaikOZfIlWo/11oOqcVcioassViqfi5XhR3co2XDU6ZYSHhbV4vEym635sQ7zpFgd9owR+UMP9bzFHNW2e0veML9Vazu6zmalIIUxywNGH6bYl1iKq3NI67J49XlnDbuxwqV0GKjRNavqWwrdrdUkL51XZGWZOLXiGbd8RrGinFAUvEwpfBId63hRTlqPY4yvFs58YYySdJDOPu/YhZCUXptUkZNHKp5ipvUHApHZqRiLW3JURrxVvrS4GPaqBAqRc7WS2Rkbcc1FqEybVijJaz7ecnmWAyxwT4X7uuUi0xFopqXTOAPcuD+oKaOS+W2Y8b9ptOGE34J64ISJV5LA/PkvwucSong0b6KOhYzP6wJiXXnkiY3DnrWGc4TCy7x5CxGE5P2c4x9qA+jafotGd+XAld3Sgj90WKtBTxBjrlU9fOsIMCGwdOa2rRh2EmFPUhVFBwYfdKjAP86QYykehjWQJxU3J/ut3Teg69iO0Sb1CzThpsfN3c/EWq3tmuvsedwwV4DWSixLDNKzp2O2ahTBFHKyqB5IdRxwFew0Nd//fTl7nRxOH093T9cXR0WWfrum7O1uYQk7yXTXHmu6imsU0VKVHvpCjUNFXwrSC14khmtiM4HLwacGn6q5W21RDJPAA4n6tjM6nbJuPRdvx1y63lrCjPV8+vOsPSGrmjMUCMIB5VYEBhW2NqR5goKNy7H8WUaeNuPUMhbb7XmoXEt622Xawx02d3g1lcgBJcv3dozDjGlP8oP+h5FzjkNFRGZwDFvnAF9sMBeAuuo80wRg+dDss4JelYyH8f3aWBnQEuWgvcscxcBkQrddZm0tuI5g4eQc5cEl/F1mzlhrCxmiu34++sTaF7zfv2CN4fRZpypbaH4dSxpxbO7Q20eCXilTCrKZpQGJ2RWzApq9VJTpB4Ebk0pXQqq7lVa9wkETZpdCgTRJLsTrJodo6kgpIxZqTYBk0JTGMKGc0Gaa4YFVvQ6zsGuujAO7HYxG/TIZR5L3URuqChGBATNFYShIFIxYuBl9pEBwqvZpaJnISnuDUnLs2OpiOZZlEj1cUTxyhyJz9nUhUNQwUl8oNGGg7hX1IUHovwMo49KaUe0Yy2KX4Isq82CXKSSFi8K8LL/CBlMiGrmBqLZtsw+nq1ux8fysLpALcdx2zSwe6cKuoiPptppAhHlsEYzsHvT8Ho5jmjmsf7K3PibhWre3jIuj4hte8uAzGppEWmSHS4jYNrwMue62Ka2P2U28+MpA6ebQazX9V54EMFHDKW6Y9gvqtOGcT0vSTAm29176f47j6csGukzrnk8RXmdec1nj7h6WawNJ/vsSsuoNTxZRzPL7BLsNEYvNwJctvUkk8nkIyznEtgndA+737I+N1Yv1ucIwqD67DkCsxkK3p9OlGXHHjZaZsPog/6swflirrnVWrOwR9nxcUT3w5qfn12PP65OHz4/44HPs7+cC7cgw8s39rMndt/66fT+cX369xny8vG/XPx0c/t4ekm1s/WO1ZXFhXN/77/9Dz3YCfJQDAAA</data>
+        <length>1820</length>
+        <position>1</position>
+        <sys_attachment display_value="logo" sys_id="24bc8d611b997d1028b599f91d4bcb4a">24bc8d611b997d1028b599f91d4bcb4a</sys_attachment>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-15 09:00:59</sys_created_on>
+        <sys_id>e4bc8d611b997d1028b599f91d4bcb4a</sys_id>
+    </sys_attachment_doc>
     <sys_attachment action="INSERT_OR_UPDATE">
         <average_image_color/>
         <chunk_size_bytes>700000</chunk_size_bytes>

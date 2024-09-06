@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="2444944c1b949610aa042f876e4bcb4a" label="Endpoint Assets" max_length="40" name="x_297025_uptycs_co_endpoint_assets" type="collection">
+        <element label="OS version" max_length="256" name="os_version" type="string"/>
+        <element label="Created at" max_length="40" name="created_at" type="glide_date_time"/>
+        <element label="Gateway" max_length="256" name="gateway" type="string"/>
+        <element label="Hardware Model" max_length="256" name="hardware_model" type="string"/>
+        <element label="Hardware Serial" max_length="256" name="hardware_serial" type="string"/>
+        <element label="Model year" max_length="32" name="model_year" type="string"/>
+        <element label="OS" max_length="256" name="os" type="string"/>
+        <element label="Longitude" max_length="40" name="longitude" type="float"/>
+        <element label="Deleted at" max_length="40" name="deleted_at" type="glide_date_time"/>
+        <element label="Upt asset ID" max_length="256" name="upt_asset_id" type="string"/>
+        <element label="Live" max_length="40" name="live" type="boolean"/>
+        <element label="Location" max_length="1024" name="location" type="string"/>
+        <element label="Logical cores" max_length="40" name="logical_cores" type="integer"/>
+        <element label="cores" max_length="40" name="cores" type="integer"/>
+        <element label="CPU Brand" max_length="256" name="cpu_brand" type="string"/>
+        <element label="agentless" max_length="40" name="agentless" type="boolean"/>
+        <element label="status" max_length="64" name="status" type="string"/>
+        <element label="Uptycs osquery version" max_length="256" name="uptycs_osquery_version" type="string"/>
+        <element label="Model name" max_length="256" name="model_name" type="string"/>
+        <element label="Disabled" max_length="40" name="disabled" type="boolean"/>
+        <element label="Latitude" max_length="40" name="latitude" type="float"/>
+        <element label="Hardware Vendor" max_length="256" name="hardware_vendor" type="string"/>
+        <element label="cmdb ci hardware id" max_length="32" name="cmdb_ci_hardware_id" reference="cmdb_ci_hardware" type="reference"/>
+        <element label="Is command line tool" max_length="40" name="is_command_line_tool" type="integer"/>
+        <element label="Hostname" max_length="1024" name="hostname" type="string"/>
+        <element label="Model dimension" max_length="256" name="model_dimension" type="string"/>
+        <element label="OS Flavor" max_length="256" name="os_flavor" type="string"/>
+        <element label="Memory mb" max_length="40" name="memory_mb" type="integer"/>
+        <index name="index">
+            <element name="cmdb_ci_hardware_id"/>
+        </index>
+    </element>
+</database>

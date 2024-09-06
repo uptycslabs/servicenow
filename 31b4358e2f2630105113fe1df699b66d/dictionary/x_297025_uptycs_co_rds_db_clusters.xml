@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="0bd85a6b1bccd210aa042f876e4bcbab" label="RDS DB Clusters" max_length="40" name="x_297025_uptycs_co_rds_db_clusters" type="collection">
+        <element label="Reader Endpoint" max_length="1024" name="reader_endpoint" type="string"/>
+        <element label="db Cluster Arn" max_length="256" name="db_cluster_arn" type="string"/>
+        <element label="Endpoint" max_length="1024" name="endpoint" type="string"/>
+        <element label="Availability Zones" max_length="256" name="availability_zones" type="string"/>
+        <element label="Database Name" max_length="256" name="database_name" type="string"/>
+        <element label="Hosted Zone Id" max_length="256" name="hosted_zone_id" type="string"/>
+        <element label="IAM Database Authentication Enabled" max_length="40" name="iam_database_authentication_enabled" type="boolean"/>
+        <element label="db Cluster Resource Id" max_length="256" name="db_cluster_resource_id" type="string"/>
+        <element label="Master Username" max_length="256" name="master_username" type="string"/>
+        <element label="Account Id" max_length="256" name="account_id" type="string"/>
+        <element label="Tenant Name" max_length="256" name="tenant_name" type="string"/>
+        <element label="Engine" max_length="256" name="engine" type="string"/>
+        <element label="Upt Resource Id" max_length="256" name="upt_resource_id" type="string"/>
+        <element label="Engine Mode" max_length="256" name="engine_mode" type="string"/>
+        <element label="Port" max_length="40" name="port" type="integer"/>
+        <element label="db Subnet Group" max_length="256" name="db_subnet_group" type="string"/>
+        <element label="Http Endpoint Enabled" max_length="256" name="http_endpoint_enabled" type="boolean"/>
+        <element label="Region" max_length="256" name="region" type="string"/>
+        <element label="db Cluster Parameter Group" max_length="256" name="db_cluster_parameter_group" type="string"/>
+        <element label="Status" max_length="256" name="status" type="string"/>
+        <element label="Allocated Storage" max_length="40" name="allocated_storage" type="integer"/>
+        <element label="Backup Retention Period" max_length="40" name="backup_retention_period" type="integer"/>
+        <element label="Region Code" max_length="256" name="region_code" type="string"/>
+        <element label="Engine Version" max_length="256" name="engine_version" type="string"/>
+        <element label="db Cluster Identifier" max_length="256" name="db_cluster_identifier" type="string"/>
+        <element label="Cluster Create Time" max_length="40" name="cluster_create_time" type="glide_date_time"/>
+        <element label="Latest Restorable Time" max_length="40" name="latest_restorable_time" type="glide_date_time"/>
+        <element label="Deletion Protection" max_length="40" name="deletion_protection" type="boolean"/>
+    </element>
+</database>

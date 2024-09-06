@@ -5,18 +5,20 @@
         <advanced>false</advanced>
         <condition/>
         <description/>
+        <local_or_existing>Local</local_or_existing>
         <name>x_297025_uptycs_co_compliance</name>
         <operation display_value="write">write</operation>
         <script/>
+        <security_attribute/>
         <sys_class_name>sys_security_acl</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-13 20:47:29</sys_created_on>
         <sys_id>e8a24a422fa630105113fe1df699b62b</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>x_297025_uptycs_co_compliance</sys_name>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_security_acl_e8a24a422fa630105113fe1df699b62b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2021-09-13 20:47:29</sys_updated_on>

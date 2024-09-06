@@ -8,7 +8,7 @@
         <cancel_label/>
         <condition/>
         <condition_script/>
-        <condition_type>declarative</condition_type>
+        <condition_type>script</condition_type>
         <confirm_label/>
         <confirmation_message/>
         <context>global</context>
@@ -31,6 +31,10 @@
         <mail_subject/>
         <name>New Button (Compliance)</name>
         <offline>false</offline>
+        <offline_condition/>
+        <offline_condition_script/>
+        <offline_condition_type>declarative</offline_condition_type>
+        <offline_table/>
         <offline_template_field/>
         <offline_template_field_table/>
         <phone_number/>
@@ -39,7 +43,7 @@
         <rating_span_count>2</rating_span_count>
         <refresh_screen_after_action>false</refresh_screen_after_action>
         <relative_url>true</relative_url>
-        <roles/>
+        <roles>admin</roles>
         <save_signature_before_action_execution>false</save_signature_before_action_execution>
         <select_current_record>false</select_current_record>
         <show_acknowledgement>false</show_acknowledgement>
@@ -54,14 +58,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-09-13 20:48:50</sys_created_on>
         <sys_id>90f24e422fa630105113fe1df699b660</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_name>New Button (Compliance)</sys_name>
-        <sys_package display_value="Uptycs Compliance" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
         <sys_policy/>
-        <sys_scope display_value="Uptycs Compliance">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
         <sys_update_name>sys_sg_button_90f24e422fa630105113fe1df699b660</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-09-13 20:48:50</sys_updated_on>
+        <sys_updated_on>2023-09-15 08:53:42</sys_updated_on>
         <table>x_297025_uptycs_co_compliance</table>
         <take_value_from_field>false</take_value_from_field>
         <type>write_back</type>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="metric__rss" label="rss" language="en" table="v_clotho_series">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>metric__rss</element>
+            <help/>
+            <hint/>
+            <label>rss</label>
+            <language>en</language>
+            <name>v_clotho_series</name>
+            <plural>rss</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2024-04-16 06:01:45</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>rss</sys_name>
+            <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+            <sys_update_name>sys_documentation_v_clotho_series_metric__rss_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2024-04-16 06:01:45</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

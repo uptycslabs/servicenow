@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_scope_privilege">
+    <sys_scope_privilege action="INSERT_OR_UPDATE">
+        <operation>execute</operation>
+        <source_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</source_scope>
+        <status>allowed</status>
+        <sys_class_name>sys_scope_privilege</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-04 12:31:24</sys_created_on>
+        <sys_id>2b53dd4e1b0d7110aa042f876e4bcb4b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>ScriptableConnectionInfoProvider.getConnectionInfo</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_scope_privilege_2b53dd4e1b0d7110aa042f876e4bcb4b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-09-04 12:31:24</sys_updated_on>
+        <target_name>ScriptableConnectionInfoProvider.getConnectionInfo</target_name>
+        <target_scope display_value="Global">global</target_scope>
+        <target_type>scriptable</target_type>
+    </sys_scope_privilege>
+</record_update>

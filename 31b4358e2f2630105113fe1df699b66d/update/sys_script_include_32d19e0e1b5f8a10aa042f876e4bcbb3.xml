@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_297025_uptycs_co.VulcTestManager</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>VulcTestManager</name>
+        <script><![CDATA[var VulcTestManager = Class.create();
+VulcTestManager.prototype = {
+    initialize: function() {},
+
+    createEndpointAssetRecord: function(data, cmdb_sys_id) {
+        var record = new GlideRecord('x_297025_uptycs_co_endpoint_assets');
+        record.addQuery('upt_asset_id', data.upt_asset_id);
+        record.query();
+        if (record.next()) {
+            // Update existing record
+			record.setValue('cmdb_ci_hardware_id', cmdb_sys_id);
+            record.setValue('hostname', data.host_name);
+            record.setValue('location', data.LOCATION);
+			record.setValue('latitude', data.latitude);
+			record.setValue('longitude', data.longitude);
+			record.setValue('gateway', data.gateway);
+			record.setValue('cpu_brand', data.cpu_brand);
+			record.setValue('hardware_model', data.hardware_model);
+			record.setValue('hardware_serial', data.hardware_serial);
+			record.setValue('hardware_vendor', data.hardware_vendor);
+            record.setValue('uptycs_osquery_version', data.osquery_version);
+			record.setValue('cores', data.cores);
+			record.setValue('logical_cores', data.logical_cores);
+			record.setValue('memory_mb', data.memory_mb);
+			record.setValue('os', data.os);
+			record.setValue('os_version', data.os_version);
+			record.setValue('os_flavor', data.os_flavor);
+			record.setValue('status', data.status);
+            record.setValue('disabled', data.disabled);
+            record.setValue('created_at', data.created_at);
+            record.setValue('deleted_at', data.deleted_at);
+            record.setValue('live', data.live);
+            record.setValue('agentless', data.agentless);
+            record.setValue('is_command_line_tool', data.is_command_line_tool);
+            record.setValue('model_name', data.model_name);
+            record.setValue('model_dimension', data.model_dimension);
+            record.setValue('model_year', data.model_year);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+			record.setValue('cmdb_ci_hardware_id', cmdb_sys_id);
+            record.setValue('upt_asset_id', data.upt_asset_id);
+            record.setValue('hostname', data.host_name);
+            record.setValue('location', data.LOCATION);
+			record.setValue('latitude', data.latitude);
+			record.setValue('longitude', data.longitude);
+			record.setValue('gateway', data.gateway);
+			record.setValue('cpu_brand', data.cpu_brand);
+			record.setValue('hardware_model', data.hardware_model);
+			record.setValue('hardware_serial', data.hardware_serial);
+			record.setValue('hardware_vendor', data.hardware_vendor);
+            record.setValue('uptycs_osquery_version', data.osquery_version);
+			record.setValue('cores', data.cores);
+			record.setValue('logical_cores', data.logical_cores);
+			record.setValue('memory_mb', data.memory_mb);
+			record.setValue('os', data.os);
+			record.setValue('os_version', data.os_version);
+			record.setValue('os_flavor', data.os_flavor);
+			record.setValue('status', data.status);
+            record.setValue('disabled', data.disabled);
+            record.setValue('created_at', data.created_at);
+            record.setValue('deleted_at', data.deleted_at);
+            record.setValue('live', data.live);
+            record.setValue('agentless', data.agentless);
+            record.setValue('is_command_line_tool', data.is_command_line_tool);
+            record.setValue('model_name', data.model_name);
+            record.setValue('model_dimension', data.model_dimension);
+            record.setValue('model_year', data.model_year);
+            record.insert();
+        }
+	},
+
+    createVulnerabilityRecord: function(data, asset_id) {
+        var record = new GlideRecord('x_297025_uptycs_co_vulnerabilities');
+        record.addQuery('cve', data.cve_list);
+        record.addQuery('asset', asset_id);
+        record.addQuery('package_name', data.package_name);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('exploit', data.exploit);
+			record.setValue('zeroday_exploit', data.zeroday_exploit);
+			record.setValue('package_type', data.package_type);
+			record.setValue('system_type', data.system_type);
+			record.setValue('uptycs_severity', data.uptycs_severity);
+			record.setValue('package_name', data.package_name);
+			record.setValue('package_version', data.package_version);
+			record.setValue('fix_version', data.fix_version);
+			record.setValue('description', data.vuln_desc);
+			record.setValue('cve', data.cve_list);
+			record.setValue('cvss_score', data.cvss_score);
+			record.setValue('uptycs_score', data.uptycs_score);
+			record.setValue('upt_first_seen', data.upt_first_seen);
+			record.setValue('upt_last_seen', data.upt_last_seen);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('cve', data.cve_list);
+            record.setValue('asset', asset_id);
+            record.setValue('package_name', data.package_name);
+            record.setValue('exploit', data.exploit);
+			record.setValue('zeroday_exploit', data.zeroday_exploit);
+			record.setValue('package_type', data.package_type);
+			record.setValue('system_type', data.system_type);
+			record.setValue('uptycs_severity', data.uptycs_severity);
+			record.setValue('package_name', data.package_name);
+			record.setValue('package_version', data.package_version);
+			record.setValue('fix_version', data.fix_version);
+			record.setValue('description', data.vuln_desc);
+			record.setValue('cve', data.cve_list);
+			record.setValue('cvss_score', data.cvss_score);
+			record.setValue('uptycs_score', data.uptycs_score);
+			record.setValue('upt_first_seen', data.upt_first_seen);
+			record.setValue('upt_last_seen', data.upt_last_seen);
+			record.insert();
+        }
+	},
+
+    ingestVulnerability: function(vulnData, asset_id) {
+        try {
+			if (vulnData.vuln_desc === '') {
+				return;
+			}
+            // Check if the vulnerability already exists based on CVE ID
+            var vulnerabilityGR = new GlideRecord('sn_vul_entry');
+            vulnerabilityGR.addQuery('name', vulnData.cve_list);
+            vulnerabilityGR.addQuery('id', vulnData.cve_list);
+            vulnerabilityGR.query();
+
+            if (!vulnerabilityGR.next()) {
+                gs.info('Vulnerability with CVE ' + vulnData.cve_list + ' does not exist. Creating a new record.');
+                // Insert new vulnerability record
+                vulnerabilityGR.initialize();
+                vulnerabilityGR.name = vulnData.cve_list;
+                vulnerabilityGR.id = vulnData.cve_list;
+                vulnerabilityGR.date_published = vulnData.published;
+				vulnerabilityGR.summary = vulnData.vuln_desc;
+				vulnerabilityGR.source = 'Uptycs';
+				if (vulnData.exploit) {
+                    vulnerabilityGR.exploit = 1;
+				} else {
+					vulnerabilityGR.exploit = 0;
+				}
+				vulnerabilityGR.vulnerability_status = 'Open';
+                vulnerabilityGR.insert();
+            }
+
+            // Check if the vulnerable software exists based on package name
+            var vuln_sw = new GlideRecord('sn_vul_software');
+            vuln_sw.addQuery('display_name', vulnData.package_name);
+            vuln_sw.addQuery('version', vulnData.package_version);
+            vuln_sw.query();
+
+            if (!vuln_sw.next()) {
+                vuln_sw.initialize();
+                vuln_sw.display_name = vulnData.package_name;
+                vuln_sw.version = vulnData.package_version;
+                vuln_sw.insert();
+            }
+
+            // Check if a vulnerable item already exists for this vulnerability and asset
+            var vulnerableItemGR = new GlideRecord('sn_vul_vulnerable_item');
+            vulnerableItemGR.addQuery('vulnerability', vulnerabilityGR.sys_id);
+            vulnerableItemGR.addQuery('cmdb_ci', asset_id);
+			vulnerableItemGR.addQuery('sw_vulnerability', vuln_sw.sys_id);
+            vulnerableItemGR.query();
+
+            if (vulnerableItemGR.next()) {
+                vulnerableItemGR.description = vulnData.vuln_desc;
+                vulnerableItemGR.state = '1';
+				vulnerableItemGR.active = true;
+                vulnerableItemGR.update();
+            } else {
+                vulnerableItemGR.initialize();
+                vulnerableItemGR.vulnerability = vulnerabilityGR.sys_id;  // Reference to vulnerability record
+                vulnerableItemGR.cmdb_ci = asset_id;  // Reference to asset in CMDB
+                vulnerableItemGR.sw_vulnerability = vuln_sw.sys_id;  // Reference to asset in CMDB
+                vulnerableItemGR.description = vulnData.vuln_desc;
+                vulnerableItemGR.state = '1';
+				vulnerableItemGR.active = true;
+                vulnerableItemGR.insert();
+            }
+
+            // Check if a vulnerable item already exists for this vulnerability and asset
+            var vulnGR = new GlideRecord('sn_vul_vulnerability');
+            vulnGR.addQuery('sn_vul_entry', vulnerabilityGR.sys_id);
+            vulnGR.query();
+
+            if (!vulnGR.next()) {
+                vulnerableItemGR.initialize();
+                vulnerableItemGR.sn_vul_entry = vulnerabilityGR.sys_id;  // Reference to vulnerability record
+                vulnerableItemGR.insert();
+            }
+
+            gs.info('Vulnerability and related records processed successfully.');
+        } catch (ex) {
+            gs.error('Error ingesting vulnerability data: ' + ex.message);
+        }
+    },
+
+    createAzureSqlRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_azure_sql');
+        record.addQuery('name', data.name);
+        record.addQuery('resource_id', data.resourceId);
+        record.addQuery('upt_resource_id', data.uptResourceId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('catalog_collation', data.catalogCollation);
+			record.setValue('collation_val', data.collationVal);
+			record.setValue('creation_date', data.creationDate);
+			record.setValue('database_id', data.databaseId);
+			record.setValue('default_secondary_location', data.defaultSecondaryLocation);
+			record.setValue('edition', data.edition);
+			record.setValue('kind', data.kind);
+			record.setValue('maintenance_configuration_id', data.maintenanceConfigurationId);
+			record.setValue('server_resource_id', data.serverResourceId);
+			record.setValue('status', data.status);
+			record.setValue('type', data.type);
+			record.setValue('resource_group', data.resourceGroup);
+			record.setValue('subscription_id', data.subscriptionId);
+			record.setValue('az_tenant_id', data.azTenantId);
+			record.setValue('upt_tenant_id', data.uptTenantId);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('name', data.name);
+            record.setValue('resource_id', data.resourceId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('catalog_collation', data.catalogCollation);
+			record.setValue('collation_val', data.collationVal);
+			record.setValue('creation_date', data.creationDate);
+			record.setValue('database_id', data.databaseId);
+			record.setValue('default_secondary_location', data.defaultSecondaryLocation);
+			record.setValue('edition', data.edition);
+			record.setValue('kind', data.kind);
+			record.setValue('maintenance_configuration_id', data.maintenanceConfigurationId);
+			record.setValue('server_resource_id', data.serverResourceId);
+			record.setValue('status', data.status);
+			record.setValue('type', data.type);
+			record.setValue('resource_group', data.resourceGroup);
+			record.setValue('subscription_id', data.subscriptionId);
+			record.setValue('az_tenant_id', data.azTenantId);
+			record.setValue('upt_tenant_id', data.uptTenantId);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.insert();
+        }
+	},
+
+    createRDSClusterRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_rds_db_clusters');
+        record.addQuery('database_name', data.databaseName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.addQuery('upt_resource_id', data.uptResourceId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('allocated_storage', data.allocatedStorage);
+            record.setValue('availability_zones', data.availabilityZones.join(','));
+			record.setValue('backup_retention_period', data.backupRetentionPeriod);
+			record.setValue('cluster_create_time', data.clusterCreateTime);
+			record.setValue('db_cluster_arn', data.dbClusterArn);
+			record.setValue('db_cluster_identifier', data.dbClusterIdentifier);
+			record.setValue('db_cluster_parameter_group', data.dbClusterParameterGroup);
+			record.setValue('db_subnet_group', data.dbSubnetGroup);
+			record.setValue('database_name', data.databaseName);
+			record.setValue('db_cluster_resource_id', data.dbClusterResourceId);
+			record.setValue('deletion_protection', data.deletionProtection);
+			record.setValue('endpoint', data.endpoint);
+			record.setValue('engine', data.engine);
+			record.setValue('engine_mode', data.engineMode);
+			record.setValue('engine_version', data.engineVersion);
+			record.setValue('hosted_zone_id', data.hostedZoneId);
+            record.setValue('http_endpoint_enabled', data.httpEndpointEnabled);
+            record.setValue('iam_database_authentication_enabled', data.iamDatabaseAuthenticationEnabled);
+            record.setValue('latest_restorable_time', data.latestRestorableTime);
+            record.setValue('master_username', data.masterUsername);
+            record.setValue('port', data.port);
+            record.setValue('reader_endpoint', data.readerEndpoint);
+            record.setValue('status', data.status);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('database_name', data.databaseName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('allocated_storage', data.allocatedStorage);
+            record.setValue('availability_zones', data.availabilityZones.join(','));
+			record.setValue('backup_retention_period', data.backupRetentionPeriod);
+			record.setValue('cluster_create_time', data.clusterCreateTime);
+			record.setValue('db_cluster_arn', data.dbClusterArn);
+			record.setValue('db_cluster_identifier', data.dbClusterIdentifier);
+			record.setValue('db_cluster_parameter_group', data.dbClusterParameterGroup);
+			record.setValue('db_subnet_group', data.dbSubnetGroup);
+			record.setValue('database_name', data.databaseName);
+			record.setValue('db_cluster_resource_id', data.dbClusterResourceId);
+			record.setValue('deletion_protection', data.deletionProtection);
+			record.setValue('endpoint', data.endpoint);
+			record.setValue('engine', data.engine);
+			record.setValue('engine_mode', data.engineMode);
+			record.setValue('engine_version', data.engineVersion);
+			record.setValue('hosted_zone_id', data.hostedZoneId);
+            record.setValue('http_endpoint_enabled', data.httpEndpointEnabled);
+            record.setValue('iam_database_authentication_enabled', data.iamDatabaseAuthenticationEnabled);
+            record.setValue('latest_restorable_time', data.latestRestorableTime);
+            record.setValue('master_username', data.masterUsername);
+            record.setValue('port', data.port);
+            record.setValue('reader_endpoint', data.readerEndpoint);
+            record.setValue('status', data.status);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.insert();
+        }
+	},
+
+    createAWSIAMRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_aws_iam');
+        record.addQuery('policy_name', data.policyName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('policy_arn', data.policyArn);
+            record.setValue('policy_attachment_count', data.policyAttachmentCount);
+			record.setValue('policy_create_date', data.policyCreateDate);
+			record.setValue('policy_default_version', data.policyDefaultVersion);
+			record.setValue('policy_description', data.policyDescription);
+			record.setValue('policy_doc', data.policyDoc);
+			record.setValue('policy_group_details', data.policyGroupDetails);
+			record.setValue('policy_id', data.policyId);
+			record.setValue('policy_is_attachable', data.policyIsAttachable);
+			record.setValue('policy_is_depricated', data.policyIsDepricated);
+			record.setValue('policy_name', data.policyName);
+			record.setValue('policy_path', data.policyPath);
+			record.setValue('policy_permissions_boundary_usage_count', data.policyPermissionsBoundaryUsageCount);
+			record.setValue('policy_role_details', data.policyRoleDetails);
+			record.setValue('policy_type', data.policyType);
+			record.setValue('policy_update_date', data.policyUpdateDate);
+            record.setValue('policy_user_details', data.policyUserDetails);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('policy_name', data.policyName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('policy_arn', data.policyArn);
+            record.setValue('policy_attachment_count', data.policyAttachmentCount);
+			record.setValue('policy_create_date', data.policyCreateDate);
+			record.setValue('policy_default_version', data.policyDefaultVersion);
+			record.setValue('policy_description', data.policyDescription);
+			record.setValue('policy_doc', data.policyDoc);
+			record.setValue('policy_group_details', data.policyGroupDetails);
+			record.setValue('policy_id', data.policyId);
+			record.setValue('policy_is_attachable', data.policyIsAttachable);
+			record.setValue('policy_is_depricated', data.policyIsDepricated);
+			record.setValue('policy_name', data.policyName);
+			record.setValue('policy_path', data.policyPath);
+			record.setValue('policy_permissions_boundary_usage_count', data.policyPermissionsBoundaryUsageCount);
+			record.setValue('policy_role_details', data.policyRoleDetails);
+			record.setValue('policy_type', data.policyType);
+			record.setValue('policy_update_date', data.policyUpdateDate);
+            record.setValue('policy_user_details', data.policyUserDetails);
+            record.insert();
+        }
+	},
+
+    createLambdaFuctionRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_lambda_functions');
+        record.addQuery('function_name', data.functionName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('code_size', data.codeSize);
+            record.setValue('description', data.description);
+			record.setValue('function_arn', data.functionArn);
+			record.setValue('function_name', data.functionName);
+			record.setValue('handler', data.handler);
+			record.setValue('is_lambda_public', data.isLambdaPublic);
+			record.setValue('last_modified', data.lastModified);
+			record.setValue('last_update_status', data.lastUpdateStatus);
+			record.setValue('master_arn', data.masterArn);
+			record.setValue('memory_size', data.memorySize);
+			record.setValue('package_type', data.packageType);
+			record.setValue('role', data.role);
+			record.setValue('runtime', data.runtime);
+			record.setValue('timeout', data.timeout);
+			record.setValue('tracing_config_mode', data.tracingConfigMode);
+			record.setValue('version', data.version);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('function_name', data.functionName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.setValue('code_size', data.codeSize);
+            record.setValue('description', data.description);
+			record.setValue('function_arn', data.functionArn);
+			record.setValue('function_name', data.functionName);
+			record.setValue('handler', data.handler);
+			record.setValue('is_lambda_public', data.isLambdaPublic);
+			record.setValue('last_modified', data.lastModified);
+			record.setValue('last_update_status', data.lastUpdateStatus);
+			record.setValue('master_arn', data.masterArn);
+			record.setValue('memory_size', data.memorySize);
+			record.setValue('package_type', data.packageType);
+			record.setValue('role', data.role);
+			record.setValue('runtime', data.runtime);
+			record.setValue('timeout', data.timeout);
+			record.setValue('tracing_config_mode', data.tracingConfigMode);
+			record.setValue('version', data.version);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.insert();
+        }
+	},
+
+    createECSClusterRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_ecs_clusters');
+        record.addQuery('cluster_name', data.clusterName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('active_services_count', data.activeServicesCount);
+            record.setValue('cluster_arn', data.clusterArn);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('cluster_name', data.clusterName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('active_services_count', data.activeServicesCount);
+            record.setValue('cluster_arn', data.clusterArn);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('status', data.status);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.insert();
+        }
+	},
+
+    createS3BucketRecord: function(data) {
+        var record = new GlideRecord('x_297025_uptycs_co_s3_buckets');
+        record.addQuery('bucket_name', data.bucketName);
+        record.addQuery('tenant_name', data.uptTenantName);
+        record.addQuery('account_id', data.accountId);
+        record.query();
+        
+        if (record.next()) {
+            // Update existing record
+            record.setValue('acl_owner_display_name', data.aclOwnerDisplayName);
+            record.setValue('acl_owner_id', data.aclOwnerId);
+            record.setValue('bucket_region', data.bucketRegion);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('bucket_creation_date', data.bucketCreationDate);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.update();
+        } else {
+            // Insert new record
+            record.initialize();
+            record.setValue('bucket_name', data.bucketName);
+            record.setValue('tenant_name', data.uptTenantName);
+            record.setValue('account_id', data.accountId);
+            record.setValue('acl_owner_display_name', data.aclOwnerDisplayName);
+            record.setValue('acl_owner_id', data.aclOwnerId);
+            record.setValue('bucket_region', data.bucketRegion);
+            record.setValue('region_code', data.regionCode);
+            record.setValue('region', data.region);
+            record.setValue('bucket_creation_date', data.bucketCreationDate);
+            record.setValue('upt_resource_id', data.uptResourceId);
+            record.insert();
+        }
+	},
+
+    createUptycsComplianceRecord: function(testData) {
+        var grCompliance = new GlideRecord('x_297025_uptycs_co_compliance');
+        grCompliance.initialize();
+        grCompliance.setValue('upt_asset_id', testData.upt_asset_id);
+        grCompliance.setValue('upt_day', testData.upt_day);
+        grCompliance.setValue('upt_hash', testData.upt_hash);
+        grCompliance.setValue('upt_hostname', testData.upt_hostname);
+        grCompliance.setValue('upt_time', testData.upt_time);
+        grCompliance.setValue('authoritative_source', testData.authoritative_source);
+        grCompliance.setValue('expected_value', testData.expected_value);
+        grCompliance.setValue('remediation', testData.remediation);
+        grCompliance.setValue('command', testData.command);
+        grCompliance.setValue('compliant', testData.compliant);
+        grCompliance.setValue('description', testData.description);
+        grCompliance.setValue('evidence', testData.evidence);
+        grCompliance.setValue('metadata', testData.metadata);
+        grCompliance.setValue('path', testData.path);
+        grCompliance.setValue('rationale', testData.rationale);
+        grCompliance.setValue('reason', testData.reason);
+        grCompliance.setValue('score', testData.score);
+        grCompliance.setValue('scored', testData.scored);
+        grCompliance.setValue('section_title', testData.section_title);
+        grCompliance.setValue('section', testData.section);
+        grCompliance.setValue('values', testData.values);
+        grCompliance.setValue('version', testData.version);
+        grCompliance.setValue('rank_num', testData.rank_num);
+        grCompliance.insert();
+	},
+
+    createUptycsCloudComplianceRecord: function(testData) {
+        var grCompliance = new GlideRecord('x_297025_uptycs_co_cloud_compliance');
+        grCompliance.initialize();
+        grCompliance.setValue('type', testData.type);
+        grCompliance.setValue('service', testData.service);
+        grCompliance.setValue('check_id', testData.check_id);
+        grCompliance.setValue('resource_location', testData.check_resource_location);
+        grCompliance.setValue('resource_type', testData.check_resource_type);
+        grCompliance.setValue('resource_id', testData.check_resource_id);
+        grCompliance.setValue('passed', testData.passed);
+        grCompliance.setValue('reason', testData.reason);
+        grCompliance.setValue('upt_time', testData.created_at);
+        grCompliance.setValue('cloud_account_id', testData.cloud_account_id);
+        grCompliance.setValue('title', testData.title);
+        grCompliance.setValue('description', testData.description);
+        grCompliance.setValue('standard', testData.standard);
+        grCompliance.setValue('version', testData.version);
+        grCompliance.setValue('chapter', testData.chapter);
+        grCompliance.setValue('score', testData.score);
+        grCompliance.setValue('rationale', testData.rationale);
+        grCompliance.setValue('remediation', testData.remediation);
+        grCompliance.setValue('command', testData.command);
+        grCompliance.insert();
+	},
+
+    createOrUpdateTest: function(testData, sysIdPolicy) {
+        var grConfigComplianceTest = new GlideRecord('sn_vulc_test');
+		var source_id = testData.authoritative_source + '-' + testData.section + '-' + testData.version
+        grConfigComplianceTest.addQuery('source', 'Uptycs');
+        grConfigComplianceTest.addQuery('short_description', testData.section_title);
+        grConfigComplianceTest.addQuery('source_id', source_id);
+        grConfigComplianceTest.addQuery('source_category', testData.section);
+        grConfigComplianceTest.addQuery('source_sub_category', testData.version);
+        grConfigComplianceTest.query();
+        
+        if (grConfigComplianceTest.next()) {
+            // Update existing record
+			gs.info('sn_vulc_test record exists for '+ testData.section, testData.version);
+            grConfigComplianceTest.setValue('remediation', testData.remediation);
+            grConfigComplianceTest.setValue('description', testData.description);
+            grConfigComplianceTest.setValue('result', testData.result);
+            grConfigComplianceTest.setValue('risk_score', testData.score);
+            grConfigComplianceTest.setValue('test_group', sysIdPolicy);
+            grConfigComplianceTest.update();
+        } else {
+            // Insert new record
+			gs.info('sn_vulc_test record creating for '+ testData.section + ' - ' + testData.version);
+            grConfigComplianceTest.initialize();
+		
+			// Set field values with validation
+            var fields = {
+                'source': 'Uptycs',
+                'remediation': testData.remediation,
+                'description': testData.description,
+                'short_description': testData.section_title,
+                'source_id': source_id,
+                'source_category': testData.section,
+                'source_sub_category': testData.version,
+                'result': testData.result,
+                'risk_score': testData.score,
+				'test_group': sysIdPolicy,
+            };
+
+            for (var field in fields) {
+                if (grConfigComplianceTest.isValidField(field)) {
+                    grConfigComplianceTest.setValue(field, fields[field]);
+                } else {
+                    gs.error('Invalid field: ' + field);
+                }
+            }
+
+            var insertResult = grConfigComplianceTest.insert();
+			//gs.info('Insert result: ' + insertResult);
+        }
+		if (grConfigComplianceTest.isValidRecord()) {
+			return grConfigComplianceTest.sys_id.toString();
+		} else {
+			gs.error('Failed to create or update sn_vulc_test record for ' + testData.section + ' - ' + testData.version);
+			return null;
+		}
+    },
+
+	createOrUpdatePolicy: function(policyData) {
+        var grConfigCompliancePolicy = new GlideRecord('sn_vulc_policy');
+        grConfigCompliancePolicy.addQuery('source', 'Uptycs');
+        grConfigCompliancePolicy.addQuery('source_id', policyData.authoritative_source);
+        grConfigCompliancePolicy.addQuery('short_description', policyData.authoritative_source);
+        grConfigCompliancePolicy.query();
+        
+        if (grConfigCompliancePolicy.next()) {
+            // Update existing record
+            grConfigCompliancePolicy.setValue('active', true);
+            grConfigCompliancePolicy.update();
+        } else {
+            // Insert new record
+            grConfigCompliancePolicy.initialize();
+            grConfigCompliancePolicy.setValue('source', 'Uptycs');
+            grConfigCompliancePolicy.setValue('short_description', policyData.authoritative_source);
+            grConfigCompliancePolicy.setValue('description', 'Uptycs compliance standard');
+            grConfigCompliancePolicy.setValue('source_id', policyData.authoritative_source);
+            grConfigCompliancePolicy.setValue('active', true);
+            grConfigCompliancePolicy.insert();
+        }
+        return grConfigCompliancePolicy.sys_id.toString();
+    },
+
+	createOrUpdatePolicyTest: function(policyTestData, policySysId, testSysId) {
+        var grConfigCompliancePolicyTest = new GlideRecord('sn_vulc_policy_test');
+        grConfigCompliancePolicyTest.addQuery('name', policyTestData.authoritative_source);
+        grConfigCompliancePolicyTest.addQuery('section_name', policyTestData.authoritative_source);
+        grConfigCompliancePolicyTest.query();
+        
+        if (grConfigCompliancePolicyTest.next()) {
+            // Update existing record
+            grConfigCompliancePolicyTest.setValue('policy', policySysId);
+            grConfigCompliancePolicyTest.setValue('control', testSysId);
+            grConfigCompliancePolicyTest.update();
+        } else {
+            // Insert new record
+            grConfigCompliancePolicyTest.initialize();
+            grConfigCompliancePolicyTest.setValue('name', policyTestData.authoritative_source);
+            grConfigCompliancePolicyTest.setValue('section_name', policyTestData.authoritative_source);
+            grConfigCompliancePolicyTest.setValue('policy', policySysId);
+            grConfigCompliancePolicyTest.setValue('control', testSysId);
+            grConfigCompliancePolicyTest.insert();
+        }
+        return grConfigCompliancePolicyTest.sys_id.toString();
+    },
+
+	createOrUpdateResult: function(resultData, assetRef, sysIdTest) {
+        var grConfigCompliance = new GlideRecord('sn_vulc_result');
+		var desc = resultData.section_title + ' ' + resultData.description;
+        grConfigCompliance.initialize();
+        grConfigCompliance.setValue('cmdb_ci', assetRef);
+        grConfigCompliance.setValue('control', sysIdTest);
+        grConfigCompliance.setValue('last_seen', resultData.upt_time);
+        grConfigCompliance.setValue('source', 'Uptycs');
+        grConfigCompliance.setValue('source_id', resultData.authoritative_source);
+        grConfigCompliance.setValue('expected_values', resultData.expected_value);
+        grConfigCompliance.setValue('remediation', resultData.remediation);
+        grConfigCompliance.setValue('result', resultData.compliant);
+        grConfigCompliance.setValue('description', desc);
+        grConfigCompliance.setValue('display', resultData.description);
+        grConfigCompliance.setValue('actual_values', resultData.evidence);
+        grConfigCompliance.setValue('risk_score', resultData.score);
+        grConfigCompliance.insert();
+        return grConfigCompliance.sys_id.toString();
+    },
+	
+    type: 'VulcTestManager'
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-07-11 09:38:02</sys_created_on>
+        <sys_id>32d19e0e1b5f8a10aa042f876e4bcbb3</sys_id>
+        <sys_mod_count>53</sys_mod_count>
+        <sys_name>VulcTestManager</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_script_include_32d19e0e1b5f8a10aa042f876e4bcbb3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-09-02 15:43:15</sys_updated_on>
+    </sys_script_include>
+</record_update>

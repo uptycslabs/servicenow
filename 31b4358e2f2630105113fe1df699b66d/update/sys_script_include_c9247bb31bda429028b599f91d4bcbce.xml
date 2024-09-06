@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_297025_uptycs_co.UptycsAPI</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>UptycsAPI</name>
+        <script><![CDATA[var CryptoJS = new Crypto().CryptoJS;
+var UptycsAPI = Class.create();
+UptycsAPI.prototype = {
+    initialize: function(uptCustomerId, uptUrl, iss, secret) {
+        this.customerId = uptCustomerId;
+		this.url = uptUrl;
+		this.iss = iss;
+		this.secret = secret;
+		this.vulcTestManager = new VulcTestManager();
+		this.missedSections = [];
+	},
+
+	// Helper function to remove illegal characters from the base64 string
+    removeIllegalCharacters: function (input) {
+        return input.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+    },
+
+	// Helper function to convert an object to a base64 string
+    base64object: function (input) {
+		var inputWords = CryptoJS.enc.Utf8.parse(JSON.stringify(input));
+		var base64 = CryptoJS.enc.Base64.stringify(inputWords);
+		var output = this.removeIllegalCharacters(base64);
+		return output;
+	},
+
+	getToken: function(apiDate) {
+
+		// Calculate the current date in seconds (UNIX timestamp)
+		var date = Math.floor(apiDate.getTime() / 1000);
+
+		// Create the header and payload objects
+		var header = { 'alg': 'HS256', 'typ': 'JWT' };
+		var payload = { 'iss': this.iss, 'iat': date, 'exp': date + 3600 }; // Token expires in 3600 seconds (1 hour)
+
+		// Generate the unsigned token
+		var unsignedToken = this.base64object(header) + "." + this.base64object(payload);
+		
+		// Calculate the signature hash using HMAC-SHA256
+		var signatureHash = CryptoJS.HmacSHA256(unsignedToken, this.secret);
+
+		// Convert the signature hash to base64
+		var signature = signatureHash.toString(CryptoJS.enc.Base64);
+
+		// Concatenate the unsigned token and signature to create the final token
+		var token = this.removeIllegalCharacters(unsignedToken + '.' + signature);
+
+		return 'Bearer ' + token;
+    },
+
+    wait: function(ms) {
+        var start = Date.now(),
+            current = start;
+        while (current - start < ms) {
+            current = Date.now();
+        }
+    },
+
+	getMissedSections: function() {
+        return this.missedSections;
+	},
+
+    createComplianceSectionQuery: function(section, standard) {
+        return 'WITH distinct_results AS (SELECT DISTINCT CONCAT(section, \' \', title) AS section_title, authoritative_source, command, compliant, description, evidence, expected_value, metadata, path, rationale, reason, remediation, score, scored, section, version, upt_hostname, upt_asset_id, upt_hash, upt_time, upt_day FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\' AND section = \'' + section + '\'), latest AS (SELECT *, row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM distinct_results),final as ( SELECT * FROM latest WHERE rank_num = 1) select ua.gateway, ua.hardware_vendor, ua.hardware_model, ua.live, ua.os, ua.os_version, cla.* FROM final cla JOIN upt_assets ua ON cla.upt_asset_id = ua.id';
+    },
+
+    getComplianceCount: function(standard) {
+        var query = 'WITH latest AS (SELECT row_number() OVER (PARTITION BY upt_asset_id, section ORDER BY upt_time DESC) rank_num FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) AND title != \'\') SELECT COUNT(*) as N FROM latest WHERE rank_num >= 1';
+        var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+        return nRows;
+    },
+
+    getComplianceSections: function(standard) {
+        var query = 'SELECT section FROM compliance WHERE standard = \'' + standard + '\' AND upt_day >= CAST(date_format(localtimestamp - INTERVAL \'7\' DAY, \'%Y%m%d\') AS INTEGER) GROUP BY section';
+		var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+		var sections = [];
+		for (ii = 0; ii < nRows / 10000; ii++) { 
+			//loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+			for (iii = 0; iii < responseObj.items.length; iii++) { 
+				// loop over records
+				sections.push(responseObj.items[iii].rowData.section);
+			}
+		}
+        return sections;
+    },
+
+    getS3Buckets: function(offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs S3 Buckets', 'GET Uptycs S3 Buckets');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('offset', offset);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs S3 buckets not found");
+			return null;
+		}
+    },
+
+    ingestS3BucketRecords: function() {
+		var offset = 0;
+        var batchSize = 1000;
+        var hasMoreData = true;
+
+        while (hasMoreData) {
+           var buckets = this.getS3Buckets(offset);	   
+            if (buckets.items && buckets.items.length > 0) {
+                offset += batchSize;
+				for (var i = 0; i < buckets.items.length; i++) {
+					this.vulcTestManager.createS3BucketRecord(buckets.items[i]);
+                }
+            } else {
+                hasMoreData = false;  
+            }
+        }
+	},
+
+    getLambdaFunctions: function(offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Lambda Functions', 'GET Uptycs Lambda Functions');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('offset', offset);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs Lambda Functions not found");
+			return null;
+		}
+    },
+
+    ingestLambdaFunctionRecords: function() {
+		var offset = 0;
+        var batchSize = 1000;
+        var hasMoreData = true;
+
+        while (hasMoreData) {
+           var response = this.getLambdaFunctions(offset);	   
+            if (response.items && response.items.length > 0) {
+                offset += batchSize;
+				for (var i = 0; i < response.items.length; i++) {
+					this.vulcTestManager.createLambdaFuctionRecord(response.items[i]);
+                }
+            } else {
+                hasMoreData = false;  
+            }
+        }
+	},
+
+    getRDSClusters: function(offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs RDS DB Clusters', 'GET Uptycs RDS DB Clusters');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('offset', offset);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs RDS Clusters not found");
+			return null;
+		}
+    },
+
+    ingestRDSClustersRecords: function() {
+		var offset = 0;
+        var batchSize = 1000;
+        var hasMoreData = true;
+
+        while (hasMoreData) {
+           var response = this.getRDSClusters(offset);	   
+            if (response.items && response.items.length > 0) {
+                offset += batchSize;
+				for (var i = 0; i < response.items.length; i++) {
+					this.vulcTestManager.createRDSClusterRecord(response.items[i]);
+                }
+            } else {
+                hasMoreData = false;  
+            }
+        }
+	},
+
+    getAzureSql: function(offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Azure sql', 'GET Uptycs Azure sql');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('offset', offset);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs azure sql records not found");
+			return null;
+		}
+    },
+
+    ingestAzureSqlRecords: function() {
+		var offset = 0;
+        var batchSize = 1000;
+        var hasMoreData = true;
+
+        while (hasMoreData) {
+           var response = this.getAzureSql(offset);	   
+            if (response.items && response.items.length > 0) {
+                offset += batchSize;
+				for (var i = 0; i < response.items.length; i++) {
+					this.vulcTestManager.createAzureSqlRecord(response.items[i]);
+                }
+            } else {
+                hasMoreData = false;  
+            }
+        }
+	},
+
+    getAWSIAM: function(offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs AWS IAM', 'GET Uptycs AWS IAM');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('offset', offset);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs AWS IAM not found");
+			return null;
+		}
+    },
+
+    ingestAWSIAMRecords: function() {
+		var offset = 0;
+        var batchSize = 1000;
+        var hasMoreData = true;
+
+        while (hasMoreData) {
+           var response = this.getAWSIAM(offset);	   
+            if (response.items && response.items.length > 0) {
+                offset += batchSize;
+				for (var i = 0; i < response.items.length; i++) {
+					this.vulcTestManager.createAWSIAMRecord(response.items[i]);
+                }
+            } else {
+                hasMoreData = false;  
+            }
+        }
+	},
+
+    getECSClusters: function(offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs ECS Clusters', 'GET Uptycs ECS Clusters');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('offset', offset);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs S3 buckets not found");
+			return null;
+		}
+    },
+
+    ingestECSClusterRecords: function() {
+		var offset = 0;
+        var batchSize = 1000;
+        var hasMoreData = true;
+
+        while (hasMoreData) {
+           var response = this.getECSClusters(offset);	   
+            if (response.items && response.items.length > 0) {
+                offset += batchSize;
+				for (var i = 0; i < response.items.length; i++) {
+					this.vulcTestManager.createECSClusterRecord(response.items[i]);
+                }
+            } else {
+                hasMoreData = false;  
+            }
+        }
+	},
+
+    ingestCloudComplianceRecords: function(standard) {
+		var query = 'select type,service,check_id,check_resource_location,check_resource_type,check_resource_id,passed,reason,created_at,cloud_account_id,title,description,standard,version,chapter,score,rationale,remediation,command,severity,expected_value from upt_cloud_compliances where created_at >= (CURRENT_DATE - INTERVAL \'1\' DAY) and type in (\'AWS\',\'AZURE\', \'GCP\')';
+		var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+		for (ii = 0; ii < nRows / 10000; ii++) { 
+			//loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+			for (iii = 0; iii < responseObj.items.length; iii++) { 
+				// loop over records
+				this.vulcTestManager.createUptycsCloudComplianceRecord(responseObj.items[iii].rowData);
+			}
+		}
+	},
+
+    getDetection: function(detectionId) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Detection', 'GET Detection Info');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('detection_id', detectionId);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+
+		if (httpResponseStatus === 200) {
+          return JSON.parse(response.getBody());
+		} else {
+			gs.error("Uptycs Detection not found - " + detectionId);
+			return null;
+		}
+    },
+
+    closeDetection: function(detectionId , incidentId) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Detection', 'Close Detection');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        //message.setStringParameterNoEscape('detection_id', detectionId);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+		var postData = { "filters":{"id":{"equals":detectionId}},
+                         "note":{"memo":"Service Now incident " + incidentId + " resolved"},
+                         "status":"closed"
+                       };
+        message.setRequestBody(JSON.stringify(postData));
+		var response = message.execute();
+		var httpResponseStatus = response.getStatusCode();
+		if (httpResponseStatus === 200) {
+          gs.info("Closed Uptycs Detection - " + detectionId);
+          return true;
+		} else {
+			gs.error("Unable to close Uptycs Detection - " + detectionId);
+			gs.error(response.getBody());
+			return false;
+		}
+    },
+
+    createPostMessage: function(postData) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query', 'POST Query');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+		message.setRequestHeader('Authorization',this.getToken(now));
+        message.setRequestBody(postData);
+		gs.info(postData);
+        return message;
+    },
+
+    createPostJobMessage: function(postData) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'POST Query Job');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+        message.setRequestHeader('content-type', 'application/json');
+        message.setRequestBody(postData);
+		gs.info(postData);
+
+        return message;
+    },
+
+    createJobInfoMessage: function(queryJobId) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Job Info');
+
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('job_id', queryJobId);
+        message.setRequestHeader('content-type', 'application/json');
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+		message.setRequestHeader('Authorization',this.getToken(now));
+
+        return message;
+    },
+
+    createJobResultsMessage: function(queryJobId, offset) {
+        var message = new sn_ws.RESTMessageV2('x_297025_uptycs_co.Uptycs Query Job', 'GET Query Jobs Results'); 
+        message.setStringParameterNoEscape('url', this.url);
+        message.setStringParameterNoEscape('customer_id', this.customerId);
+        message.setStringParameterNoEscape('job_id', queryJobId);
+        message.setStringParameterNoEscape('offset', offset);
+        now = new Date();
+        message.setRequestHeader('date', now.toUTCString());
+        message.setRequestHeader('content-type', 'application/json');
+		message.setRequestHeader('Authorization',this.getToken(now));
+
+        return message;
+    },
+
+	submitQueryJob: function(query) {
+        var postData = '{"query":"' + query + '", "type":"global"}';
+        var msg = this.createPostJobMessage(postData);
+        var resp = msg.execute();
+        var respObj = JSON.parse(resp.getBody());
+
+        return respObj.id;
+    },
+	
+    pollQueryJob: function(queryJobId) {
+        var message = this.createJobInfoMessage(queryJobId);
+        var status = 'QUEUED';
+        do {
+            response = message.execute();
+			var httpResponseStatus = response.getStatusCode();
+            responseObj = JSON.parse(response.getBody());
+			gs.info('query job status code ' + queryJobId + ' ' + httpResponseStatus);
+			//gs.info(response.getBody());
+            status = responseObj.status;
+			// Check if status is undefined and exit the loop
+			if (!status || httpResponseStatus != 200) {
+				gs.error('status is undefined. Exiting the loop.');
+				break;
+			}
+			
+			if (status != 'FINISHED' && status != 'ERROR' && status != 'QUEUED' && status != 'RUNNING') {
+                gs.error('status is not FINISHED, ERROR, RUNNING, or QUEUED.  status is: ' + status);
+				break;
+            }
+            this.wait(5000);
+        }
+        while (status != 'FINISHED' && status != 'ERROR');
+
+        if (status != 'FINISHED') {
+            gs.error('error: ' + responseObj.error.message.detail);
+			return -1;
+        }
+        var nRows = responseObj.rowCount;
+        gs.warn('Uptycs Query Job nRows: ' + nRows);
+		
+		return nRows;
+	},
+	
+    createOrUpdateAsset: function(asset) {
+		var payload = {
+			"items": [
+				{
+					"className": "cmdb_ci_hardware",
+					"values": {
+						"fqdn": asset.host_name,
+						"name": asset.host_name,
+						"short_description": "uptycs asset - " + asset.host_name,
+						"correlation_id": asset.id,
+						"ip_address": asset.gateway,
+						"model_number": asset.hardware_model,
+						"environment" : asset.os + ' ' + asset.os_version						
+					}
+				}
+			]
+		};
+		var input = JSON.stringify(payload);
+		var output = sn_cmdb.IdentificationEngine.createOrUpdateCI('ServiceNow', input);
+		var assetCreated = JSON.parse(output);
+		var sys_id = assetCreated["items"][0]["sysId"];
+		this.vulcTestManager.createEndpointAssetRecord(asset, sys_id);
+		return sys_id;
+	},
+
+	getAssets: function() {
+        var query = 'select * from upt_assets;';
+		gs.info('sending uptycs query');
+        var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+        for (ii = 0; ii < nRows / 10000; ii++) { //loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+            for (iii = 0; iii < responseObj.items.length; iii++) { // loop over records
+				gs.info('initializing cmdb record');
+				this.createOrUpdateAsset(responseObj.items[iii].rowData);
+			}
+		}
+    },
+
+	pushToStaging: function(queryJobId, section) {
+        var nRows = this.pollQueryJob(queryJobId);
+		if (nRows == -1) {
+			this.missedSections.push(section);
+			return;
+		}
+        for (ii = 0; ii < nRows / 10000; ii++) { //loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+
+            //var nSkip = 0;
+            for (iii = 0; iii < responseObj.items.length; iii++) { // loop over records
+
+				this.vulcTestManager.createUptycsComplianceRecord(responseObj.items[iii].rowData);
+				gs.info('initializing cmdb record');
+				var uptycsCI = {
+					host_name: responseObj.items[iii].rowData.upt_hostname,
+					id: responseObj.items[iii].rowData.upt_asset_id,
+					gateway: responseObj.items[iii].rowData.gateway,
+					hardware_vendor: responseObj.items[iii].rowData.hardware_vendor,
+					hardware_model: responseObj.items[iii].rowData.hardware_model,
+					os: responseObj.items[iii].rowData.os,
+					os_version: responseObj.items[iii].rowData.os_version,
+				};
+				var assetRef = this.createOrUpdateAsset(uptycsCI);
+				
+				gs.info('initializing sn_vulc_test record');
+				var sysIdPolicy = this.vulcTestManager.createOrUpdatePolicy(responseObj.items[iii].rowData);
+				var sysIdTest = this.vulcTestManager.createOrUpdateTest(responseObj.items[iii].rowData, sysIdPolicy);
+				this.vulcTestManager.createOrUpdatePolicyTest(responseObj.items[iii].rowData, sysIdPolicy, sysIdTest);
+				this.vulcTestManager.createOrUpdateResult(responseObj.items[iii].rowData, assetRef, sysIdTest);
+            } // records
+        } // offset
+	},
+
+    runCompliance: function(sections, standard) {
+		this.missedSections = [];
+        var qjIds = [];
+        for (i = 0; i < 20; i++) { //post first 20 query jobs
+            if (i < sections.length) {
+                qjIds[i] = this.submitQueryJob(this.createComplianceSectionQuery(sections[i], standard));
+            }
+        }
+
+        for (i = 0; i < sections.length; i++) { // loop over number of query jobs
+            if ((i + 10) % 20 == 0 && (i + 10) < sections.length) {
+                for (ii = 0; ii < 20; ii++) { //post next batch of query jobs
+                    if ((i + 10) + ii < sections.length) {
+                        qjIds[(i + 10) + ii] = this.submitQueryJob(this.createComplianceSectionQuery(sections[(i + 10) + ii], standard));
+                    }
+                }
+            }
+			this.pushToStaging(qjIds[i], sections[i]);
+        } //query jobs
+    },
+
+    ingestVulnerabilityRecords: function(standard) {
+		var query = 'select published,IF(ute.description IS NOT NULL, TRUE, FALSE) AS exploit, IF(ute.sources LIKE \'%Zero%\', TRUE, FALSE) AS zeroday_exploit, package_type,system_type,uptycs_severity,package_name,package_version, CASE WHEN indicator_operator = \'lt\' AND indicator_version IS NOT NULL THEN indicator_version WHEN indicator_operator = \'rng_e\' AND indicator_version IS NOT NULL THEN SPLIT_PART(indicator_version, \',\', 2) ELSE \'\' END AS fix_version, uvs.description as vuln_desc, cve_list, cvss_score, uptycs_score, from_unixtime(upt_first_seen) as upt_first_seen, from_unixtime(upt_last_seen) as upt_last_seen, ua.* from upt_vulnerabilities_state uvs join upt_assets ua on ua.id = uvs.upt_asset_id left join upt_threat_exploits ute on uvs.cve_list = ute.cve_id where from_unixtime(upt_time) >= current_timestamp - interval \'1\' day and (TRY_CAST(cvss_score as double) > 6 or TRY_CAST(uptycs_score as double) > 6) order by cvss_score, uptycs_score desc limit 10000';
+		var queryJobId = this.submitQueryJob(query);
+		var nRows = this.pollQueryJob(queryJobId);
+		for (ii = 0; ii < nRows / 10000; ii++) { 
+			//loop over offset
+            msg = this.createJobResultsMessage(queryJobId, ii * 10000);
+            response = msg.execute();
+            responseBody = response.getBody();
+            httpStatus = response.getStatusCode();
+            responseObj = JSON.parse(responseBody);
+			for (iii = 0; iii < responseObj.items.length; iii++) { 
+				// loop over records
+				var asset_id = this.createOrUpdateAsset(responseObj.items[iii].rowData);
+				this.vulcTestManager.createVulnerabilityRecord(responseObj.items[iii].rowData, asset_id);
+				this.vulcTestManager.ingestVulnerability(responseObj.items[iii].rowData, asset_id);
+			}
+		}
+	},
+
+    type: 'UptycsAPI'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-05-28 10:17:50</sys_created_on>
+        <sys_id>c9247bb31bda429028b599f91d4bcbce</sys_id>
+        <sys_mod_count>87</sys_mod_count>
+        <sys_name>UptycsAPI</sys_name>
+        <sys_package display_value="Uptycs" source="x_297025_uptycs_co">31b4358e2f2630105113fe1df699b66d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Uptycs">31b4358e2f2630105113fe1df699b66d</sys_scope>
+        <sys_update_name>sys_script_include_c9247bb31bda429028b599f91d4bcbce</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-09-02 14:45:30</sys_updated_on>
+    </sys_script_include>
+</record_update>
